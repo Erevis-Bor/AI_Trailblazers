@@ -1,0 +1,83 @@
+const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>[...c.querySelectorAll(s)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+// progress + chapter readout
+const progress=$('#pageProgress');
+const chapterNo=$('#chapterNumber'), chapterName=$('#chapterName');
+const sections=$$('section[data-chapter-number]');
+function onScroll(){
+  const doc=document.documentElement;
+  const p=doc.scrollHeight<=doc.clientHeight?0:doc.scrollTop/(doc.scrollHeight-doc.clientHeight);
+  progress.style.width=(p*100)+'%';
+  let current=sections[0]; const y=window.scrollY+window.innerHeight*.32;
+  for(const s of sections){ if(s.offsetTop<=y) current=s; }
+  chapterNo.textContent=current.dataset.chapterNumber||'00'; chapterName.textContent=current.dataset.chapterName||'Overview';
+  $$('.chapter-rail a').forEach(a=>a.classList.toggle('active',a.dataset.section===current.id));
+}
+window.addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true}); onScroll();
+
+// hero subtle pointer motion
+const hero=$('.hero'), horse=$('.hero-horse');
+if(hero&&horse&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  hero.addEventListener('pointermove',e=>{ const r=hero.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; horse.style.transform=`translate(${x*14}px,${y*10}px) rotate(${(-7+x*3).toFixed(2)}deg)`; });
+  hero.addEventListener('pointerleave',()=>horse.style.transform='rotate(-7deg)');
+}
+
+// profile explorer
+const profileData={
+ experiment:{signal:'Signal 01',title:'Curiosity & experimentation',main:'They are already exploring. They test different approaches, learn through use and change course when something does not work. The sophistication of the example matters less than the instinct to try, reflect and improve.',evidence:'“I tried using Copilot for this task. The first approach was poor, so I changed how I structured it and now I use it every week.”',why:'Trailblazers need enough practical experience to help colleagues through the messy first attempts, not just repeat training content.'},
+ systems:{signal:'Signal 02',title:'Problem & systems thinking',main:'They notice friction in the work around them. Rather than starting with the technology, they can unpack a task or workflow and ask where AI could genuinely improve the outcome, and where it would not.',evidence:'“We recreate this update every week from the same inputs. There is probably a better way to structure the process before we decide what AI should do.”',why:'The role depends on spotting the shape of the work before jumping to a tool, prompt or agent.'},
+ visible:{signal:'Signal 03',title:'Confidence to experiment visibly',main:'They are willing to try something before the answer is perfect, share what happened and say when an approach failed. That makes experimentation safer and more normal for the people around them.',evidence:'“This part worked; this part did not. Here is what I changed on the second attempt.”',why:'Visible learning gives colleagues permission to experiment without treating every first attempt as a test they can fail.'},
+ peer:{signal:'Signal 04',title:'Peer credibility & approachability',main:'They already have some informal influence. Colleagues trust them, ask them questions and are comfortable bringing them an unfinished problem. Seniority is less important than credibility and generosity.',evidence:'“When I cannot work out a tool or process, they are one of the people I naturally ask.”',why:'The model works because help sits close to the work and feels easier to access than a central support route.'},
+ judgement:{signal:'Signal 05',title:'Responsible judgement',main:'They recognise that good AI use includes knowing when not to use it, where human judgement remains important, and when a question needs to move into specialist support.',evidence:'“I think AI could help here, but I am not comfortable with the data involved until we have checked the right route.”',why:'The aim is confident experimentation within clear boundaries, not indiscriminate use of AI.'}
+};
+function setProfile(key){ const d=profileData[key]; $$('.profile-tab').forEach(b=>{const on=b.dataset.profile===key;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on)}); $$('.radar-node-group').forEach(g=>g.classList.toggle('active',g.dataset.profileKey===key)); $('#profileSignal').textContent=d.signal; $('#profileTitle').textContent=d.title; $('#profileMain').textContent=d.main; $('#profileEvidence').textContent=d.evidence; $('#profileWhy').textContent=d.why; }
+$$('.profile-tab').forEach(b=>b.addEventListener('click',()=>setProfile(b.dataset.profile))); $$('.radar-node-group').forEach(g=>g.addEventListener('click',()=>setProfile(g.dataset.profileKey))); setProfile('experiment');
+
+// candidate dots deterministic
+const dots=$('#candidateDots'); if(dots){const pts=[[22,20],[48,18],[69,30],[33,43],[60,49],[19,64],[45,67],[72,69],[34,81],[62,83],[50,34],[77,48]]; pts.forEach(([x,y])=>{const i=document.createElement('i');i.style.left=x+'%';i.style.top=y+'%';dots.appendChild(i)});}
+
+// scrollytelling observer helper
+function stepObserver(stepSelector, activate){ const obs=new IntersectionObserver(entries=>{const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0]; if(visible) activate(visible.target);},{threshold:[.35,.55,.72],rootMargin:'-10% 0px -25% 0px'}); $$(stepSelector).forEach(el=>obs.observe(el)); }
+const idCaps=['Start with the people who can see the behaviour in context.','Keep a route open for people others may not see.','Use data to broaden discovery, not to automate selection.','Assess the combination of signals rather than any one score.','Then design the cohort so support is distributed across the Group.'];
+stepObserver('.story-step',el=>{ $$('.story-step').forEach(x=>x.classList.toggle('active',x===el)); const n=+el.dataset.identifyStep; $('#identifyStage').dataset.step=n; $('#identifyCaption').textContent=idCaps[n-1]; });
+
+// diagnostic
+const resultMap={
+ task:{k:'Start simple',title:'One-off AI task',text:'The task is occasional, the colleague remains in control and the work can be completed within one generative interaction. The Trailblazer can help structure the task and get a useful first result.',role:'Coach the approach and help the colleague learn what good looks like.'},
+ prompt:{k:'Make it reusable',title:'Reusable prompt',text:'The work is still primarily one generative step, but it recurs often enough to justify a consistent prompt pattern, input structure or review checklist.',role:'Help shape a repeatable pattern, test it with the colleague and make it easy to reuse.'},
+ workflow:{k:'Standardise the sequence',title:'Repeatable workflow',text:'The work has multiple repeatable steps. The opportunity is less about one prompt and more about a consistent sequence of inputs, AI steps, checks and outputs.',role:'Map the workflow, identify where AI adds value and help the team test the simplest repeatable version.'},
+ agent:{k:'Shape and escalate',title:'Agent / developed solution',text:'The opportunity needs orchestration, actions across systems or bounded autonomy. It is no longer just an everyday prompt problem and may need product, builder or technical support.',role:'Clarify the use case, evidence the value and route it into the right build pathway.'},
+ support:{k:'Pause and clarify',title:'Specialist support first',text:'The responsible-use boundaries are not clear enough to proceed confidently. The right next step is to resolve the policy, data or governance question before choosing the technical intervention.',role:'Frame the question clearly and connect the colleague to the right specialist route.'}
+};
+function diagnosticKey(){ const fd=new FormData($('#diagnosticForm')); const f=fd.get('frequency'), s=fd.get('shape'), a=fd.get('autonomy'), g=fd.get('governance'); if(g==='unclear')return'support'; if(s==='systems'||a==='bounded')return'agent'; if(s==='sequence')return'workflow'; if(f==='repeat')return'prompt'; return'task'; }
+function updateDiagnostic(){const key=diagnosticKey(),d=resultMap[key]; $$('.route-option').forEach(x=>x.classList.toggle('active',x.dataset.route===key)); $('#resultKicker').textContent=d.k; $('#resultTitle').textContent=d.title; $('#resultText').textContent=d.text; $('#resultRole').textContent=d.role;}
+$('#diagnosticForm')?.addEventListener('change',updateDiagnostic); updateDiagnostic();
+
+// support model
+const supportData={local:{num:'Connection 01',title:'Support close to the work.',text:'This is where most adoption support happens. Colleagues can bring an unfinished task, a poor prompt, a question about a tool or a vague “could AI help?” and work it through with someone who understands their environment.',exchange:'Questions, demonstrations, reusable prompts and workflows, troubleshooting and confidence.'},community:{num:'Connection 02',title:'Learn across the network.',text:'Trailblazers need to see what others are trying so that useful approaches travel and the same problems are not solved repeatedly in isolation.',exchange:'Examples, new capabilities, lessons learned, reusable assets, common questions and peer advice.'},specialist:{num:'Connection 03',title:'Give bigger opportunities somewhere to go.',text:'Trailblazers will reach the edge of their own knowledge. They need a visible route into AI enablement, product, builders, technical specialists, data, risk and responsible AI.',exchange:'Escalations, agent and automation opportunities, technical blockers, governance questions and feedback into the wider AI ecosystem.'}};
+$$('.support-node').forEach(b=>b.addEventListener('click',()=>{const key=b.dataset.support,d=supportData[key]; $$('.support-node').forEach(x=>x.classList.toggle('active',x===b)); $$('.support-line').forEach(x=>x.classList.toggle('active',x.classList.contains('line-'+key))); $('#supportNumber').textContent=d.num;$('#supportTitle').textContent=d.title;$('#supportText').textContent=d.text;$('#supportExchange').textContent=d.exchange;}));
+
+// network graph
+const nodeData=[
+ {x:185,y:155,c:0},{x:250,y:205,c:0},{x:150,y:245,c:0},{x:300,y:135,c:0},{x:280,y:275,c:0},{x:90,y:185,c:0},
+ {x:645,y:145,c:1},{x:720,y:205,c:1},{x:610,y:250,c:1},{x:770,y:155,c:1},{x:700,y:295,c:1},{x:575,y:185,c:1},
+ {x:360,y:430,c:2},{x:450,y:470,c:2},{x:540,y:430,c:2},{x:390,y:540,c:2},{x:520,y:535,c:2},{x:605,y:485,c:2},{x:300,y:495,c:2}
+];
+const trailIdx=[1,7,13], supportedStage1=[0,2,4,6,8,12,14], supportedStage2=[0,2,3,4,6,8,9,10,12,14,15,18], emergingIdx=10;
+const lines=[]; nodeData.forEach((n,i)=>nodeData.forEach((m,j)=>{if(j>i && n.c===m.c && Math.hypot(n.x-m.x,n.y-m.y)<155)lines.push([i,j]);}));
+function buildNetwork(){ const lg=$('#networkLines'),ng=$('#networkNodes'); lines.forEach(([a,b],idx)=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',nodeData[a].x);l.setAttribute('y1',nodeData[a].y);l.setAttribute('x2',nodeData[b].x);l.setAttribute('y2',nodeData[b].y);l.classList.add('net-line');l.dataset.line=idx;lg.appendChild(l)}); nodeData.forEach((n,i)=>{const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',n.x);c.setAttribute('cy',n.y);c.setAttribute('r',trailIdx.includes(i)?16:10);c.classList.add('net-node','person');c.dataset.node=i;ng.appendChild(c)}); updateNetwork(0);}
+const netCaps=['Start with a cohort distributed across different parts of the organisation.','Visible local examples make AI feel concrete rather than abstract.','Reuse and support lower the effort required to try again.','Some adopters begin supporting others: new Trailblazer behaviour emerges.','Each next cohort can close remaining coverage gaps and raise the maturity bar.'];
+function updateNetwork(step){$('#networkStage').dataset.networkStep=step; $$('.network-step').forEach(x=>x.classList.toggle('active',+x.dataset.networkStep===step)); $$('#networkNodes .net-node').forEach((c,i)=>{c.setAttribute('class','net-node person');c.setAttribute('r','10'); if(trailIdx.includes(i)){c.classList.add('trail');c.setAttribute('r','16')} if(step>=1&&supportedStage1.includes(i))c.classList.add('supported'); if(step>=2&&supportedStage2.includes(i))c.classList.add('supported'); if(step>=3&&i===emergingIdx){c.setAttribute('class','net-node emerging');c.setAttribute('r','15')} }); $$('#networkLines .net-line').forEach((l,idx)=>l.classList.toggle('active',step>=1 && idx%3!==0)); $('#networkCaption').textContent=netCaps[step];}
+buildNetwork(); stepObserver('.network-step',el=>updateNetwork(+el.dataset.networkStep));
+
+// measurement explorer
+const measureData={health:{sig:'Measure 01',title:'Is the community healthy enough to work?',text:'Coverage, active participation, ongoing learning, manager sponsorship and retention tell us whether the operating conditions are in place. They are enabling measures, not proof of adoption impact.',ex:['Coverage gaps','Active Trailblazers','Support engagement','Manager sponsorship']},activity:{sig:'Measure 02',title:'Are Trailblazers doing the job we designed?',text:'We should see continued AI use, experiments, practical examples shared, peer support and opportunities surfaced. The measures need to stay lightweight enough that we are not creating a reporting job.',ex:['Experiments','Peer support','Examples shared','Opportunities surfaced']},diffusion:{sig:'Measure 03',title:'Is behaviour changing around them?',text:'This is the critical adoption test. Areas with active Trailblazers should show stronger repeat use, confidence and depth of application than we would otherwise expect.',ex:['Repeat use','Breadth of capability','Confidence','Supported vs comparable areas']},flow:{sig:'Measure 04',title:'Are we creating a better opportunity pipeline?',text:'A distributed network should improve visibility of use cases, agent or automation opportunities, reusable practices and recurring blockers that need action elsewhere.',ex:['Use cases surfaced','Opportunities progressed','Reusable practices','Barriers resolved']},value:{sig:'Measure 05',title:'Is stronger adoption improving the work?',text:'Where attribution is credible, we should connect adoption to capacity, cycle time, quality, throughput and employee or customer outcomes. Different types of AI value need different evidence.',ex:['Released capacity','Cycle time','Quality','Employee/customer outcomes']}};
+$$('[data-measure]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.measure,d=measureData[k]; $$('[data-measure]').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on)});$('#measureSignal').textContent=d.sig;$('#measureTitle').textContent=d.title;$('#measureText').textContent=d.text;$('#measureExamples').innerHTML=d.ex.map(x=>`<span>${x}</span>`).join('');}));
+const valueData={everyday:{h:'Released capacity',t:'If AI reduces effort across many smaller activities, the immediate outcome is usually capacity rather than an automatic cash saving. We can evidence where that capacity is being released and whether it is sustained; the relevant business area then determines how it is used.'},defined:{h:'Defined benefit',t:'Where AI changes a specific process or solution, we can use a clearer baseline and measure outcomes such as cycle time, throughput, quality, manual effort, cost or employee and customer outcomes.'}};
+$$('[data-value]').forEach(b=>b.addEventListener('click',()=>{const d=valueData[b.dataset.value]; $$('[data-value]').forEach(x=>{const on=x===b;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on)});$('#valueHeadline').textContent=d.h;$('#valueText').textContent=d.t;}));
+
+// start route scroll-linked horse
+const routeMap=$('#routeMap'), routePath=$('#routePath'), routeProgress=$('#routeProgressPath'), routeHorse=$('#routeHorse');
+function updateRoute(){ if(!routeMap||!routePath||innerWidth<721)return; const rect=routeMap.getBoundingClientRect(); const vh=innerHeight; const p=clamp((vh*.78-rect.top)/(rect.height+vh*.35),0,1); const len=routePath.getTotalLength(); const pt=routePath.getPointAtLength(len*p); const svg=routePath.ownerSVGElement; const vb=svg.viewBox.baseVal; const r=svg.getBoundingClientRect(); const x=(pt.x-vb.x)/vb.width*r.width; const y=(pt.y-vb.y)/vb.height*r.height; routeHorse.style.left=x+'px';routeHorse.style.top=y+'px'; routeProgress.style.strokeDashoffset=(1-p); const idx=Math.min(5,Math.floor(p*6)); $$('.route-stop').forEach((s,i)=>s.classList.toggle('active',i===idx)); }
+window.addEventListener('scroll',()=>requestAnimationFrame(updateRoute),{passive:true}); addEventListener('resize',updateRoute); updateRoute();
