@@ -219,7 +219,7 @@ p{font-size:17px;margin-bottom:17px}
 .pathways-block{border-top:1px solid #C9D8D1;padding-top:50px}.pathways-copy{max-width:820px;margin-bottom:25px}.pathways-copy h3{font-size:42px}.pathways{display:grid;grid-template-columns:230px 1fr;gap:18px}.path-core{background:var(--brand);border-radius:22px;padding:26px;display:flex;flex-direction:column;min-height:260px}.path-core img{width:42px;margin-bottom:auto}.path-core b{font-size:24px}.path-core span{font-size:12px;margin-top:8px;color:#073E2E}.path-branches{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.path-branches article{background:#fff;border:1px solid #D7E1DC;border-radius:15px;padding:20px}.path-branches span{font-size:10px;color:var(--brand-deep);font-weight:900}.path-branches b{display:block;font-size:17px;margin:26px 0 7px}.path-branches p{font-size:13px;color:var(--grey);margin:0}
 
 /* scale */
-.scale-three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.scale-three article{border-top:5px solid var(--brand-deep);background:#fff;padding:28px 24px;border-radius:0 0 18px 18px;min-height:300px}.scale-three span{font-size:10px;color:var(--brand-deep);font-weight:900}.scale-three h3{font-size:36px;margin-top:60px}.scale-three p{font-size:16px}.scale-three small{display:block;border-top:1px solid var(--line);padding-top:15px;color:var(--grey);font-size:12px}.scale-example{margin-top:60px;background:#050706;color:#fff;border-radius:28px;padding:36px}.scale-example-head{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:end}.scale-example-head h3{font-size:40px}.scale-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:9px;align-items:stretch;margin-top:32px}.scale-flow>div{border:1px solid rgba(255,255,255,.14);border-radius:15px;padding:18px}.scale-flow>div span{font-size:10px;color:var(--brand);font-weight:900}.scale-flow>div b{display:block;font-size:17px;margin:24px 0 7px}.scale-flow>div p{font-size:12px;color:rgba(255,255,255,.6);margin:0}.scale-flow>i{font-style:normal;align-self:center;color:var(--brand)}.scale-note{max-width:850px;color:rgba(255,255,255,.66);font-size:14px;margin:26px 0 0}
+.scale-three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.scale-three article{border-top:5px solid var(--brand-deep);background:#fff;color:var(--ink);padding:28px 24px;border-radius:0 0 18px 18px;min-height:300px}.scale-three span{font-size:10px;color:var(--brand-deep);font-weight:900}.scale-three h3{font-size:36px;margin-top:60px}.scale-three p{font-size:16px}.scale-three small{display:block;border-top:1px solid var(--line);padding-top:15px;color:var(--grey);font-size:12px}.scale-example{margin-top:60px;background:#050706;color:#fff;border-radius:28px;padding:36px}.scale-example-head{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:end}.scale-example-head h3{font-size:40px}.scale-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:9px;align-items:stretch;margin-top:32px}.scale-flow>div{border:1px solid rgba(255,255,255,.14);border-radius:15px;padding:18px}.scale-flow>div span{font-size:10px;color:var(--brand);font-weight:900}.scale-flow>div b{display:block;font-size:17px;margin:24px 0 7px}.scale-flow>div p{font-size:12px;color:rgba(255,255,255,.6);margin:0}.scale-flow>i{font-style:normal;align-self:center;color:var(--brand)}.scale-note{max-width:850px;color:rgba(255,255,255,.66);font-size:14px;margin:26px 0 0}
 
 /* measurement dashboard */
 .measurement-chain{display:flex;align-items:center;gap:8px;margin-bottom:28px}.measurement-chain>div{flex:1;background:#fff;border:1px solid #DCE4E0;border-radius:13px;padding:13px}.measurement-chain span{font-size:9px;color:var(--brand-deep);font-weight:900}.measurement-chain b{display:block;font-size:12px;margin-top:9px}.measurement-chain>i{font-style:normal;color:#88918C}
@@ -282,6 +282,32 @@ footer{background:#050706;color:#fff;padding:23px 0}footer .page-frame{display:f
 #accelerate .scale-three{margin-top:0}
 #start .start-timeline article>span{min-width:92px}
 @media(max-width:900px){.adoption-value-grid{grid-template-columns:1fr}.chapter-nav{display:none}}
+
+
+/* interaction affordances */
+.interaction-hint{display:flex;align-items:center;gap:9px;margin:0 0 14px;color:var(--brand-deep);font-size:12px;line-height:1.3;font-weight:700}
+.interaction-hint>span{display:inline-flex;align-items:center;border-radius:999px;background:var(--brand-pale);padding:6px 9px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:var(--brand-deep)}
+.interaction-hint>span::before{content:'↗';font-size:11px;margin-right:5px}
+.interaction-hint b{font-size:12px;font-weight:800}
+.section-dark .interaction-hint,.section-black .interaction-hint,.section-deep-green .interaction-hint{color:rgba(255,255,255,.74)}
+.section-dark .interaction-hint>span,.section-black .interaction-hint>span,.section-deep-green .interaction-hint>span{background:var(--brand);color:#052f23}
+.interaction-hint.compact{margin:0 0 18px}
+.text-link{display:inline-flex!important;align-items:center!important;justify-content:center!important;grid-column:3!important;width:max-content!important;border:1px solid #BBD7CB!important;background:var(--brand-pale)!important;border-radius:999px!important;padding:8px 12px!important;margin-top:8px!important;text-decoration:none!important}
+.text-link:hover{background:#D8F0E5!important;border-color:var(--brand-deep)!important}
+.deep-dive>summary::after{content:'Click to expand  ＋';font-size:11px;letter-spacing:.02em;color:var(--brand-deep);font-weight:900;white-space:nowrap}
+.deep-dive[open]>summary::after{content:'Close  −'}
+.find-result{grid-template-columns:44px 1fr 38px}
+.find-result .mock-arrow{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--grey);font-size:15px}
+
+/* first 90 days: full-width editorial timeline */
+.start-timeline{max-width:none;margin:14px 0 0;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+.start-timeline article{display:block;padding:28px 30px 32px;border-bottom:0;border-right:1px solid var(--line);min-height:225px}
+.start-timeline article:last-child{border-right:0}
+.start-timeline article>span{display:inline-flex;align-items:center;width:max-content;padding:6px 9px;border-radius:999px;background:var(--brand-pale);font-size:10px;line-height:1;color:var(--brand-deep);font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+.start-timeline h3{font-size:30px;line-height:1.05;margin:38px 0 12px;max-width:300px}
+.start-timeline p{font-size:15px;line-height:1.5;color:var(--grey);max-width:320px;margin:0}
+@media(max-width:900px){.start-timeline{grid-template-columns:1fr}.start-timeline article{min-height:0;border-right:0;border-bottom:1px solid var(--line);padding:24px 0}.start-timeline article:last-child{border-bottom:0}.start-timeline h3{margin-top:24px;max-width:none}.start-timeline p{max-width:680px}}
+
 </style>
 </head>
 <body>
@@ -347,6 +373,7 @@ footer{background:#050706;color:#fff;padding:23px 0}footer .page-frame{display:f
 <div><span class="section-number">01A</span><p class="eyebrow">Identify · Profile</p><h2>Start with the combination of behaviours we need.</h2></div>
 <div class="prose"><p>A Trailblazer is not simply a heavy AI user or an advanced builder. The profile combines experimentation, problem and systems thinking, visible learning, peer credibility and responsible judgement.</p></div>
 </div>
+<div class="interaction-hint"><span>Interactive</span><b>Select a quality to explore the profile</b></div>
 <div class="profile-explorer" data-component="profile-explorer">
 <div aria-label="Trailblazer qualities" class="profile-list" role="tablist">
 <button aria-selected="true" class="profile-tab active" data-profile="curiosity" role="tab"><span>01</span><b>Curiosity &amp; experimentation</b><small>Already trying, learning and adapting</small></button>
@@ -413,7 +440,7 @@ footer{background:#050706;color:#fff;padding:23px 0}footer .page-frame{display:f
 </div>
 <div class="assessment-steps">
 <div><span>01</span><b>Evidence form</b><p>One real example of AI use, what changed, what they learned, peer contribution and motivation.</p></div>
-<div><span>02</span><b>Profile judgement</b><p>Test the three gates and look for enough evidence across the wider profile to believe they can operate effectively.</p><button class="text-link" id="assessmentOpen" type="button">See the judgement model →</button></div>
+<div><span>02</span><b>Profile judgement</b><p>Test the three gates and look for enough evidence across the wider profile to believe they can operate effectively.</p><button class="text-link" id="assessmentOpen" type="button">Open interactive judgement model ↗</button></div>
 <div><span>03</span><b>Evidence check</b><p>Use appropriate adoption, learning or community signals to corroborate the picture where useful data exists.</p></div>
 <div><span>04</span><b>Manager confirmation</b><p>Confirm the manager understands the role and can provide the agreed capacity.</p></div>
 <div><span>05</span><b>Cohort calibration</b><p>Review the cohort as a whole, resolve borderline cases and address obvious coverage gaps.</p></div>
@@ -437,6 +464,7 @@ footer{background:#050706;color:#fff;padding:23px 0}footer .page-frame{display:f
 <div class="prose"><p>The final selection needs to work as a network. Coverage across business areas, roles, working environments and levels of AI maturity is part of selection, not an afterthought.</p></div>
 </div>
 <div class="coverage-demo" data-component="coverage-demo">
+<div class="interaction-hint"><span>Interactive</span><b>Switch the view to see how cohort calibration changes coverage</b></div>
 <div aria-label="Coverage view" class="coverage-controls" role="group">
 <button class="seg active" data-coverage="quality">Strong individuals only</button>
 <button class="seg" data-coverage="balanced">Strong individuals + coverage</button>
@@ -472,7 +500,8 @@ footer{background:#050706;color:#fff;padding:23px 0}footer .page-frame{display:f
 <article><span>07</span><h4>Support &amp; escalation</h4><p>How to resolve locally, reuse something proven, seek specialist advice or surface a larger opportunity.</p><b>Outcome</b><small>Every Trailblazer knows what to do when the question moves beyond them.</small></article>
 <article><span>08</span><h4>Applied challenge</h4><p>Each participant brings a genuine task or workflow and works it through using the diagnostic and support model.</p><b>Outcome</b><small>Every Trailblazer leaves with a real example ready to use locally.</small></article>
 </div>
-<div class="diagnostic" data-component="diagnostic">
+<div class="interaction-hint" style="margin-top:68px"><span>Interactive</span><b>Change the task characteristics to see the recommended intervention update</b></div>
+<div class="diagnostic" data-component="diagnostic" style="margin-top:0">
 <div class="diagnostic-head"><div><p class="eyebrow">Try the diagnostic</p><h3>What is the simplest sensible intervention?</h3></div><p>Change the task characteristics below. The recommendation should change with the work, not with our enthusiasm for a particular technology.</p></div>
 <div class="diagnostic-body">
 <div class="task-brief"><span>Example task</span><p>“Every Friday I spend two hours pulling updates from several sources, checking what has changed and creating a summary for my leadership team.”</p></div>
@@ -505,9 +534,9 @@ footer{background:#050706;color:#fff;padding:23px 0}footer .page-frame{display:f
 <div aria-label="Illustrative Find a Trailblazer interface" class="find-mock">
 <div class="find-top"><b>Find a Trailblazer</b><span>Illustrative</span></div>
 <label>Business area<input aria-label="Business area" readonly="" value="Commercial Banking"/></label>
-<div class="find-result"><div class="avatar">AR</div><div><b>Alex R.</b><span>Commercial Banking · Manchester</span><small>Everyday AI · reporting · opportunity spotting</small></div><button aria-label="View Alex profile">→</button></div>
-<div class="find-result"><div class="avatar">JM</div><div><b>Jordan M.</b><span>Commercial Banking · London</span><small>Copilot · workflow design · peer coaching</small></div><button aria-label="View Jordan profile">→</button></div>
-<div class="find-result"><div class="avatar">SK</div><div><b>Sam K.</b><span>Commercial Banking · Remote</span><small>Prompts · analysis · responsible use</small></div><button aria-label="View Sam profile">→</button></div>
+<div class="find-result"><div class="avatar">AR</div><div><b>Alex R.</b><span>Commercial Banking · Manchester</span><small>Everyday AI · reporting · opportunity spotting</small></div><span class="mock-arrow" aria-hidden="true">→</span></div>
+<div class="find-result"><div class="avatar">JM</div><div><b>Jordan M.</b><span>Commercial Banking · London</span><small>Copilot · workflow design · peer coaching</small></div><span class="mock-arrow" aria-hidden="true">→</span></div>
+<div class="find-result"><div class="avatar">SK</div><div><b>Sam K.</b><span>Commercial Banking · Remote</span><small>Prompts · analysis · responsible use</small></div><span class="mock-arrow" aria-hidden="true">→</span></div>
 </div>
 </div>
 </div>
@@ -557,7 +586,8 @@ footer{background:#050706;color:#fff;padding:23px 0}footer .page-frame{display:f
 </div></details></div>
 </section>
 
-<section class="section section-black chapter" data-chapter="3" id="accelerate"><div class="page-frame"><div class="section-heading split-heading"><div><span class="section-number">03</span><p class="eyebrow">Accelerate wider adoption</p><h2>Turn local support into measurable value.</h2></div><div class="prose"><p>Trailblazers help us move more quickly from AI awareness to useful application. They reduce the friction of trying AI in real work, make successful practice reusable, and give larger opportunities a clearer route into the teams that can act on them.</p></div></div><div class="adoption-value-grid"><article><span>01</span><h3>Local application</h3><p>Help colleagues work through real tasks so useful AI becomes easier to try, repeat and improve.</p><small>More consistent use · less manual effort · better-quality outputs</small></article><article><span>02</span><h3>Reuse</h3><p>Capture prompts, workflows and lessons so the next team starts from evidence rather than from zero.</p><small>Less duplication · faster time to useful result</small></article><article><span>03</span><h3>Opportunity flow</h3><p>Resolve locally where possible, then route larger needs into specialist or delivery teams with the problem already shaped.</p><small>Better-informed triage · higher-value opportunities surfaced earlier</small></article></div><div class="subsection-intro"><p class="eyebrow">How questions move</p><h3>Every question needs a sensible next route.</h3><p>The network creates a two-way flow: capability and guidance move into teams, while opportunities, blockers and recurring questions move back into the wider organisation.</p></div><div class="support-explorer" data-component="support-explorer">
+<section class="section section-black chapter" data-chapter="3" id="accelerate"><div class="page-frame"><div class="section-heading split-heading"><div><span class="section-number">03</span><p class="eyebrow">Accelerate wider adoption</p><h2>Turn local support into measurable value.</h2></div><div class="prose"><p>Trailblazers help us move more quickly from AI awareness to useful application. They reduce the friction of trying AI in real work, make successful practice reusable, and give larger opportunities a clearer route into the teams that can act on them.</p></div></div><div class="adoption-value-grid"><article><span>01</span><h3>Local application</h3><p>Help colleagues work through real tasks so useful AI becomes easier to try, repeat and improve.</p><small>More consistent use · less manual effort · better-quality outputs</small></article><article><span>02</span><h3>Reuse</h3><p>Capture prompts, workflows and lessons so the next team starts from evidence rather than from zero.</p><small>Less duplication · faster time to useful result</small></article><article><span>03</span><h3>Opportunity flow</h3><p>Resolve locally where possible, then route larger needs into specialist or delivery teams with the problem already shaped.</p><small>Better-informed triage · higher-value opportunities surfaced earlier</small></article></div><div class="subsection-intro"><p class="eyebrow">How questions move</p><h3>Every question needs a sensible next route.</h3><p>The network creates a two-way flow: capability and guidance move into teams, while opportunities, blockers and recurring questions move back into the wider organisation.</p></div><div class="interaction-hint"><span>Interactive</span><b>Select a colleague question to see where it should route</b></div>
+<div class="support-explorer" data-component="support-explorer">
 <div aria-label="Example colleague questions" class="support-scenarios" role="tablist">
 <button aria-selected="true" class="support-scenario active" data-route="local" role="tab"><span>01</span><b>“Why does this prompt keep giving me inconsistent output?”</b><small>Everyday support question</small></button>
 <button aria-selected="false" class="support-scenario" data-route="reuse" role="tab"><span>02</span><b>“Has anybody already solved something similar?”</b><small>Reusable practice</small></button>
@@ -592,6 +622,7 @@ footer{background:#050706;color:#fff;padding:23px 0}footer .page-frame{display:f
 </div>
 <div aria-label="Measurement chain" class="measurement-chain"><div><span>1</span><b>Community health</b></div><i>→</i><div><span>2</span><b>Trailblazer activity</b></div><i>→</i><div><span>3</span><b>Diffusion &amp; adoption</b></div><i>→</i><div><span>4</span><b>Opportunity flow</b></div><i>→</i><div><span>5</span><b>Organisational value</b></div></div>
 <div class="dashboard" data-component="dashboard">
+<div class="interaction-hint compact"><span>Interactive</span><b>Use the view selector to explore illustrative business-area views</b></div>
 <div class="dashboard-top"><div><p class="mini-label">Illustrative programme dashboard</p><h3>AI Trailblazer network</h3></div><div class="dashboard-filter"><label>View<select id="dashboardView"><option>Group</option><option>Retail</option><option>Commercial Banking</option><option>Insurance, Pensions &amp; Investments</option></select></label><span>Current cycle</span></div></div>
 <div class="metric-row">
 <div><span>Active Trailblazers</span><b id="metricActive">184</b><small>of 196 selected</small></div>
