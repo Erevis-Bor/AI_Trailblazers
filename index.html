@@ -1,311 +1,830 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#11B67A" />
-  <meta name="description" content="AI Trailblazers — a working approach to identifying and scaling a community across Lloyds." />
-  <title>AI Trailblazers | Lloyds</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Interactive appendix to the AI Trailblazers memo: a fuller operating model for identifying, mobilising, scaling and measuring AI Trailblazers across Lloyds Banking Group." name="description"/>
+<meta content="#006A4D" name="theme-color"/>
+<title>AI Trailblazers | Interactive appendix | Lloyds</title>
+<style>
+:root{
+  --brand:#11B67A;
+  --brand-deep:#006A4D;
+  --brand-dark:#003B2C;
+  --brand-pale:#E7F7F0;
+  --lime:#B7F56D;
+  --ink:#080A09;
+  --paper:#F7F7F2;
+  --white:#fff;
+  --grey:#616965;
+  --line:#D9DFDC;
+  --line-dark:rgba(255,255,255,.2);
+  --frame:1220px;
+  --reading:760px;
+  --gutter:64px;
+  --radius:20px;
+  --radius-lg:30px;
+  --shadow:0 18px 60px rgba(0,0,0,.10);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.48;letter-spacing:-.012em;overflow-x:hidden}
+body.no-scroll{overflow:hidden}
+button,input,select{font:inherit}
+button{color:inherit}
+a{color:inherit}
+img{max-width:100%;display:block}
+::selection{background:var(--lime);color:#000}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.page-frame{width:min(calc(100% - (var(--gutter) * 2)),var(--frame));margin:0 auto}
+.section,.hero,.closing{scroll-margin-top:82px}
+.section{padding:112px 0 124px;border-top:1px solid var(--line)}
+.section-dark{background:var(--ink);color:#fff;border-color:#111}
+.section-mint{background:var(--brand-pale)}
+.section-deep-green{background:var(--brand-deep);color:#fff;border-color:rgba(255,255,255,.12)}
+.section-black{background:#050706;color:#fff;border-color:#111}
+.section-dashboard{background:#EEF2EF}
+.section-decision{background:var(--brand-pale)}
+
+/* chrome */
+.top-progress{position:fixed;z-index:1000;top:0;left:0;right:0;height:4px;background:rgba(0,0,0,.08)}
+.top-progress>div{height:100%;width:0;background:var(--brand);transform-origin:left center}
+.site-header{position:fixed;z-index:900;top:16px;left:50%;transform:translateX(-50%);width:min(calc(100% - 40px),1280px);height:62px;padding:7px 9px 7px 10px;border:1px solid rgba(0,0,0,.11);background:rgba(255,255,255,.93);backdrop-filter:blur(18px) saturate(160%);display:flex;align-items:center;gap:22px;border-radius:999px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;min-width:220px}
+.brand-tile{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--brand)}
+.brand-tile img{width:25px;height:25px}
+.brand-copy{display:flex;flex-direction:column;line-height:1.05}
+.brand-copy strong{font-size:13px;letter-spacing:-.02em}
+.brand-copy span{font-size:10px;color:var(--grey);margin-top:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.chapter-nav{display:flex;align-items:center;gap:20px;margin-left:auto}
+.chapter-nav a{text-decoration:none;font-size:12px;font-weight:700;color:#323735;position:relative;padding:9px 0}
+.chapter-nav a::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:2px;background:var(--brand-deep);transform:scaleX(0);transition:transform .2s var(--ease)}
+.chapter-nav a.active::after,.chapter-nav a:hover::after{transform:scaleX(1)}
+.outline-btn{border:1px solid #CBD2CF;background:#fff;border-radius:999px;height:42px;padding:0 16px;font-size:12px;font-weight:800;cursor:pointer}
+.contents-panel{position:fixed;z-index:1100;inset:0;background:rgba(0,0,0,.44);opacity:0;pointer-events:none;transition:opacity .25s}
+.contents-panel.open{opacity:1;pointer-events:auto}
+.contents-inner{position:absolute;right:0;top:0;bottom:0;width:min(460px,92vw);background:#fff;padding:34px 34px 50px;transform:translateX(100%);transition:transform .38s var(--ease);box-shadow:-22px 0 80px rgba(0,0,0,.16);overflow:auto}
+.contents-panel.open .contents-inner{transform:none}
+.contents-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.contents-top strong{font-size:26px}
+.contents-top button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:28px;cursor:pointer}
+.contents-inner>a{display:grid;grid-template-columns:42px 1fr;align-items:center;text-decoration:none;padding:14px 0;border-top:1px solid var(--line);font-weight:800}
+.contents-inner>a span{font-size:11px;color:var(--brand-deep)}
+
+/* type */
+h1,h2,h3,h4,p{margin-top:0}
+h1{font-size:clamp(66px,8.8vw,128px);line-height:.84;letter-spacing:-.074em;margin:0;font-weight:900}
+h2{font-size:clamp(43px,4.6vw,70px);line-height:.94;letter-spacing:-.056em;margin:0;max-width:760px}
+h3{font-size:clamp(28px,2.8vw,42px);line-height:1.02;letter-spacing:-.042em;margin:0 0 18px}
+h4{font-size:22px;line-height:1.1;letter-spacing:-.03em;margin:0 0 10px}
+p{font-size:17px;margin-bottom:17px}
+.lead{font-size:clamp(22px,2vw,29px);line-height:1.36;letter-spacing:-.026em;max-width:720px}
+.muted{color:var(--grey)}
+.muted-light{color:rgba(255,255,255,.7)}
+.eyebrow{font-size:11px;line-height:1;text-transform:uppercase;letter-spacing:.13em;font-weight:900;margin:0 0 18px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:24px;height:3px;background:currentColor;border-radius:2px}
+.section-number{display:block;font-size:12px;color:var(--brand-deep);font-weight:900;margin-bottom:34px;letter-spacing:.06em}
+.section-dark .section-number,.section-deep-green .section-number,.section-black .section-number{color:var(--brand)}
+.mini-label{font-size:11px!important;text-transform:uppercase;letter-spacing:.11em;font-weight:900;color:var(--brand-deep);margin-bottom:11px!important}
+.section-black .mini-label,.section-dark .mini-label,.section-deep-green .mini-label{color:var(--brand)}
+.prose{max-width:var(--reading)}
+.prose p:last-child{margin-bottom:0}
+.wide-prose{max-width:920px}
+.wide-prose p{font-size:20px;line-height:1.52}
+.section-heading{margin-bottom:68px}
+.split-heading{display:grid;grid-template-columns:.92fr 1.08fr;gap:72px;align-items:start}
+.split-heading>.prose{padding-top:53px}
+.split-heading>.prose p{font-size:20px;line-height:1.52}
+
+/* hero */
+.hero{position:relative;min-height:100svh;background:var(--brand);padding:122px 0 52px;overflow:hidden;display:flex;align-items:stretch}
+.hero::after{content:"";position:absolute;width:52vw;height:52vw;min-width:600px;min-height:600px;right:-24vw;top:-18vw;border:clamp(70px,7vw,110px) solid rgba(255,255,255,.19);border-radius:50%}
+.hero::before{content:"";position:absolute;width:42vw;height:20vw;left:-12vw;bottom:-12vw;background:var(--lime);border-radius:55% 42% 62% 38%;transform:rotate(-9deg);opacity:.95}
+.hero-bg-word{position:absolute;left:-.04em;right:0;bottom:-.04em;font-size:clamp(130px,17vw,290px);line-height:.72;font-weight:900;letter-spacing:-.085em;color:rgba(0,0,0,.055);white-space:nowrap;pointer-events:none}
+.hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;min-height:calc(100svh - 174px)}
+.hero-brand{display:flex;align-items:center;gap:18px}
+.hero-brand img{width:152px}
+.hero-brand span{font-size:12px;font-weight:800;border-left:1px solid rgba(0,0,0,.28);padding-left:18px}
+.hero-copy{margin-top:auto;max-width:1100px;padding-bottom:38px}
+.kicker{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;margin-bottom:23px}
+.hero-subtitle{font-size:clamp(27px,3vw,44px);line-height:1.11;letter-spacing:-.038em;max-width:1030px;margin:28px 0 28px}
+.hero-rule{height:1px;background:rgba(0,0,0,.25);margin:0 0 25px;max-width:920px}
+.hero-proposition{font-size:18px;line-height:1.48;max-width:860px;margin:0}
+.hero-foot{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em}
+.down-arrow{display:grid;place-items:center;width:34px;height:34px;border:1px solid #000;border-radius:50%;font-size:16px}
+
+/* summary */
+.summary-prose{margin-left:auto;margin-right:auto}
+.model-strip{display:flex;align-items:stretch;gap:10px;margin-top:70px}
+.model-strip>div{flex:1;min-width:0;border-top:1px solid rgba(255,255,255,.25);padding:18px 10px 8px 0;display:flex;flex-direction:column}
+.model-strip>div span{font-size:10px;color:var(--brand);font-weight:900;margin-bottom:25px}
+.model-strip>div b{font-size:19px;margin-bottom:5px}
+.model-strip>div small{font-size:12px;color:rgba(255,255,255,.58)}
+.model-strip>i{font-style:normal;align-self:center;color:rgba(255,255,255,.32)}
+
+/* profile */
+.profile-explorer{display:grid;grid-template-columns:.82fr 1.18fr;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:#fff;box-shadow:0 12px 50px rgba(0,0,0,.05)}
+.profile-list{background:#F1F3F0;padding:16px}
+.profile-tab{width:100%;display:grid;grid-template-columns:42px 1fr;text-align:left;border:0;background:transparent;padding:19px 16px;border-radius:14px;cursor:pointer;transition:background .2s,transform .2s;color:#171A18}
+.profile-tab+ .profile-tab{margin-top:4px}
+.profile-tab:hover{background:#fff}
+.profile-tab.active{background:var(--brand);transform:translateX(5px)}
+.profile-tab span{font-size:10px;font-weight:900;padding-top:3px;color:var(--brand-deep)}
+.profile-tab.active span{color:#072F22}
+.profile-tab b{font-size:18px;line-height:1.15}
+.profile-tab small{grid-column:2;color:#68706C;font-size:12px;margin-top:6px;line-height:1.3}
+.profile-tab.active small{color:#0B4D39}
+.profile-detail{padding:46px;display:grid;grid-template-columns:210px 1fr;gap:45px;align-items:start;min-height:570px}
+.profile-combination{position:sticky;top:105px;background:#050706;color:#fff;border-radius:24px;padding:28px 22px;min-height:270px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.profile-combination::after{content:"";position:absolute;width:180px;height:180px;border:34px solid rgba(17,182,122,.18);border-radius:50%;right:-95px;bottom:-95px}
+.profile-combination>span{font-size:25px;font-weight:900;line-height:1}
+.profile-combination>small{color:rgba(255,255,255,.58);max-width:120px;position:relative;z-index:2}
+.combination-bars{display:grid;gap:5px;position:relative;z-index:2}
+.combination-bars i{display:block;height:8px;background:var(--brand);border-radius:6px}
+.combination-bars i:nth-child(2){width:88%}.combination-bars i:nth-child(3){width:76%}.combination-bars i:nth-child(4){width:64%}.combination-bars i:nth-child(5){width:52%}
+.profile-copy h3{font-size:46px;max-width:620px}
+.detail-block{padding:22px 0;border-top:1px solid var(--line)}
+.detail-block b{font-size:12px;text-transform:uppercase;letter-spacing:.09em}
+.detail-block p{margin:8px 0 0;font-size:17px;color:#454C48}
+.evidence-block{background:var(--brand-pale);margin:8px -20px 0;padding:20px;border:0;border-radius:15px}
+.profile-gates{display:grid;grid-template-columns:1.15fr repeat(3,1fr);gap:12px;margin-top:20px}
+.profile-gates-intro,.gate{padding:25px;border:1px solid var(--line);border-radius:18px;background:#fff}
+.profile-gates-intro{background:#050706;color:#fff;border-color:#050706}
+.profile-gates-intro h3{font-size:28px;margin:0}
+.gate span{font-size:11px;color:var(--brand-deep);font-weight:900}
+.gate b{display:block;font-size:18px;margin:34px 0 9px}
+.gate p{font-size:14px;color:var(--grey);margin:0}
+
+/* role */
+.role-story{position:relative;max-width:990px;margin:0 auto}
+.role-line{position:absolute;left:33px;top:34px;bottom:34px;width:2px;background:linear-gradient(var(--brand),var(--brand-deep))}
+.role-step{display:grid;grid-template-columns:68px 1fr;gap:24px;position:relative;padding:0 0 46px}
+.role-marker{width:68px;height:68px;border-radius:50%;background:#050706;color:#fff;border:9px solid var(--brand-pale);display:grid;place-items:center;font-size:11px;font-weight:900;z-index:2}
+.role-step>div:last-child{background:#fff;border:1px solid #D4DFDA;border-radius:22px;padding:28px 30px;box-shadow:0 8px 30px rgba(0,0,0,.035)}
+.role-step h3{font-size:34px}
+.role-step p{font-size:17px;max-width:760px}
+.worked-example{background:#F4F8F6;border-left:4px solid var(--brand);padding:15px 17px;margin:19px 0}
+.worked-example b,.why b{font-size:12px;text-transform:uppercase;letter-spacing:.07em}
+.worked-example p,.why{margin:6px 0 0!important;font-size:15px!important}
+.role-boundary{display:grid;grid-template-columns:.75fr 1.25fr;gap:55px;background:#050706;color:#fff;border-radius:var(--radius-lg);padding:38px 42px;margin-top:20px}
+.role-boundary h3{font-size:31px;margin:0}.role-boundary>p{font-size:18px;margin:0;color:rgba(255,255,255,.73)}
+
+/* identify */
+.discovery-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.discovery-card{border:1px solid var(--line);border-radius:var(--radius-lg);padding:34px;background:#fff;min-height:560px;display:flex;flex-direction:column}
+.discovery-card h3{font-size:42px}
+.discovery-primary{background:var(--brand);border-color:var(--brand)}
+.discovery-primary .mini-label{color:#063C2C}
+.discovery-card>p{font-size:18px;line-height:1.5}
+.discovery-card>small{margin-top:auto;padding-top:22px;color:#59605D;font-size:13px;line-height:1.45}
+.discovery-primary>small{color:#074230}
+.prompt-list{margin-top:20px;border-top:1px solid rgba(0,0,0,.15);padding-top:20px}
+.prompt-list b{font-size:11px;text-transform:uppercase;letter-spacing:.09em}
+.prompt-list p{font-size:15px;margin:12px 0;padding-left:18px;position:relative}
+.prompt-list p::before{content:"→";position:absolute;left:0}
+.candidate-converge{display:flex;align-items:center;justify-content:center;gap:14px;margin:22px 0 50px;font-size:12px;font-weight:800}
+.candidate-converge span{border:1px solid var(--line);border-radius:999px;padding:9px 12px;background:#fff}.candidate-converge b{background:#050706;color:#fff;border-radius:999px;padding:11px 18px;margin-left:15px}.candidate-converge b::before{content:"→";margin-right:12px;color:var(--brand)}
+.assessment-panel{display:grid;grid-template-columns:.72fr 1.28fr;gap:48px;border-top:1px solid var(--line);padding-top:48px}
+.assessment-copy h3{font-size:38px}.assessment-copy p{font-size:17px}.assessment-steps>div{display:grid;grid-template-columns:42px 180px 1fr;gap:14px;padding:17px 0;border-top:1px solid var(--line);align-items:start}.assessment-steps>div span{font-size:10px;color:var(--brand-deep);font-weight:900}.assessment-steps b{font-size:16px}.assessment-steps p{font-size:14px;color:var(--grey);margin:0}.text-link{grid-column:3;border:0;background:transparent;padding:0;color:var(--brand-deep);font-size:13px;font-weight:900;text-align:left;cursor:pointer;margin-top:4px}
+.modal{border:0;border-radius:26px;max-width:900px;width:min(900px,calc(100% - 40px));padding:38px;box-shadow:0 30px 100px rgba(0,0,0,.25)}
+.modal::backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(3px)}
+.modal-close{position:absolute;right:20px;top:20px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:26px;cursor:pointer}
+.modal h3{font-size:42px}.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}.modal-col{border:1px solid var(--line);border-radius:18px;padding:24px}.modal-col b{display:block;margin-top:20px}.modal-col p{font-size:14px;color:var(--grey);margin:6px 0}.gates-col{background:var(--brand-pale)}.modal-note{margin-top:16px;background:#050706;color:#fff;border-radius:15px;padding:18px;font-size:14px}
+
+/* coverage */
+.coverage-demo{background:#fff;color:var(--ink);border-radius:var(--radius-lg);padding:28px}
+.coverage-controls{display:inline-flex;padding:4px;border:1px solid var(--line);border-radius:999px;background:#F4F6F4;margin-bottom:28px}.seg{border:0;background:transparent;border-radius:999px;padding:10px 15px;font-size:12px;font-weight:900;cursor:pointer}.seg.active{background:#050706;color:#fff}
+.coverage-layout{display:grid;grid-template-columns:1.18fr .82fr;gap:38px;align-items:center}.coverage-matrix{display:grid;grid-template-columns:130px repeat(6,1fr);gap:5px}.matrix-label{font-size:11px;font-weight:800;display:flex;align-items:center}.matrix-head{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey);text-align:center;padding-bottom:5px}.matrix-cell{height:52px;background:#F0F2EF;border-radius:7px;display:grid;place-items:center;position:relative;overflow:hidden}.matrix-cell i{width:14px;height:14px;border-radius:50%;background:#C9CFCC;transition:.4s var(--ease)}.matrix-cell.filled i{background:var(--brand-deep);box-shadow:0 0 0 6px rgba(17,182,122,.15)}.matrix-cell.weak i{background:var(--brand)}
+.coverage-copy h3{font-size:37px}.coverage-copy p{font-size:16px}.coverage-dimensions{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}.coverage-dimensions span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800}
+
+/* equip */
+.capability-journey{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:74px}.capability-journey>div{border-top:4px solid #CDD4D0;background:#fff;padding:23px 18px 20px;min-height:205px;position:relative}.capability-journey>div span{font-size:11px;font-weight:900;color:var(--grey)}.capability-journey b{display:block;font-size:19px;margin:38px 0 8px}.capability-journey p{font-size:13px;color:var(--grey);margin:0}.capability-journey .target{border-top-color:var(--brand-deep);background:var(--brand)}.capability-journey .target span,.capability-journey .target p{color:#073A2B}.capability-journey .target small{position:absolute;bottom:-29px;left:0;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:var(--brand-deep)}
+.bootcamp-intro{max-width:770px;margin-bottom:28px}.bootcamp-intro h3{font-size:42px}.bootcamp-intro>p:last-child{font-size:19px}
+.bootcamp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.bootcamp-grid article{border:1px solid var(--line);background:#fff;padding:25px;border-radius:16px;display:grid;grid-template-columns:42px 1fr;column-gap:14px}.bootcamp-grid article>span{font-size:10px;color:var(--brand-deep);font-weight:900;padding-top:4px}.bootcamp-grid h4,.bootcamp-grid article>p,.bootcamp-grid article>b,.bootcamp-grid article>small{grid-column:2}.bootcamp-grid h4{font-size:21px}.bootcamp-grid article>p{font-size:15px;color:#444C48}.bootcamp-grid article>b{font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-top:8px}.bootcamp-grid article>small{font-size:13px;color:var(--brand-deep);margin-top:4px}
+.diagnostic{margin-top:68px;background:#050706;color:#fff;border-radius:30px;padding:38px}.diagnostic-head{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;margin-bottom:28px}.diagnostic-head h3{font-size:41px}.diagnostic-head>p{font-size:17px;color:rgba(255,255,255,.65);padding-top:28px}.diagnostic-body{display:grid;grid-template-columns:.8fr 1fr 1fr;gap:14px}.task-brief,.diagnostic-controls,.diagnostic-output{border:1px solid rgba(255,255,255,.17);border-radius:20px;padding:24px}.task-brief{background:var(--brand);color:#000}.task-brief span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900}.task-brief p{font-size:21px;line-height:1.35;margin:30px 0 0}.diagnostic-controls fieldset{border:0;border-top:1px solid rgba(255,255,255,.13);padding:15px 0 0;margin:0 0 15px}.diagnostic-controls legend{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:9px}.choice{border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer;margin:0 4px 5px 0}.choice.active{background:var(--brand);border-color:var(--brand);color:#000}.diagnostic-output{background:#fff;color:#000}.output-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:var(--brand-deep)}.diagnostic-output h4{font-size:34px;margin:27px 0 12px}.diagnostic-output>p{font-size:15px;color:#454B48}.trailblazer-next{border-top:1px solid var(--line);padding-top:17px;margin-top:24px}.trailblazer-next b{font-size:11px;text-transform:uppercase;letter-spacing:.07em}.trailblazer-next p{font-size:14px;margin:7px 0 0}
+
+/* mobilise */
+.support-explorer{display:grid;grid-template-columns:.7fr 1.3fr;gap:22px}.support-scenarios{display:flex;flex-direction:column;gap:8px}.support-scenario{display:grid;grid-template-columns:34px 1fr;text-align:left;border:1px solid rgba(255,255,255,.14);background:#101311;color:#fff;border-radius:15px;padding:17px;cursor:pointer;transition:.22s var(--ease)}.support-scenario:hover{border-color:rgba(255,255,255,.34)}.support-scenario.active{background:var(--brand);color:#000;border-color:var(--brand);transform:translateX(5px)}.support-scenario span{font-size:10px;font-weight:900;padding-top:3px}.support-scenario b{font-size:16px;line-height:1.25}.support-scenario small{grid-column:2;margin-top:5px;color:rgba(255,255,255,.55);font-size:11px}.support-scenario.active small{color:#09402F}.support-map-wrap{border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:18px;background:#0D100E}.support-map{height:470px;position:relative;background:radial-gradient(circle at 45% 50%,rgba(17,182,122,.08),transparent 40%);overflow:hidden;border-radius:16px}.map-node{position:absolute;border:1px solid rgba(255,255,255,.18);background:#171B18;border-radius:14px;padding:13px 15px;z-index:2}.map-node span{display:block;font-size:13px;font-weight:900}.map-node small{display:block;color:rgba(255,255,255,.52);font-size:10px;margin-top:4px;max-width:170px}.map-node.colleague{left:4%;top:42%;width:150px}.map-node.trailblazer{left:36%;top:36%;width:175px;background:var(--brand);color:#000;border-color:var(--brand);padding-left:54px}.map-node.trailblazer img{position:absolute;left:15px;top:18px;width:25px}.map-node.trailblazer small{color:#073D2D}.route-node{right:4%;width:205px;opacity:.45;transition:.3s var(--ease)}.route-node.active{opacity:1;background:#fff;color:#000;border-color:#fff;transform:translateX(-5px)}.route-node.active small{color:#606763}.local-route{top:5%}.reuse-route{top:28%}.specialist-route{top:51%}.opportunity-route{top:74%}.map-path{position:absolute;height:2px;background:rgba(255,255,255,.15);transform-origin:left center;z-index:1;transition:.3s}.path-in{left:145px;top:48%;width:230px;transform:rotate(-1deg)}.path-local,.path-community,.path-specialist,.path-opportunity{left:53%;width:280px}.path-local{top:24%;transform:rotate(-28deg)}.path-community{top:39%;transform:rotate(-12deg)}.path-specialist{top:56%;transform:rotate(8deg)}.path-opportunity{top:68%;transform:rotate(26deg)}.map-path.active{background:var(--brand);height:3px;box-shadow:0 0 12px rgba(17,182,122,.7)}.route-explanation{padding:22px 10px 8px}.route-explanation h3{font-size:32px}.route-explanation p:last-child{color:rgba(255,255,255,.66);max-width:760px}
+.discoverability{display:grid;grid-template-columns:.9fr 1.1fr;gap:50px;margin-top:78px;align-items:center}.discoverability-copy h3{font-size:42px}.discoverability-copy>p{color:rgba(255,255,255,.68);font-size:18px}.discoverability-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}.discoverability-list span{border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800}.find-mock{background:#fff;color:#000;border-radius:24px;padding:24px;box-shadow:var(--shadow)}.find-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.find-top b{font-size:22px}.find-top span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--brand-deep);font-weight:900;background:var(--brand-pale);padding:6px 8px;border-radius:999px}.find-mock label{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.07em}.find-mock input{display:block;margin-top:7px;width:100%;height:44px;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:#F8FAF8}.find-result{display:grid;grid-template-columns:44px 1fr 38px;align-items:center;gap:12px;padding:15px 0;border-top:1px solid var(--line)}.avatar{width:42px;height:42px;border-radius:50%;background:var(--brand);display:grid;place-items:center;font-size:11px;font-weight:900}.find-result b{display:block}.find-result span,.find-result small{display:block;font-size:11px;color:var(--grey);margin-top:2px}.find-result button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer}
+
+/* foundations */
+.foundation-editorial{border-top:2px solid var(--ink)}
+.foundation-editorial article{display:grid;grid-template-columns:70px .72fr 1.28fr;gap:28px;padding:36px 0;border-bottom:1px solid var(--line)}
+.foundation-editorial article>span{font-size:11px;color:var(--brand-deep);font-weight:900;padding-top:8px}.foundation-editorial h3{font-size:38px}.foundation-editorial article>div>p{font-size:18px;max-width:760px}.foundation-action{background:var(--brand-pale);padding:18px;border-radius:14px;margin-top:18px}.foundation-action b{font-size:11px;text-transform:uppercase;letter-spacing:.07em}.foundation-action p{font-size:14px!important;margin:6px 0 0!important}.reciprocal-commitment{margin-top:40px;background:#050706;color:#fff;border-radius:22px;padding:28px;display:grid;grid-template-columns:auto 1fr auto auto 1.3fr;align-items:center;gap:18px}.reciprocal-commitment span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.55);font-weight:900}.reciprocal-commitment b{font-size:17px}.reciprocal-commitment i{font-style:normal;color:var(--brand);font-size:24px}
+
+/* development */
+.development-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.dev-mechanisms{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dev-mechanisms article{background:#fff;border:1px solid #D7E1DC;border-radius:15px;padding:20px}.dev-mechanisms article:last-child{grid-column:1/3}.dev-mechanisms b{display:block;margin-bottom:8px}.dev-mechanisms p{font-size:14px;color:var(--grey);margin:0}.pulse-mock{background:#050706;color:#fff;border-radius:24px;padding:27px}.pulse-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}.pulse-head b{font-size:21px}.pulse-head span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--brand);font-weight:900}.pulse-question{position:relative;padding:13px 0 18px;border-top:1px solid rgba(255,255,255,.13);display:grid;grid-template-columns:1fr auto;gap:10px}.pulse-question span{font-size:13px}.pulse-question strong{font-size:13px}.pulse-question i{grid-column:1/3;height:5px;background:rgba(255,255,255,.13);border-radius:6px;position:relative;overflow:hidden}.pulse-question i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--brand);border-radius:6px}.pulse-mock>p{font-size:12px;color:rgba(255,255,255,.55);margin:13px 0 0}.review-timeline{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:13px;align-items:stretch;margin:60px 0}.review-timeline>div{background:#fff;border:1px solid #D7E1DC;border-radius:16px;padding:22px}.review-timeline>div span{font-size:10px;color:var(--brand-deep);font-weight:900;text-transform:uppercase;letter-spacing:.08em}.review-timeline>div b{display:block;font-size:18px;margin:24px 0 8px}.review-timeline>div p{font-size:13px;color:var(--grey);margin:0}.review-timeline>i{font-style:normal;align-self:center;color:var(--brand-deep)}
+.pathways-block{border-top:1px solid #C9D8D1;padding-top:50px}.pathways-copy{max-width:820px;margin-bottom:25px}.pathways-copy h3{font-size:42px}.pathways{display:grid;grid-template-columns:230px 1fr;gap:18px}.path-core{background:var(--brand);border-radius:22px;padding:26px;display:flex;flex-direction:column;min-height:260px}.path-core img{width:42px;margin-bottom:auto}.path-core b{font-size:24px}.path-core span{font-size:12px;margin-top:8px;color:#073E2E}.path-branches{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.path-branches article{background:#fff;border:1px solid #D7E1DC;border-radius:15px;padding:20px}.path-branches span{font-size:10px;color:var(--brand-deep);font-weight:900}.path-branches b{display:block;font-size:17px;margin:26px 0 7px}.path-branches p{font-size:13px;color:var(--grey);margin:0}
+
+/* scale */
+.scale-three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.scale-three article{border-top:5px solid var(--brand-deep);background:#fff;padding:28px 24px;border-radius:0 0 18px 18px;min-height:300px}.scale-three span{font-size:10px;color:var(--brand-deep);font-weight:900}.scale-three h3{font-size:36px;margin-top:60px}.scale-three p{font-size:16px}.scale-three small{display:block;border-top:1px solid var(--line);padding-top:15px;color:var(--grey);font-size:12px}.scale-example{margin-top:60px;background:#050706;color:#fff;border-radius:28px;padding:36px}.scale-example-head{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:end}.scale-example-head h3{font-size:40px}.scale-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:9px;align-items:stretch;margin-top:32px}.scale-flow>div{border:1px solid rgba(255,255,255,.14);border-radius:15px;padding:18px}.scale-flow>div span{font-size:10px;color:var(--brand);font-weight:900}.scale-flow>div b{display:block;font-size:17px;margin:24px 0 7px}.scale-flow>div p{font-size:12px;color:rgba(255,255,255,.6);margin:0}.scale-flow>i{font-style:normal;align-self:center;color:var(--brand)}.scale-note{max-width:850px;color:rgba(255,255,255,.66);font-size:14px;margin:26px 0 0}
+
+/* measurement dashboard */
+.measurement-chain{display:flex;align-items:center;gap:8px;margin-bottom:28px}.measurement-chain>div{flex:1;background:#fff;border:1px solid #DCE4E0;border-radius:13px;padding:13px}.measurement-chain span{font-size:9px;color:var(--brand-deep);font-weight:900}.measurement-chain b{display:block;font-size:12px;margin-top:9px}.measurement-chain>i{font-style:normal;color:#88918C}
+.dashboard{background:#fff;border:1px solid #D7DFDB;border-radius:28px;padding:26px;box-shadow:0 18px 60px rgba(0,0,0,.055)}.dashboard-top{display:flex;justify-content:space-between;gap:30px;align-items:center;margin-bottom:22px}.dashboard-top h3{font-size:33px;margin:0}.dashboard-filter{display:flex;align-items:end;gap:15px}.dashboard-filter label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900}.dashboard-filter select{display:block;margin-top:6px;height:38px;border:1px solid var(--line);border-radius:9px;padding:0 30px 0 10px;background:#fff}.dashboard-filter>span{font-size:11px;color:var(--grey);padding-bottom:10px}.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.metric-row>div{background:#F3F6F4;border-radius:13px;padding:17px}.metric-row span{font-size:11px;color:var(--grey)}.metric-row b{display:block;font-size:30px;letter-spacing:-.04em;margin:12px 0 2px}.metric-row small{font-size:10px;color:#7A827E}.dashboard-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:8px;margin-top:8px}.dash-card{border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}.dash-card-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.dash-card-head b{display:block}.dash-card-head span{display:block;font-size:10px;color:var(--grey);margin-top:3px}.legend{display:flex!important;align-items:center;gap:5px}.legend i{width:18px;height:3px;display:inline-block;margin-left:6px}.line-a{background:var(--brand-deep)}.line-b{background:#9CA6A1}.adoption-card svg{width:100%;height:auto;margin-top:10px}.chart-grid line{stroke:#E4E9E6;stroke-width:1}.axis-labels text{font-size:9px;fill:#7D8581}.baseline-line{fill:none;stroke:#9CA6A1;stroke-width:3}.supported-line{fill:none;stroke:var(--brand-deep);stroke-width:4}.chart-dot{fill:var(--brand)}.chart-note{font-size:10px;color:var(--grey);margin:5px 0 0}.heatmap{display:grid;grid-template-columns:80px repeat(6,1fr);gap:4px;margin-top:18px}.heatmap div{height:28px;border-radius:5px}.heatmap .heat-label{font-size:9px;display:flex;align-items:center;height:28px}.heat-1{background:#E7ECE9!important}.heat-2{background:#A7D8C5!important}.heat-3{background:#51BA8E!important}.heat-4{background:var(--brand-deep)!important}.heat-legend{display:flex;gap:10px;margin-top:14px}.heat-legend span{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--grey)}.heat-legend i{width:9px;height:9px;border-radius:3px}.rank-list{margin-top:14px}.rank-list div{display:grid;grid-template-columns:1fr auto;gap:10px;border-top:1px solid var(--line);padding:11px 0}.rank-list span{font-size:12px}.rank-list b{font-size:12px;color:var(--brand-deep)}.pipeline-card{grid-column:1/3}.pipeline{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;gap:9px;align-items:center;margin:20px 0}.pipeline>div{background:#F2F5F3;border-radius:10px;padding:13px;text-align:center}.pipeline b{display:block;font-size:24px}.pipeline span{font-size:9px;color:var(--grey)}.pipeline>i{font-style:normal;color:var(--brand-deep)}.pipeline-card>p{font-size:10px;color:var(--grey);margin:0}
+.value-logic{display:grid;grid-template-columns:.72fr 1fr 1fr;gap:10px;margin-top:38px}.value-intro{padding:28px 18px 20px 0}.value-intro h3{font-size:38px}.value-card{border-radius:20px;padding:25px;min-height:440px}.value-card.everyday{background:#050706;color:#fff}.value-card.defined{background:var(--brand)}.value-card h4{font-size:27px;margin:25px 0 14px}.value-card>p:not(.mini-label){font-size:15px}.value-measures{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}.value-measures b{display:block;width:100%;font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}.value-measures span{border:1px solid currentColor;border-radius:999px;padding:6px 8px;font-size:10px;opacity:.75}.caveat{margin-top:26px;border-top:1px solid currentColor;padding-top:15px;font-size:12px;opacity:.8}.caveat b{opacity:1}
+
+/* start */
+.start-timeline{max-width:980px;margin:0 auto;border-top:2px solid var(--ink)}.start-timeline article{display:grid;grid-template-columns:65px 1fr;padding:24px 0;border-bottom:1px solid var(--line)}.start-timeline article>span{font-size:11px;color:var(--brand-deep);font-weight:900;padding-top:6px}.start-timeline h3{font-size:27px;margin-bottom:8px}.start-timeline p{font-size:15px;color:var(--grey);max-width:760px;margin:0}
+.decision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.decision-grid article{background:#fff;border:1px solid #D4E0DA;border-radius:15px;padding:22px}.decision-grid b{font-size:16px}.decision-grid p{font-size:13px;color:var(--grey);margin:10px 0 0}
+
+/* closing */
+.closing{background:var(--brand);padding:115px 0 100px;position:relative;overflow:hidden}.closing::after{content:"";position:absolute;width:560px;height:560px;border:95px solid rgba(255,255,255,.18);border-radius:50%;right:-260px;bottom:-270px}.closing-inner{position:relative;z-index:2}.closing-horse{width:64px;margin-bottom:60px}.closing h2{font-size:clamp(50px,6vw,88px);max-width:1040px}.closing-model{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:50px 0 20px}.closing-model span{background:#050706;color:#fff;border-radius:999px;padding:9px 13px;font-size:12px;font-weight:900}.closing-model i{font-style:normal}.closing-role{font-size:22px;font-weight:900;margin:25px 0}.closing-inner>p:last-child{font-size:21px;max-width:840px}
+footer{background:#050706;color:#fff;padding:23px 0}footer .page-frame{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.55)}
+
+/* motion */
+.js .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.js .reveal.is-visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .reveal{opacity:1;transform:none;transition:none}.profile-tab,.support-scenario{transition:none}}
+
+/* responsive */
+@media(max-width:1180px){:root{--gutter:42px}.chapter-nav{display:none}.site-header{width:min(calc(100% - 26px),1080px)}.split-heading{gap:45px}.profile-detail{grid-template-columns:180px 1fr;gap:30px;padding:34px}.diagnostic-body{grid-template-columns:1fr 1fr}.task-brief{grid-column:1/3}.support-map{height:520px}.foundation-editorial article{grid-template-columns:60px .8fr 1.2fr}.value-logic{grid-template-columns:1fr 1fr}.value-intro{grid-column:1/3}.dashboard-grid{grid-template-columns:1fr}.pipeline-card{grid-column:auto}.pipeline{grid-template-columns:repeat(5,1fr)}.pipeline>i{display:none}}
+@media(max-width:900px){:root{--gutter:28px}.section{padding:90px 0}.split-heading,.profile-explorer,.role-boundary,.assessment-panel,.coverage-layout,.diagnostic-head,.support-explorer,.discoverability,.development-grid,.pathways,.scale-example-head{grid-template-columns:1fr}.split-heading>.prose{padding-top:0}.section-heading{margin-bottom:44px}.profile-list{display:grid;grid-template-columns:1fr 1fr;gap:5px}.profile-tab+.profile-tab{margin-top:0}.profile-detail{grid-template-columns:1fr;min-height:auto}.profile-combination{position:relative;top:auto;min-height:170px}.profile-gates{grid-template-columns:1fr 1fr}.profile-gates-intro{grid-column:1/3}.discovery-grid{grid-template-columns:1fr}.discovery-card{min-height:auto}.capability-journey{grid-template-columns:1fr 1fr}.capability-journey .target small{position:static;display:block;margin-top:20px}.bootcamp-grid{grid-template-columns:1fr}.diagnostic-body{grid-template-columns:1fr}.task-brief{grid-column:auto}.support-map{height:560px}.foundation-editorial article{grid-template-columns:50px 1fr}.foundation-editorial article>div{grid-column:2}.reciprocal-commitment{grid-template-columns:1fr}.reciprocal-commitment i{transform:rotate(90deg);justify-self:start}.review-timeline{grid-template-columns:1fr}.review-timeline>i{transform:rotate(90deg);justify-self:center}.scale-flow{grid-template-columns:1fr}.scale-flow>i{transform:rotate(90deg);justify-self:center}.metric-row{grid-template-columns:1fr 1fr}.value-logic{grid-template-columns:1fr}.value-intro{grid-column:auto}.decision-grid{grid-template-columns:1fr 1fr}.model-strip{display:grid;grid-template-columns:1fr 1fr}.model-strip>i{display:none}}
+@media(max-width:650px){:root{--gutter:18px}.site-header{top:9px;height:56px;width:calc(100% - 18px)}.brand{min-width:0}.brand-copy span{display:none}.brand-tile{width:40px;height:40px}.outline-btn{margin-left:auto}.hero{padding:100px 0 38px;min-height:auto}.hero-inner{min-height:calc(100svh - 138px)}.hero-brand img{width:126px}.hero-brand span{display:none}.hero-copy{padding:18vh 0 34px}.hero-subtitle{font-size:29px}.hero-proposition{font-size:15px}.section{padding:74px 0 84px}h2{font-size:43px}.lead,.split-heading>.prose p{font-size:18px}.wide-prose p{font-size:17px}.profile-list{grid-template-columns:1fr}.profile-gates{grid-template-columns:1fr}.profile-gates-intro{grid-column:auto}.role-step{grid-template-columns:48px 1fr;gap:12px}.role-marker{width:48px;height:48px;border-width:6px}.role-line{left:23px}.role-step>div:last-child{padding:21px}.candidate-converge{flex-wrap:wrap}.assessment-steps>div{grid-template-columns:32px 1fr}.assessment-steps>div p,.text-link{grid-column:2}.modal-grid{grid-template-columns:1fr}.coverage-demo{padding:18px;overflow:hidden}.coverage-matrix{grid-template-columns:86px repeat(6,minmax(32px,1fr));gap:3px;overflow:auto}.coverage-matrix .matrix-head{font-size:7px}.capability-journey{grid-template-columns:1fr}.diagnostic{padding:22px}.support-scenario{transform:none!important}.support-map{height:auto;display:grid;gap:8px;padding:8px}.map-node{position:relative!important;left:auto!important;top:auto!important;right:auto!important;width:auto!important}.map-path{display:none}.route-node{opacity:.35}.route-node.active{transform:none}.discoverability{margin-top:55px}.foundation-editorial article{grid-template-columns:36px 1fr;gap:13px}.foundation-editorial h3{font-size:31px}.dev-mechanisms{grid-template-columns:1fr}.dev-mechanisms article:last-child{grid-column:auto}.path-branches{grid-template-columns:1fr}.scale-three{grid-template-columns:1fr}.measurement-chain{display:grid;grid-template-columns:1fr}.measurement-chain>i{display:none}.metric-row{grid-template-columns:1fr 1fr}.dashboard{padding:16px}.dashboard-top{align-items:flex-start;flex-direction:column}.dashboard-filter{width:100%;justify-content:space-between}.dashboard-grid{grid-template-columns:1fr}.pipeline{grid-template-columns:1fr 1fr}.value-card{min-height:auto}.decision-grid{grid-template-columns:1fr}.closing{padding:85px 0 75px}.closing-model{gap:5px}.closing-model span{font-size:10px;padding:7px 9px}.closing-model i{font-size:10px}footer .page-frame{flex-direction:column;gap:5px}}
+/* QA refinements */
+.foundation-editorial article{grid-template-columns:70px 1fr}
+.foundation-editorial article>div{max-width:920px}
+.js .reveal{transform:translateY(9px);transition-duration:.48s}
+.role-step.reveal{opacity:1;transform:none;transition:none}
+@media(max-width:900px){.foundation-editorial article{grid-template-columns:50px 1fr}.foundation-editorial article>div{grid-column:2}}
+@media(max-width:650px){.profile-copy h3{font-size:34px;overflow-wrap:anywhere}.profile-detail{padding:24px}.profile-combination{padding:23px 20px}.profile-copy{min-width:0}.detail-block p{font-size:16px}.foundation-editorial article{grid-template-columns:36px 1fr}}
+
+
+
+/* V5 memo-aligned information architecture */
+.chapter-nav{gap:15px}
+.chapter-nav a{font-size:11px}
+.adoption-value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 70px}
+.adoption-value-grid article{background:#fff;color:var(--ink);border-radius:20px;padding:28px;border:1px solid rgba(255,255,255,.18);min-height:270px;display:flex;flex-direction:column}
+.adoption-value-grid article>span{font-size:10px;font-weight:900;color:var(--brand-deep);letter-spacing:.06em}
+.adoption-value-grid h3{font-size:31px;margin:32px 0 12px}
+.adoption-value-grid p{font-size:16px;color:#414844}
+.adoption-value-grid small{margin-top:auto;padding-top:22px;border-top:1px solid var(--line);font-size:12px;font-weight:800;color:var(--brand-deep);line-height:1.45}
+.subsection-intro{max-width:780px;margin:76px 0 28px}
+.subsection-intro h3{font-size:40px}
+.subsection-intro>p:last-child{font-size:18px;color:rgba(255,255,255,.68)}
+.deep-dive{margin-top:36px;border:1px solid var(--line);border-radius:20px;background:#fff;overflow:hidden}
+.deep-dive>summary{cursor:pointer;padding:22px 26px;font-size:16px;font-weight:900;list-style:none;display:flex;align-items:center;justify-content:space-between}
+.deep-dive>summary::-webkit-details-marker{display:none}
+.deep-dive>summary::after{content:'＋';font-size:24px;color:var(--brand-deep)}
+.deep-dive[open]>summary::after{content:'−'}
+.deep-dive[open]>summary{border-bottom:1px solid var(--line)}
+.deep-dive>summary~*{margin-left:26px;margin-right:26px}
+.deep-dive>summary+*{margin-top:26px}
+.deep-dive>*:last-child{margin-bottom:26px}
+.implementation-detail{margin-top:48px;background:var(--brand-pale)}
+.implementation-detail>.decision-grid{margin-top:18px}
+#development .section-heading{margin-bottom:24px}
+#development .deep-dive{margin-top:0}
+#accelerate .support-explorer{margin-top:0}
+#accelerate .scale-three{margin-top:0}
+#start .start-timeline article>span{min-width:92px}
+@media(max-width:900px){.adoption-value-grid{grid-template-columns:1fr}.chapter-nav{display:none}}
+</style>
 </head>
 <body>
-  <div class="page-progress" aria-hidden="true"><span id="pageProgress"></span></div>
+<div aria-hidden="true" class="top-progress"><div id="topProgress"></div></div>
+<header class="site-header">
+<a aria-label="AI Trailblazers home" class="brand" href="#top">
+<span class="brand-tile"><img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGFyaWEtaGlkZGVuPSJ0cnVlIiBmaWxsPSJub25lIiBoZWlnaHQ9IjQ0IiB2aWV3Qm94PSIwIDAgNDYgNDQiIHdpZHRoPSI0NiI+CjxnPgo8cGF0aCBkPSJNMTAuNzE3OSA0Mi40NjY1TDkuODQyOTQgNDEuODU2NUM5LjQ3MjA1IDM3LjQ2MDcgOC4wOTI5MiAzNC43OTYzIDcuMzYxOTUgMzMuNDIzN0M4LjE0MTUzIDMyLjkxMDYgOS40MzYwNCAzMS43MjgyIDkuNDM2MDQgMzAuMDMwOUM5LjQzNjA0IDI4LjMzMzYgOC4wNDYxMSAyNy40MzgyIDguMDQ2MTEgMjUuMzM3MkM4LjA0NjExIDI0LjE3ODIgOC40NDIyMSAyMy4yMTExIDkuMDg4NTYgMjIuNDU5M0M4LjY2OTA2IDIxLjg2MTggOC4xNzc1NCAyMS41Mzg5IDcuNDQ2NTcgMjEuNTM4OUM2LjYzMDk3IDIxLjUzODkgNS45IDIyLjIwODEgNS45IDIzLjIzNDRDNS45IDIzLjgzMTkgNi4xNjI4NiAyNC40ODg2IDYuNzI2NCAyNC43NzU2QzYuMzE5NSAyNS4zMzcyIDUuMjc1MjUgMjUuMzk2NCA0LjcwMDkyIDI0LjU0NzhINC42ODgzMUM0LjY4ODMxIDI2LjU1MzcgNi44MjE4MiAyNy45NTE0IDYuODIxODIgMzAuMDkwMUM2LjgyMTgyIDMxLjQ3NTIgNS43MTk5NiAzMi44MTM3IDQuMTI0NzggMzIuODEzN0MyLjkzODMgMzIuODEzNyAxLjgyMzgzIDMyLjI2NDcgMS4yNDc3IDMxLjE2NDhDMi41NDIyMSAzMS40OTg1IDMuNDc2NjMgMzAuOTg1NCAzLjQ3NjYzIDI5LjgzODlDMy40NzY2MyAyNy43NjEyIDAgMjUuNzE3NiAwIDIyLjE4M0MwIDE5LjQwMDIgMi4xNDYxMSAxNy44NTkgNC41OTEwOSAxNy44NTlDNi44MjAwMiAxNy44NTkgOC44MDk0OSAxOC44ODcgMTAuMzA5MiAyMS40NjcxQzExLjA3NjIgMjAuODkzIDEyLjAxMDcgMjAuNTcxOCAxMi45NTc3IDIwLjM3OThDMTUuNTEwNyAxOS44Nzc1IDE4LjYzOTggMjAuMzMxNCAyMS4wMzYyIDE5LjMxNTlDMjIuMTAzOCAxOC44NjE5IDIyLjk4OTcgMTguMDYxNyAyMi45ODk3IDE3LjE0MTNDMjIuOTg5NyAxNi42OTk5IDIyLjczNzYgMTYuNDM2MiAyMi4zNzc1IDE2LjQzNjJDMjIuMTk3NSAxNi40MzYyIDIxLjkyMiAxNi41MjA1IDIxLjc2NTQgMTYuOTEzNEMyMS4yOTczIDE2LjUwNzkgMjEuMTUzMiAxNi4wNzczIDIxLjE1MzIgMTUuNjQ2N0MyMS4xNTMyIDE0LjkzMDggMjEuMzgwMSAxNC41OTUzIDIxLjYzMjEgMTQuMjQ5QzIxLjM5MjcgMTMuNjI4MiAyMC42NDkxIDEzLjQ4NDcgMjAuMTQ1IDE0LjA5MjlDMTkuNTIyIDEyLjk0NjQgMTkuOTA1NSAxMS4zNjkzIDIxLjUyNDEgMTAuODkyMVYxMC44Nzk1QzE5LjYzMDEgMTAuNTY5MSAxOS4xMjc3IDkuMzk5MjcgMTkuMzQyIDguMDk2NjhDMTkuNTIyIDguMjUyNzcgMTkuNzI1NSA4LjM0Nzg3IDE5LjkyODkgOC4zNDc4N0MyMC4yNDA0IDguMzQ3ODcgMjAuNDMzMSA4LjA5NjY4IDIwLjQzMzEgNy43Mzc4NEMyMC40MzMxIDcuMzU1NjcgMjAuMjQyMiA2Ljc1ODIgMTkuMjU5MiA2LjEwMTUyQzIwLjEyMTYgNC44MTE0OCAyMS42MDg3IDQuNjE5NSAyMi4zNjMxIDUuMDk4NTZMMjIuMzc1NyA1LjA4NkMyMS45OTIyIDQuNTYwMjkgMjEuNzk5NiAzLjYzOTg2IDIyLjQxMTcgMi43MzJDMjIuNTU1OCAyLjkzNDc0IDIyLjkwMzIgMy4yMzQzNyAyMy40NDM0IDMuMjM0MzdDMjUuMDI1OSAzLjIzNDM3IDI1LjA4NTQgMS41MDI5NiAyNi4yOTUyIDEuMzM2MUMyNi4yMjMyIDEuODc0MzYgMjYuMzY3MyAyLjYyNjE0IDI3LjAzODggMi42MjYxNEMyNy45MTM4IDIuNjI2MTQgMjguMzIwNyAxLjMxMjc4IDI4LjUzNjggMC41QzI4LjkyMDMgMC43MTUzMDUgMjkuMTk1NyAxLjA4NDkxIDI5LjEzNjMgMS43Nzc0OEgyOS4xNDg5TDI5LjY3NjUgMC43MTUzMDVDMzAuMTE5NCAxLjA4NDkxIDMwLjIwNCAxLjcwNzUgMzAuMDU5OSAyLjI2NzNDMzAuMDIzOSAyLjQxMDgzIDI5Ljk3NTMgMi41MTg0OCAyOS45NzUzIDIuNjAxMDJDMjkuOTc1MyAzLjAxOTA3IDMxLjIzMzggMy4zMjk0NyAzMS4yMzM4IDQuMjYwNjZDMzEuMjMzOCA0LjQxNjc2IDMxLjE4NTIgNC41ODM2MiAzMS4xMTMyIDQuNzczOEwzMy45OTAzIDguMzkyNzJDMzQuMTcwMyA4LjYxODc5IDM0LjIyOTcgOC44NTkyMiAzNC4yMjk3IDkuMDYxOTZDMzQuMjI5NyA5LjgxMzc0IDMzLjU3MDggMTAuNjE0IDMyLjYyMzcgMTAuNjE0QzMxLjY3NjcgMTAuNjE0IDMxLjM1MjYgMTAuMTAwOCAzMS4zMDU4IDkuODYyMThMMjguODAxNCA4LjY0MzkxQzI4LjY1NzQgOC44ODI1NCAyOC40OSA5LjI3NzI3IDI4LjQ5IDkuNzE4NjRDMjguNDkgMTIuNDY1NiAzMi4zODYxIDEyLjUzNzMgMzMuMzMzMSAxNi4xMzI5TDM3LjE5MzIgMTQuODU1NUMzOS45NDk3IDE3LjUzMDYgNDIuODYyOCAyMC4xMjMzIDQ0LjY2MTQgMjEuMTg1NEw0NS43OTkzIDIyLjYzMTZINDIuMzQ3OVYyMS42Mjg2TDQxLjQwMDggMjEuMzY2NkMzOS45NDk3IDE5LjA5NyAzNy45ODU0IDE3Ljg1NTQgMzYuOTMwNCAxNy41NDVDMzUuNjQ4NSAxOC4zMjE5IDM0LjY4ODggMTkuMTMyOSAzMy41NjE4IDIwLjM4N0MzNS4zOTY0IDIwLjI0MzUgMzcuNDQ1MyAyMC40MjI5IDM5LjE1OTMgMjAuNzQ1OEwzOC4yNjA5IDI4LjQyNjlMMzcuNTI5OSAzMC4zOTY5TDM1LjU4OTEgMzIuMDQ1OFYyOC42NTI5SDM2LjYzMTVMMzYuMzQzNCAyNy41NzgyQzM3LjE5NSAyNS4zMzE4IDM3LjMwMzEgMjMuODI4MyAzNy4zMDMxIDIzLjAxNTVDMzcuMzAzMSAyMi43NjQzIDM3LjI5MDUgMjIuNTI1NyAzNy4yMDc2IDIyLjQ0MTRDMzcuMTM1NiAyMi4zNjk2IDM2LjgzNjggMjIuNDQxNCAzNi41NzIxIDIyLjUxMzFDMzUuODc3MSAyMi43MDUxIDM0LjczNzQgMjMuMjQxNiAzMy4yNzU1IDI0LjQyNEMzMS45NTc2IDI1LjQ5ODcgMzEuMjM3NCAyNS45ODg1IDI5LjQ1MTQgMjUuNzg1OEMyNy40Mzg1IDI3Ljg2MzUgMjMuMTcxNSAyOC44NjgyIDE5LjQzMDIgMjguODE5OEMxOS4xNDIxIDMxLjg0MTIgMTUuNzg2MiAzMy41ODUyIDE1Ljc4NjIgMzUuMDE4OEMxNS43ODYyIDM1LjUzMTkgMTYuMjc3NyAzNi4zNjggMTcuMzU2MSAzNy45ODFDMTguNTU1MiAzOS43NzM0IDE5LjY5MzEgNDEuNDkyMyAyMS4xMDgyIDQyLjA0MzFMMjIuMzA3MyA0My41SDE4Ljg0MzNMMTguODE5OSA0Mi40NjEyTDE3LjgzNjggNDEuOTIyOUMxNi43MDk4IDM5Ljg0NTIgMTQuOTQ5IDM3LjU1MDQgMTIuNTI3NCAzNS40MDA5QzEzLjExNDMgMzQuMjMxMSAxMy40MjU4IDMzLjAzNjIgMTMuNDM4NCAzMS45MDA0QzEyLjM0NzMgMzMuNTM2OCAxMC43NTQgMzMuNTQ5MyAxMC40NjU5IDM0Ljc5MDlDMTAuMzU3OSAzNS4yNTc0IDEwLjQxNzMgMzYuMTY1MyAxMC42NjkzIDM3LjMzNTFDMTEuMDQwMiAzOS4xMDI0IDExLjM3NjkgNDEuMjA1MiAxMy4wMTg5IDQyLjAxOEwxNC4xNTY4IDQzLjVIMTAuNzE2MVY0Mi40NjEyTDEwLjcxNzkgNDIuNDY2NVoiIGZpbGw9ImJsYWNrIi8+CjxwYXRoIGQ9Ik00Ljc0NzY4IDE4LjgyNzhDNS40NjYwNSAxOC44Mjc4IDYuNDg1MDkgMTguOTk0NyA3LjE5MjY2IDE5LjY1MTRDNS41MTQ2NiAxOC44ODcxIDMuMDIxMDYgMTkuMzg5NCAyLjg0MTAyIDIxLjQwNzlDMi41NTI5NSAyMS4wOTc1IDIuNDU3NTMgMjAuNzE1MyAyLjQzNDEzIDIwLjM3OThDMS44MTExOCAyMC42NjY5IDEuMzQzMDcgMjEuNTI2MyAxLjIyNDI0IDIyLjQ0NjhDMC43MzI3MjEgMjAuMjQ4OSAyLjUxODc1IDE4LjgyNzggNC43NDc2OCAxOC44Mjc4Wk0xNC4wMzc5IDIxLjIxNzdDMTYuMzY0IDIwLjkzMDcgMTkuNTI3NCAyMS4xOTQ0IDIyLjExNjQgMTkuOTE1MUMyMy4zMjYzIDE5LjMxNzcgMjQuNTQ4OCAxOC4zMTQ3IDI0LjU0ODggMTYuOTUyOUMyNC41NDg4IDE1LjMxNjYgMjIuNTIzMyAxMy43MDM2IDIyLjUyMzMgMTAuMjI4MkMyMi41MjMzIDcuOTU4NTMgMjMuNTI5NyA1LjM0MjU3IDI2LjE5MDggMy45MjE1NkMyNC41MDAyIDUuMzc4NDYgMjMuNjk3MiA3LjA1MDY2IDIzLjY5NzIgOS4wODE3QzIzLjY5NzIgMTEuMTEyNyAyNC41MDAyIDEzLjI3NDggMjcuMjA5OCAxNC4zMzY5QzI5LjEyNzMgMTUuMDg4NyAzMC45MTMzIDE1LjExMzggMzEuNjgwMyAxNi43MDE3QzMwLjk5NzkgMTYuMTYzNCAzMC4xMzM3IDE1Ljk4NTggMjkuNTIzNCAxNS45ODU4QzI1LjYyNzIgMTUuOTg1OCAyNC4xNTI3IDIzLjI0ODggMTkuNTg2OCAyNS4zMTM5QzIwLjU1NzIgMjIuNzkzIDE3LjYzMzMgMjEuOTgyMSAxNC45MzYzIDIyLjA0MTNDMTIuNzMwOCAyMi4wODk3IDkuMzYyMTcgMjIuNjg3MiA5LjMyNjE2IDI2LjE2MjZDOC43MDMyMiAyMy44MzM3IDEwLjA0NDUgMjEuNzA3NSAxNC4wMzYxIDIxLjIxNzdIMTQuMDM3OVpNMzIuMDY1NiA5LjQ0MDU0QzMyLjA2NTYgOS4yMzc4IDMyLjE4NjIgOC44OTE1MiAzMi4xODYyIDguNTkxODhDMzIuMTg2MiA4LjQzNTc5IDMyLjE1MDIgOC4yNDU2IDMxLjk1OTMgNy45NDc3NkMzMS42ODM5IDcuNTI5NzEgMzEuMTU2NCA2LjgwMTI2IDMwLjY1MjIgNi4yNjNDMjkuOTgwNyA1LjU1Nzg4IDI5LjM5MzcgNS4zNTUxMyAyOC40ODI3IDUuNDE0MzRDMjkuMjI2MyA1LjAwODg1IDI5LjM5MzcgNC42MjY2OCAyOS4zOTM3IDQuMTk2MDdDMjkuMzkzNyAzLjgyNjQ3IDI5LjE5MDMgMy40MzE3NCAyOC44NTM2IDMuMDYyMTNDMjkuMzMyNSAzLjE0NjQ2IDMwLjYxNjIgMy42NzIxNiAzMC42MTYyIDQuMzY0NzNDMzAuNjE2MiA0LjUwODI3IDMwLjU0NDIgNC42MzkyNCAzMC40MDAyIDQuNzgyNzhMMzMuNDgwNyA4LjYyOTU2QzMzLjM3MjcgOC43OTY0MiAzMy4xMzMyIDguNzI0NjYgMzIuOTI5OCA4LjcyNDY2QzMyLjc5ODMgOC43MjQ2NiAzMi43MTM3IDguODA4OTggMzIuNzEzNyA4Ljk1MjUyQzMyLjcxMzcgOS4yMTQ0NyAzMi45MTcyIDkuNTM3NDMgMzMuMDM3OCA5LjcxNjg1QzMyLjk0MjQgOS43NzYwNiAzMi43NjIzIDkuODQ3ODMgMzIuNTY5NyA5Ljg0NzgzQzMyLjMzMDIgOS44NDc4MyAzMi4wNjU2IDkuNzYzNSAzMi4wNjU2IDkuNDQyMzRWOS40NDA1NFoiIHN0eWxlPSJmaWxsOiAjMDA2QTREICFpbXBvcnRhbnQiLz4KPC9nPgo8L3N2Zz4="/></span>
+<span class="brand-copy"><strong>AI Trailblazers</strong><span>Interactive appendix</span></span>
+</a>
+<nav aria-label="Page chapters" class="chapter-nav"><a href="#profile">Identify</a><a href="#role">Mobilise &amp; grow</a><a href="#accelerate">Accelerate adoption</a><a href="#measure">Measure</a><a href="#start">First 90 days</a></nav>
+<button aria-controls="contentsPanel" aria-expanded="false" class="outline-btn" id="contentsBtn" type="button">Contents</button>
+</header>
+<aside aria-hidden="true" class="contents-panel" id="contentsPanel">
+<div class="contents-inner">
+<div class="contents-top"><strong>Contents</strong><button aria-label="Close contents" id="contentsClose">×</button></div>
 
-  <header class="topbar" id="topbar">
-    <a class="brand" href="#top" aria-label="Back to top">
-      <img src="assets/lloyds-logo.svg" alt="Lloyds" />
-      <span class="brand-sep"></span>
-      <span class="brand-label">AI Trailblazers</span>
-    </a>
-    <div class="chapter-readout" aria-live="polite">
-      <span id="chapterNumber">00</span>
-      <span id="chapterName">Overview</span>
-    </div>
-  </header>
 
-  <nav class="chapter-rail" aria-label="Page chapters">
-    <a href="#profile" data-section="profile" aria-label="Profile"><span>01</span><i></i></a>
-    <a href="#identify" data-section="identify" aria-label="Identify"><span>02</span><i></i></a>
-    <a href="#equip" data-section="equip" aria-label="Equip"><span>03</span><i></i></a>
-    <a href="#mobilise" data-section="mobilise" aria-label="Mobilise"><span>04</span><i></i></a>
-    <a href="#scale" data-section="scale" aria-label="Scale"><span>05</span><i></i></a>
-    <a href="#measure" data-section="measure" aria-label="Measure"><span>06</span><i></i></a>
-    <a href="#start" data-section="start" aria-label="Start"><span>07</span><i></i></a>
-  </nav>
 
-  <main>
-    <section class="hero" id="top" data-chapter-number="00" data-chapter-name="Overview">
-      <div class="hero-grid"></div>
-      <div class="hero-horse" aria-hidden="true"><img src="assets/horse.svg" alt="" /></div>
-      <div class="hero-inner">
-        <p class="kicker">AI Trailblazers · working approach</p>
-        <h1><span>Find the people</span><br><em>already moving.</em></h1>
-        <div class="hero-bottom">
-          <p>Across the Group, Trailblazers already exist. The opportunity is to identify them consistently, equip them to translate AI into everyday work, and create the conditions for that behaviour to spread.</p>
-          <a href="#overview" class="scroll-link">Scroll to explore <span>↓</span></a>
-        </div>
-      </div>
-    </section>
 
-    <section class="overview" id="overview" data-chapter-number="00" data-chapter-name="Overview">
-      <div class="shell overview-layout">
-        <div class="overview-sticky">
-          <p class="eyebrow">Executive summary</p>
-          <h2>Build a system around behaviour that is already emerging.</h2>
-          <p class="lead">Trailblazers give us a distributed layer of AI enablement close to the work. The model needs to find the right people, create a common baseline, make their role usable in practice and learn from the effect they have around them.</p>
-        </div>
-        <div class="overview-sequence">
-          <article><span>01</span><h3>Identify the right combination.</h3><p>Look for experimentation, problem solving, peer credibility and responsible judgement rather than AI usage alone.</p></article>
-          <article><span>02</span><h3>Equip beyond individual adoption.</h3><p>Give Trailblazers the skills to use AI well themselves and diagnose opportunities in somebody else's work.</p></article>
-          <article><span>03</span><h3>Mobilise them as a connected layer.</h3><p>Give them manager-backed capacity, a peer community and clear routes into deeper expertise.</p></article>
-          <article><span>04</span><h3>Scale through diffusion, then learn.</h3><p>Grow coverage while tracking whether adoption, opportunity flow and value increase around active Trailblazers.</p></article>
-        </div>
-      </div>
-    </section>
 
-    <section class="section profile" id="profile" data-chapter-number="01" data-chapter-name="Profile">
-      <div class="shell">
-        <div class="section-heading">
-          <div><p class="eyebrow">01 · Who are we looking for?</p><h2>One profile. Five signals.</h2></div>
-          <div><p class="lead">The existing definition gives us the direction. To identify Trailblazers consistently, we need to translate it into behaviours we can actually see.</p><p class="quiet">The strongest candidates will not all look the same. The combination matters more than technical depth alone.</p></div>
-        </div>
 
-        <div class="profile-explorer" id="profileExplorer">
-          <div class="profile-visual">
-            <svg class="profile-radar" viewBox="0 0 620 620" role="img" aria-label="Five characteristics combine to form the Trailblazer profile">
-              <circle cx="310" cy="310" r="238" class="radar-ring" />
-              <circle cx="310" cy="310" r="158" class="radar-ring faint" />
-              <polygon points="310,78 535,241 449,505 171,505 85,241" class="radar-outline" />
-              <polygon id="radarFill" points="310,130 485,257 418,463 202,463 135,257" class="radar-fill" />
-              <g class="radar-spokes">
-                <line x1="310" y1="310" x2="310" y2="78"/><line x1="310" y1="310" x2="535" y2="241"/><line x1="310" y1="310" x2="449" y2="505"/><line x1="310" y1="310" x2="171" y2="505"/><line x1="310" y1="310" x2="85" y2="241"/>
-              </g>
-              <g class="radar-node-group" data-profile-key="experiment"><circle cx="310" cy="78" r="18"/><text x="310" y="45" text-anchor="middle">Experiment</text></g>
-              <g class="radar-node-group" data-profile-key="systems"><circle cx="535" cy="241" r="18"/><text x="555" y="218">Problem solve</text></g>
-              <g class="radar-node-group" data-profile-key="visible"><circle cx="449" cy="505" r="18"/><text x="470" y="535">Visible</text></g>
-              <g class="radar-node-group" data-profile-key="peer"><circle cx="171" cy="505" r="18"/><text x="150" y="535" text-anchor="end">Peer influence</text></g>
-              <g class="radar-node-group" data-profile-key="judgement"><circle cx="85" cy="241" r="18"/><text x="64" y="218" text-anchor="end">Judgement</text></g>
-              <text x="310" y="303" text-anchor="middle" class="radar-center-title">TRAILBLAZER</text>
-              <text x="310" y="331" text-anchor="middle" class="radar-center-sub">the combination matters</text>
-            </svg>
-          </div>
 
-          <div class="profile-copy">
-            <div class="profile-tabs" role="group" aria-label="Explore Trailblazer signals">
-              <button class="profile-tab active" data-profile="experiment" aria-pressed="true">Curiosity & experimentation</button>
-              <button class="profile-tab" data-profile="systems" aria-pressed="false">Problem & systems thinking</button>
-              <button class="profile-tab" data-profile="visible" aria-pressed="false">Visible experimentation</button>
-              <button class="profile-tab" data-profile="peer" aria-pressed="false">Peer credibility & approachability</button>
-              <button class="profile-tab" data-profile="judgement" aria-pressed="false">Responsible judgement</button>
-            </div>
-            <div class="profile-content" aria-live="polite">
-              <span class="signal-number" id="profileSignal">Signal 01</span>
-              <h3 id="profileTitle">Curiosity & experimentation</h3>
-              <p id="profileMain">They are already exploring. They test different approaches, learn through use and change course when something does not work. The sophistication of the example matters less than the instinct to try, reflect and improve.</p>
-              <div class="profile-meta">
-                <div><span>Evidence might sound like</span><p id="profileEvidence">“I tried using Copilot for this task. The first approach was poor, so I changed how I structured it and now I use it every week.”</p></div>
-                <div><span>Why it matters</span><p id="profileWhy">Trailblazers need enough practical experience to help colleagues through the messy first attempts, not just repeat training content.</p></div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="role-line">
-          <p class="eyebrow">The role</p>
-          <h3>Apply. <span>Translate.</span> Share. <span>Support.</span> Surface.</h3>
-          <div class="role-defs">
-            <p><b>Apply</b> AI in their own work and keep learning through use.</p>
-            <p><b>Translate</b> an abstract question into a clearer opportunity in somebody else's work.</p>
-            <p><b>Share</b> prompts, workflows and examples so colleagues do not start from scratch.</p>
-            <p><b>Support</b> local experimentation as an approachable first point of peer help.</p>
-            <p><b>Surface</b> opportunities and barriers that need specialist, product or governance support.</p>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="section identify" id="identify" data-chapter-number="02" data-chapter-name="Identify">
-      <div class="shell section-heading compact">
-        <div><p class="eyebrow">02 · How do we find them?</p><h2>Use several signals, then select for quality <em>and</em> coverage.</h2></div>
-        <div><p class="lead">No single route can surface all of the qualities we care about. Nomination gives us context, self-identification catches people others may not see, and behavioural signals broaden discovery at scale.</p></div>
-      </div>
 
-      <div class="identify-story" id="identifyStory">
-        <div class="identify-stage" id="identifyStage" data-step="1">
-          <div class="identify-canvas">
-            <svg class="identify-svg" viewBox="0 0 780 660" aria-hidden="true">
-              <path id="src1" class="flow-line flow-1" d="M126 120 C250 120 270 235 400 285" />
-              <path id="src2" class="flow-line flow-2" d="M126 300 C260 300 280 300 400 300" />
-              <path id="src3" class="flow-line flow-3" d="M126 480 C250 480 270 365 400 315" />
-              <path class="flow-line flow-out" d="M445 300 C525 300 550 300 610 300" />
-              <path class="flow-line flow-cover" d="M642 300 C686 300 705 300 735 300" />
-            </svg>
-            <div class="source source-1"><span>01</span><b>Nomination</b><small>Leader + peer context</small></div>
-            <div class="source source-2"><span>02</span><b>Self-identification</b><small>Evidence of behaviour</small></div>
-            <div class="source source-3"><span>03</span><b>Behavioural signals</b><small>Discovery at scale</small></div>
-            <div class="candidate-pool"><span>Candidate<br>pool</span><div class="dots" id="candidateDots"></div></div>
-            <div class="profile-filter"><span>Profile fit</span><b>+</b><span>evidence</span></div>
-            <div class="coverage-lens"><span>Coverage</span><b>Distributed<br>cohort</b></div>
-          </div>
-          <p class="stage-caption" id="identifyCaption">Start with the people who can see the behaviour in context.</p>
-        </div>
 
-        <div class="story-steps">
-          <article class="story-step active" data-identify-step="1"><span>01</span><h3>Start with nomination.</h3><p>Some of the qualities we care about are inherently social. Leaders and peers can see who people already go to for help, who shares what they learn and who tends to spot better ways of doing things.</p><p class="note">The prompts should describe behaviours rather than ask for a manager's “best people”. Peer nomination matters because informal influence is not always visible through the management line.</p></article>
-          <article class="story-step" data-identify-step="2"><span>02</span><h3>Keep the door open to self-identification.</h3><p>Some strong candidates will not be nominated, and some managers may not yet know the experimentation happening in their teams. The route in should ask for evidence: what did you try, what problem were you solving, what did you learn, and what would you do next?</p></article>
-          <article class="story-step" data-identify-step="3"><span>03</span><h3>Use data to broaden discovery, not automate selection.</h3><p>Tool engagement, learning participation, shared prompts or community activity can reveal pockets of AI-native behaviour that are otherwise hard to see. Usage volume is a signal, not a definition of a Trailblazer.</p></article>
-          <article class="story-step" data-identify-step="4"><span>04</span><h3>Assess the combination.</h3><p>Heavy use without peer influence may indicate a power user. Technical depth without translation skills may indicate a builder. The Trailblazer role needs the combination.</p></article>
-          <article class="story-step" data-identify-step="5"><span>05</span><h3>Design the cohort for reach.</h3><p>If Trailblazers cluster in a few digitally mature teams, the network may be excellent but still leave large parts of the Group unsupported. We should deliberately understand coverage across business areas, job families, seniority, location, working environment and AI maturity.</p><p class="note">The aim is not a rigid quota. It is reasonable access to local support across the organisation.</p></article>
-        </div>
-      </div>
-    </section>
 
-    <section class="section equip" id="equip" data-chapter-number="03" data-chapter-name="Equip">
-      <div class="shell">
-        <div class="section-heading">
-          <div><p class="eyebrow">03 · Equip</p><h2>Create a common baseline, then build translation capability.</h2></div>
-          <div><p class="lead">Trailblazers will arrive with different levels of AI literacy. The bootcamp gives them a consistent language and enough capability to use the tools well themselves. The additional step is teaching them to diagnose opportunities in somebody else's work.</p></div>
-        </div>
+<a href="#summary"><span>00</span> How the model hangs together</a><a href="#profile"><span>01</span> Identify potential Trailblazers</a><a href="#role"><span>02</span> Mobilise &amp; grow the community</a><a href="#accelerate"><span>03</span> Accelerate wider adoption</a><a href="#measure"><span>04</span> Measure success</a><a href="#start"><span>05</span> First 90 days</a></div>
+</aside>
+<main id="top">
+<section class="hero chapter" data-chapter="0">
+<div aria-hidden="true" class="hero-bg-word">TRAILBLAZERS</div>
+<div class="page-frame hero-inner">
+<div class="hero-brand">
+<img alt="Lloyds" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGFyaWEtaGlkZGVuPSJ0cnVlIiBmaWxsPSJub25lIiBoZWlnaHQ9IjQzIiB2aWV3Qm94PSIwIDAgMTU4IDQzIiB3aWR0aD0iMTU4Ij4KPHBhdGggZD0iTTEwLjY4MDkgNDEuOTY2NUw5LjgwODk0IDQxLjM1NjVDOS40MzkzMyAzNi45NjA3IDguMDY0OTcgMzQuMjk2MyA3LjMzNjUyIDMyLjkyMzdDOC4xMTM0MSAzMi40MTA2IDkuNDAzNDUgMzEuMjI4MiA5LjQwMzQ1IDI5LjUzMDlDOS40MDM0NSAyNy44MzM2IDguMDE4MzIgMjYuOTM4MiA4LjAxODMyIDI0LjgzNzJDOC4wMTgzMiAyMy42NzgyIDguNDEzMDQgMjIuNzExMSA5LjA1NzE3IDIxLjk1OTNDOC42MzkxMiAyMS4zNjE4IDguMTQ5MjkgMjEuMDM4OSA3LjQyMDg1IDIxLjAzODlDNi42MDgwNyAyMS4wMzg5IDUuODc5NjIgMjEuNzA4MSA1Ljg3OTYyIDIyLjczNDRDNS44Nzk2MiAyMy4zMzE5IDYuMTQxNTggMjMuOTg4NiA2LjcwMzE2IDI0LjI3NTZDNi4yOTc2NyAyNC44MzcyIDUuMjU3MDMgMjQuODk2NCA0LjY4NDY4IDI0LjA0NzhINC42NzIxMkM0LjY3MjEyIDI2LjA1MzcgNi43OTgyNiAyNy40NTE0IDYuNzk4MjYgMjkuNTkwMUM2Ljc5ODI2IDMwLjk3NTIgNS43MDAyIDMyLjMxMzcgNC4xMTA1MyAzMi4zMTM3QzIuOTI4MTUgMzIuMzEzNyAxLjgxNzUzIDMxLjc2NDcgMS4yNDMzOSAzMC42NjQ4QzIuNTMzNDIgMzAuOTk4NSAzLjQ2NDYyIDMwLjQ4NTQgMy40NjQ2MiAyOS4zMzg5QzMuNDY0NjIgMjcuMjYxMiAwIDI1LjIxNzYgMCAyMS42ODNDMCAxOC45MDAyIDIuMTM4NyAxNy4zNTkgNC41NzUyMyAxNy4zNTlDNi43OTY0NiAxNy4zNTkgOC43NzkwNiAxOC4zODcgMTAuMjczNiAyMC45NjcxQzExLjAzOCAyMC4zOTMgMTEuOTY5MiAyMC4wNzE4IDEyLjkxMjkgMTkuODc5OEMxNS40NTcxIDE5LjM3NzUgMTguNTc1NCAxOS44MzE0IDIwLjk2MzUgMTguODE1OUMyMi4wMjc1IDE4LjM2MTkgMjIuOTEwMiAxNy41NjE3IDIyLjkxMDIgMTYuNjQxM0MyMi45MTAyIDE2LjE5OTkgMjIuNjU5MSAxNS45MzYyIDIyLjMwMDIgMTUuOTM2MkMyMi4xMjA4IDE1LjkzNjIgMjEuODQ2MyAxNi4wMjA1IDIxLjY5MDIgMTYuNDEzNEMyMS4yMjM3IDE2LjAwNzkgMjEuMDgwMiAxNS41NzczIDIxLjA4MDIgMTUuMTQ2N0MyMS4wODAyIDE0LjQzMDggMjEuMzA2MiAxNC4wOTUzIDIxLjU1NzQgMTMuNzQ5QzIxLjMxODggMTMuMTI4MiAyMC41Nzc4IDEyLjk4NDcgMjAuMDc1NCAxMy41OTI5QzE5LjQ1NDYgMTIuNDQ2NCAxOS44MzY4IDEwLjg2OTMgMjEuNDQ5OCAxMC4zOTIxVjEwLjM3OTVDMTkuNTYyMyAxMC4wNjkxIDE5LjA2MTcgOC44OTkyNyAxOS4yNzUyIDcuNTk2NjhDMTkuNDU0NiA3Ljc1Mjc3IDE5LjY1NzMgNy44NDc4NyAxOS44NjAxIDcuODQ3ODdDMjAuMTcwNSA3Ljg0Nzg3IDIwLjM2MjUgNy41OTY2OCAyMC4zNjI1IDcuMjM3ODRDMjAuMzYyNSA2Ljg1NTY3IDIwLjE3MjMgNi4yNTgyIDE5LjE5MjYgNS42MDE1MkMyMC4wNTIxIDQuMzExNDggMjEuNTM0MSA0LjExOTUgMjIuMjg1OSA0LjU5ODU2TDIyLjI5ODQgNC41ODZDMjEuOTE2MyA0LjA2MDI5IDIxLjcyNDMgMy4xMzk4NiAyMi4zMzQzIDIuMjMyQzIyLjQ3NzggMi40MzQ3NCAyMi44MjQxIDIuNzM0MzcgMjMuMzYyNCAyLjczNDM3QzI0LjkzOTUgMi43MzQzNyAyNC45OTg3IDEuMDAyOTYgMjYuMjA0NCAwLjgzNjEwMUMyNi4xMzI2IDEuMzc0MzYgMjYuMjc2MiAyLjEyNjE0IDI2Ljk0NTQgMi4xMjYxNEMyNy44MTc0IDIuMTI2MTQgMjguMjIyOSAwLjgxMjc3NiAyOC40MzgyIDBDMjguODIwNCAwLjIxNTMwNSAyOS4wOTQ5IDAuNTg0OTEyIDI5LjAzNTcgMS4yNzc0OEgyOS4wNDgyTDI5LjU3MzkgMC4yMTUzMDVDMzAuMDE1MyAwLjU4NDkxMiAzMC4wOTk2IDEuMjA3NSAyOS45NTYxIDEuNzY3M0MyOS45MjAyIDEuOTEwODMgMjkuODcxOCAyLjAxODQ4IDI5Ljg3MTggMi4xMDEwMkMyOS44NzE4IDIuNTE5MDcgMzEuMTI1OSAyLjgyOTQ3IDMxLjEyNTkgMy43NjA2NkMzMS4xMjU5IDMuOTE2NzYgMzEuMDc3NSA0LjA4MzYyIDMxLjAwNTcgNC4yNzM4TDMzLjg3MjkgNy44OTI3MkMzNC4wNTIzIDguMTE4NzkgMzQuMTExNSA4LjM1OTIyIDM0LjExMTUgOC41NjE5NkMzNC4xMTE1IDkuMzEzNzQgMzMuNDU0OCAxMC4xMTQgMzIuNTExMSAxMC4xMTRDMzEuNTY3MyAxMC4xMTQgMzEuMjQ0MyA5LjYwMDgxIDMxLjE5NzcgOS4zNjIxOEwyOC43MDIgOC4xNDM5MUMyOC41NTg0IDguMzgyNTQgMjguMzkxNiA4Ljc3NzI3IDI4LjM5MTYgOS4yMTg2NEMyOC4zOTE2IDExLjk2NTYgMzIuMjc0MiAxMi4wMzczIDMzLjIxOCAxNS42MzI5TDM3LjA2NDggMTQuMzU1NUMzOS44MTE3IDE3LjAzMDYgNDIuNzE0NyAxOS42MjMzIDQ0LjUwNzEgMjAuNjg1NEw0NS42NDExIDIyLjEzMTZINDIuMjAxNlYyMS4xMjg2TDQxLjI1NzggMjAuODY2NkMzOS44MTE3IDE4LjU5NyAzNy44NTQyIDE3LjM1NTQgMzYuODAyOCAxNy4wNDVDMzUuNTI1MyAxNy44MjE5IDM0LjU2OSAxOC42MzI5IDMzLjQ0NTggMTkuODg3QzM1LjI3NDEgMTkuNzQzNSAzNy4zMTU5IDE5LjkyMjkgMzkuMDI0IDIwLjI0NThMMzguMTI4NyAyNy45MjY5TDM3LjQwMDMgMjkuODk2OUwzNS40NjYxIDMxLjU0NThWMjguMTUyOUgzNi41MDVMMzYuMjE3OSAyNy4wNzgyQzM3LjA2NjYgMjQuODMxOCAzNy4xNzQyIDIzLjMyODMgMzcuMTc0MiAyMi41MTU1QzM3LjE3NDIgMjIuMjY0MyAzNy4xNjE2IDIyLjAyNTcgMzcuMDc5MSAyMS45NDE0QzM3LjAwNzMgMjEuODY5NiAzNi43MDk1IDIxLjk0MTQgMzYuNDQ1OCAyMi4wMTMxQzM1Ljc1MzIgMjIuMjA1MSAzNC42MTc1IDIyLjc0MTYgMzMuMTYwNiAyMy45MjRDMzEuODQ3MiAyNC45OTg3IDMxLjEyOTUgMjUuNDg4NSAyOS4zNDk3IDI1LjI4NThDMjcuMzQzNyAyNy4zNjM1IDIzLjA5MTUgMjguMzY4MiAxOS4zNjMxIDI4LjMxOThDMTkuMDc2IDMxLjM0MTIgMTUuNzMxNiAzMy4wODUyIDE1LjczMTYgMzQuNTE4OEMxNS43MzE2IDM1LjAzMTkgMTYuMjIxNCAzNS44NjggMTcuMjk2MiAzNy40ODFDMTguNDkxMSAzOS4yNzM0IDE5LjYyNSA0MC45OTIzIDIxLjAzNTMgNDEuNTQzMUwyMi4yMzAyIDQzSDE4Ljc3ODJMMTguNzU0OSA0MS45NjEyTDE3Ljc3NTIgNDEuNDIyOUMxNi42NTIxIDM5LjM0NTIgMTQuODk3MyAzNy4wNTA0IDEyLjQ4NDEgMzQuOTAwOUMxMy4wNjkgMzMuNzMxMSAxMy4zNzk0IDMyLjUzNjIgMTMuMzkyIDMxLjQwMDRDMTIuMzA0NyAzMy4wMzY4IDEwLjcxNjggMzMuMDQ5MyAxMC40Mjk3IDM0LjI5MDlDMTAuMzIyMSAzNC43NTc0IDEwLjM4MTMgMzUuNjY1MyAxMC42MzI1IDM2LjgzNTFDMTEuMDAyMSAzOC42MDI0IDExLjMzNzYgNDAuNzA1MiAxMi45NzM5IDQxLjUxOEwxNC4xMDc5IDQzSDEwLjY3OTFWNDEuOTYxMkwxMC42ODA5IDQxLjk2NjVaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNNC43MzEzMiAxOC4zMjc3QzUuNDQ3MiAxOC4zMjc3IDYuNDYyNzMgMTguNDk0NiA3LjE2Nzg1IDE5LjE1MTNDNS40OTU2NSAxOC4zODY5IDMuMDEwNjcgMTguODg5MyAyLjgzMTI1IDIwLjkwNzhDMi41NDQxNyAyMC41OTc0IDIuNDQ5MDggMjAuMjE1MiAyLjQyNTc2IDE5Ljg3OTdDMS44MDQ5NiAyMC4xNjY4IDEuMzM4NDcgMjEuMDI2MiAxLjIyMDA1IDIxLjk0NjZDMC43MzAyMjkgMTkuNzQ4NyAyLjUxMDA4IDE4LjMyNzcgNC43MzEzMiAxOC4zMjc3Wk0xMy45ODk0IDIwLjcxNzZDMTYuMzA3NSAyMC40MzA1IDE5LjQ2IDIwLjY5NDMgMjIuMDQgMTkuNDE1QzIzLjI0NTcgMTguODE3NSAyNC40NjQgMTcuODE0NiAyNC40NjQgMTYuNDUyOEMyNC40NjQgMTQuODE2NSAyMi40NDU1IDEzLjIwMzUgMjIuNDQ1NSA5LjcyODA4QzIyLjQ0NTUgNy40NTg0MSAyMy40NDg1IDQuODQyNDUgMjYuMTAwMyAzLjQyMTQ0QzI0LjQxNTYgNC44NzgzMyAyMy42MTU0IDYuNTUwNTQgMjMuNjE1NCA4LjU4MTU4QzIzLjYxNTQgMTAuNjEyNiAyNC40MTU2IDEyLjc3NDYgMjcuMTE1OSAxMy44MzY4QzI5LjAyNjcgMTQuNTg4NiAzMC44MDY1IDE0LjYxMzcgMzEuNTcwOSAxNi4yMDE2QzMwLjg5MDkgMTUuNjYzMyAzMC4wMjk3IDE1LjQ4NTcgMjkuNDIxNCAxNS40ODU3QzI1LjUzODggMTUuNDg1NyAyNC4wNjkzIDIyLjc0ODcgMTkuNTE5MiAyNC44MTM4QzIwLjQ4NjMgMjIuMjkyOSAxNy41NzI1IDIxLjQ4MTkgMTQuODg0NyAyMS41NDExQzEyLjY4NjggMjEuNTg5NiA5LjMyOTg3IDIyLjE4NzEgOS4yOTM5OSAyNS42NjI0QzguNjczMTkgMjMuMzMzNiAxMC4wMDk5IDIxLjIwNzQgMTMuOTg3NiAyMC43MTc2SDEzLjk4OTRaTTMxLjk1NDggOC45NDA0MkMzMS45NTQ4IDguNzM3NjggMzIuMDc1MSA4LjM5MTQgMzIuMDc1MSA4LjA5MTc2QzMyLjA3NTEgNy45MzU2NyAzMi4wMzkyIDcuNzQ1NDggMzEuODQ5IDcuNDQ3NjRDMzEuNTc0NSA3LjAyOTU5IDMxLjA0ODggNi4zMDExNCAzMC41NDY0IDUuNzYyODhDMjkuODc3MSA1LjA1Nzc2IDI5LjI5MjIgNC44NTUwMSAyOC4zODQ0IDQuOTE0MjJDMjkuMTI1NCA0LjUwODczIDI5LjI5MjIgNC4xMjY1NiAyOS4yOTIyIDMuNjk1OTVDMjkuMjkyMiAzLjMyNjM0IDI5LjA4OTUgMi45MzE2MiAyOC43NTQgMi41NjIwMUMyOS4yMzEyIDIuNjQ2MzQgMzAuNTEwNSAzLjE3MjA0IDMwLjUxMDUgMy44NjQ2MUMzMC41MTA1IDQuMDA4MTQgMzAuNDM4NyA0LjEzOTEyIDMwLjI5NTIgNC4yODI2NkwzMy4zNjUxIDguMTI5NDRDMzMuMjU3NCA4LjI5NjMgMzMuMDE4OCA4LjIyNDUzIDMyLjgxNjEgOC4yMjQ1M0MzMi42ODUxIDguMjI0NTMgMzIuNjAwOCA4LjMwODg2IDMyLjYwMDggOC40NTI0QzMyLjYwMDggOC43MTQzNSAzMi44MDM1IDkuMDM3MzEgMzIuOTIzNyA5LjIxNjczQzMyLjgyODYgOS4yNzU5NCAzMi42NDkyIDkuMzQ3NzEgMzIuNDU3MiA5LjM0NzcxQzMyLjIxODYgOS4zNDc3MSAzMS45NTQ4IDkuMjYzMzggMzEuOTU0OCA4Ljk0MjIyVjguOTQwNDJaIiBzdHlsZT0iZmlsbDogIzAwNkE0RCAhaW1wb3J0YW50Ii8+CjxwYXRoIGQ9Ik01Mi4yMDExIDMwLjQyNzlWMTUuNjI5QzUyLjIwMTEgMTQuODAxNSA1Mi4wMDcxIDEzLjg1NjUgNTEuNzIyNCAxMi42Nzg1SDU2LjQ4MjdDNTYuMTk4IDEzLjg1NjUgNTYuMDA0IDE0Ljc5OTcgNTYuMDA0IDE1LjYyNzJWMjkuOTk5SDYxLjIxODFDNjIuOTYzOSAyOS45OTkgNjQuMDYzNyAyOS45MjA3IDY1LjIyNzUgMjkuNTk4Nkw2NC4wNDk0IDMzLjM3NjZINTEuNzIyNEM1Mi4wMDcxIDMyLjE5ODYgNTIuMjAxMSAzMS4yNTU0IDUyLjIwMTEgMzAuNDI3OVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik02Ny41OCAzMC40Mjc4VjE1LjYyODlDNjcuNTggMTQuODAxNCA2Ny4zODYgMTMuODU2NSA2Ny4xMDEzIDEyLjY4MDJINzEuODYxN0M3MS41NzY5IDEzLjg1ODMgNzEuMzgzIDE0LjgwMTQgNzEuMzgzIDE1LjYyODlWMzAuMDAwN0g3Ni41OTcxQzc4LjM0MjkgMzAuMDAwNyA3OS40NDI2IDI5LjkyMjQgODAuNjA2NSAyOS42MDAzTDc5LjQzMDIgMzMuMzc4NEg2Ny4xMDEzQzY3LjM4NiAzMi4yMDAzIDY3LjU4IDMxLjI1NzEgNjcuNTggMzAuNDI5NlYzMC40Mjc4WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTgxLjEyMjYgMjMuMDI4NEM4MS4xMjI2IDE3LjExNjcgODUuNDU1OCAxMi40MjA0IDkxLjY5MTQgMTIuNDIwNEM5Ny45MjcgMTIuNDIwNCAxMDIuMjYgMTcuMTE2NyAxMDIuMjYgMjMuMDI4NEMxMDIuMjYgMjguOTQwMiA5Ny45MjcgMzMuNjM2NCA5MS42OTE0IDMzLjYzNjRDODUuNDU1OCAzMy42MzY0IDgxLjEyMjYgMjguOTQwMiA4MS4xMjI2IDIzLjAyODRaTTk4LjQxODIgMjMuMDI4NEM5OC40MTgyIDE4Ljc1OTIgOTUuODgyMyAxNS44MTA1IDkxLjY5MTQgMTUuODEwNUM4Ny41MDA1IDE1LjgxMDUgODQuOTY0NyAxOC43NTkyIDg0Ljk2NDcgMjMuMDI4NEM4NC45NjQ3IDI3LjI5NzYgODcuNTAwNSAzMC4yNDY0IDkxLjY5MTQgMzAuMjQ2NEM5NS44ODIzIDMwLjI0NjQgOTguNDE4MiAyNy4yOTc2IDk4LjQxODIgMjMuMDI4NFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMDkuODQgMjUuNzE5MUMxMDYuNjcgMjIuNDg1NiAxMDMuOTE1IDE4LjA4NjUgMTAyLjUxOCAxMi42ODAySDEwNi44OTFDMTA2Ljk1NSAxMy42MTA5IDEwNy4xMjQgMTQuNDY1MSAxMDcuNDczIDE1LjQ2MTZDMTA4LjQ2OSAxOC4zMDcyIDEwOS45ODIgMjAuNjg4MiAxMTEuNzE1IDIyLjcwNjNDMTEzLjUgMjAuNzc5IDExNS4xNDMgMTguMzA3MiAxMTYuMTM5IDE1LjQ2MTZDMTE2LjQ4OCAxNC40NjUxIDExNi42NTcgMTMuNjEyNyAxMTYuNzIxIDEyLjY4MDJIMTIwLjk2NEMxMTkuNTc5IDE4LjA4ODMgMTE2LjgxMiAyMi40ODU2IDExMy42NDIgMjUuNzE5MVYzMy4zNzY2SDEwOS44NFYyNS43MTkxWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTEyNC4wNjUgMzAuNDI3OFYxNS42Mjg5QzEyNC4wNjUgMTQuODAxNCAxMjMuODcxIDEzLjg1NjUgMTIzLjU4NyAxMi42ODAySDEzMC41NzJDMTM3LjIwOCAxMi42ODAyIDE0MS4zOTggMTYuOTIyNyAxNDEuMzk4IDIzLjAyODRDMTQxLjM5OCAyOS4xMzQxIDEzNy4yMDggMzMuMzc2NiAxMzAuNTcyIDMzLjM3NjZIMTIzLjU4N0MxMjMuODcxIDMyLjE5ODUgMTI0LjA2NSAzMS4yNTUzIDEyNC4wNjUgMzAuNDI3OFpNMTM3LjU1OCAyMy4wMTU5QzEzNy41NTggMTguNTI3OCAxMzUuMDEgMTYuMDU2IDEzMC4zMTQgMTYuMDU2SDEyNy44NjhWMzAuMDAwN0gxMzAuMzE0QzEzNS4wMSAzMC4wMDA3IDEzNy41NTggMjcuNTMwNyAxMzcuNTU4IDIzLjAxNTlaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTQ0LjAxMSAzMi4yMTI2TDE0My45NDcgMjguMDczM0MxNDYuNTczIDI5Ljc2NzUgMTQ4LjMzMiAzMC41NDM0IDE1MC4zNzYgMzAuNTQzNEMxNTIuNzA0IDMwLjU0MzQgMTU0LjE5MiAyOS42MjUxIDE1NC4xOTIgMjcuOTY4M0MxNTQuMTkyIDI2Ljg2ODYgMTUzLjU1OCAyNi4wMTQ0IDE1MS40NzQgMjUuMTc0NEwxNDguMTUgMjMuODQxNUMxNDUuMDg0IDIyLjYxMTggMTQzLjcxNCAyMC45MTc3IDE0My43MTQgMTguMjY2MUMxNDMuNzE0IDE0LjY4MjEgMTQ2LjUwOCAxMi40MTg1IDE1MC44MTYgMTIuNDE4NUMxNTMuMDY3IDEyLjQxODUgMTU1LjE4OCAxMy4xMzAzIDE1Ni40MTggMTMuNzEyMlYxNy42OTY3QzE1NC4wOSAxNi4xNTczIDE1Mi4zODIgMTUuNTIzOCAxNTAuNjM2IDE1LjUyMzhDMTQ4LjQ2MyAxNS41MjM4IDE0Ny4zODkgMTYuMzc4IDE0Ny4zODkgMTcuNjg0MkMxNDcuMzg5IDE4Ljk5MDQgMTQ4LjA3NCAxOS42NTA2IDE0OS43MDQgMjAuMzIzM0wxNTMuODgyIDIyLjAxNzVDMTU2LjMxNSAyMi45OTk4IDE1Ny45MDYgMjQuNzcyMiAxNTcuOTA2IDI3LjQ3NzJDMTU3LjkwNiAzMS4wMjIxIDE1NS4xMzcgMzMuNjM0NSAxNTAuMjA5IDMzLjYzNDVDMTQ3LjYyMiAzMy42MzQ1IDE0NS4zODUgMzIuODE5NCAxNDQuMDEzIDMyLjIxMDhMMTQ0LjAxMSAzMi4yMTI2WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+"/>
+<span>AI Trailblazer community</span>
+</div>
+<div class="hero-copy">
+<p class="kicker">Interactive appendix · September 2026</p>
+<h1>AI Trailblazers</h1>
+<p class="hero-subtitle">A fuller view of the operating model behind the AI Trailblazers memo.</p>
+<div class="hero-rule"></div>
+<p class="hero-proposition">The accompanying memo is the response to the brief. This appendix goes deeper into the design choices behind it: how we identify the right people, equip and support the community, turn local experimentation into wider adoption, and measure whether that activity creates value.</p>
+</div>
+<div class="hero-foot">
+<span>Scroll to read</span><span class="down-arrow">↓</span>
+</div>
+</div>
+</section>
+<section class="section section-dark chapter" data-chapter="0" id="summary">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">00</span><p class="eyebrow">Memo companion</p><h2>The short answer, with the operating depth underneath.</h2></div>
+<p class="lead">The core idea is local translation: Trailblazers sit close enough to the work to help colleagues turn AI capability into practical change, while giving the organisation a better route to reuse what works and surface larger opportunities.</p>
+</div>
+<div class="summary-prose prose wide-prose"><p>The model starts by identifying people who already combine experimentation, problem solving, peer credibility and responsible judgement. We find them primarily through nomination, test the evidence proportionately, and shape the cohort with organisational coverage in mind.</p><p>We then equip Trailblazers to move beyond strong personal use. A practical bootcamp gives them a common baseline and develops the capability to spot and shape opportunities in somebody else's work. Manager sponsorship, protected capacity, discoverability and specialist support make that role sustainable.</p><p>Wider adoption comes from three effects: colleagues get practical help at the point of need, useful approaches can be reused rather than rediscovered, and larger opportunities or blockers reach the teams that can act on them.</p><p>Measurement follows the same logic. We track whether the community is healthy, then whether adoption changes around it, whether useful practices and opportunities move through the network, and whether that activity contributes to business value.</p></div>
+<div aria-label="Trailblazer operating model at a glance" class="model-strip"><div><span>01</span><b>Identify</b><small>Find the right people</small></div><i>→</i><div><span>02</span><b>Mobilise &amp; grow</b><small>Equip, support &amp; connect</small></div><i>→</i><div><span>03</span><b>Accelerate</b><small>Local support, reuse &amp; opportunity flow</small></div><i>→</i><div><span>04</span><b>Measure</b><small>Adoption &amp; business value</small></div><i>→</i><div><span>05</span><b>First 90 days</b><small>Prove the model</small></div></div>
+</div>
+</section>
+<section class="section chapter" data-chapter="1" id="profile">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">01A</span><p class="eyebrow">Identify · Profile</p><h2>Start with the combination of behaviours we need.</h2></div>
+<div class="prose"><p>A Trailblazer is not simply a heavy AI user or an advanced builder. The profile combines experimentation, problem and systems thinking, visible learning, peer credibility and responsible judgement.</p></div>
+</div>
+<div class="profile-explorer" data-component="profile-explorer">
+<div aria-label="Trailblazer qualities" class="profile-list" role="tablist">
+<button aria-selected="true" class="profile-tab active" data-profile="curiosity" role="tab"><span>01</span><b>Curiosity &amp; experimentation</b><small>Already trying, learning and adapting</small></button>
+<button aria-selected="false" class="profile-tab" data-profile="systems" role="tab"><span>02</span><b>Problem &amp; systems thinking</b><small>Starts with the work, not the tool</small></button>
+<button aria-selected="false" class="profile-tab" data-profile="visible" role="tab"><span>03</span><b>Confidence to learn visibly</b><small>Shares the journey, not only the answer</small></button>
+<button aria-selected="false" class="profile-tab" data-profile="peer" role="tab"><span>04</span><b>Peer credibility &amp; approachability</b><small>People already choose to ask them</small></button>
+<button aria-selected="false" class="profile-tab" data-profile="judgement" role="tab"><span>05</span><b>Responsible judgement</b><small>Knows the boundary and when to pause</small></button>
+</div>
+<div aria-live="polite" class="profile-detail" role="tabpanel">
+<div class="profile-combination"><span>Strong Trailblazer</span><div aria-hidden="true" class="combination-bars"><i></i><i></i><i></i><i></i><i></i></div><small>Five signals. One overall judgement.</small></div>
+<div class="profile-copy">
+<p class="mini-label" id="profileIndex">Signal 01</p>
+<h3 id="profileTitle">Curiosity &amp; experimentation</h3>
+<div class="detail-block"><b>What it looks like</b><p id="profileLooks">Already exploring AI in real work. Tests approaches, learns through use, changes course when something does not work and wants to understand new capabilities rather than waiting for complete instructions.</p></div>
+<div class="detail-block"><b>Why it matters</b><p id="profileWhy">The role depends on practical learning. We need people who are already comfortable experimenting and can talk about what they learned, not only what worked.</p></div>
+<div class="detail-block evidence-block"><b>What we would listen for</b><p id="profileEvidence">A concrete example of something they tried, how the first attempt went, what they changed and what they would do next.</p></div>
+</div>
+</div>
+</div>
+<div class="profile-gates">
+<div class="profile-gates-intro"><p class="eyebrow">Three practical gates</p><h3>Variation is useful. These three things are not optional.</h3></div>
+<div class="gate"><span>01</span><b>Existing experimentation</b><p>There is evidence that the person is already using approved AI in some form and learning through doing.</p></div>
+<div class="gate"><span>02</span><b>Motivation to help others</b><p>They want to support adoption around them, not simply gain access to more training or tools.</p></div>
+<div class="gate"><span>03</span><b>Responsible judgement</b><p>They recognise uncertainty, boundaries, human review and when to seek help.</p></div>
+</div>
+</div>
+</section>
+<section class="section section-mint chapter" data-chapter="2" id="role">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">02A</span><p class="eyebrow">Mobilise &amp; grow · The role</p><h2>Make the contribution clear before we ask people to take it on.</h2></div>
+<div class="prose"><p>Trailblazers need a practical role colleagues and managers can understand. The five parts overlap through real work, from experimenting themselves to helping others and surfacing opportunities that need to move.</p></div>
+</div>
+<div aria-label="Worked example of the Trailblazer role" class="role-story">
+<div aria-hidden="true" class="role-line"></div>
+<article class="role-step"><div class="role-marker">01</div><div><p class="mini-label">Apply</p><h3>Build practical credibility in their own work.</h3><p>A Trailblazer continues using and experimenting with AI themselves. They test new capabilities, learn where the tools help and where they do not, and keep examples current.</p><div class="worked-example"><b>Worked example</b><p>They develop a reliable way to use AI to prepare an initial weekly market update from a consistent set of source material.</p></div><p class="why"><b>What good looks like:</b> their own work becomes raw material for demonstrations, reusable patterns and conversations with colleagues.</p></div></article>
+<article class="role-step"><div class="role-marker">02</div><div><p class="mini-label">Translate</p><h3>Help somebody else work out where AI actually fits.</h3><p>A colleague asks whether the same approach could help with a recurring operational update. The Trailblazer does not simply hand over a prompt. They unpack the outcome, current process, inputs, repetition and judgement involved.</p><div class="worked-example"><b>Worked example</b><p>The conversation reveals that part of the task is suitable for an AI-assisted workflow, while another part still needs human judgement and review.</p></div><p class="why"><b>What good looks like:</b> the colleague leaves with a clearer problem, a practical next step and an appropriate level of ambition.</p></div></article>
+<article class="role-step"><div class="role-marker">03</div><div><p class="mini-label">Share</p><h3>Make useful learning reusable.</h3><p>When something works, the Trailblazer captures enough context for somebody else to adapt it: the task, the approach, the prompt or workflow where relevant, what still needs judgement, and the limitations.</p><div class="worked-example"><b>Worked example</b><p>The approach becomes a short worked example in the local AI hub rather than staying in one person's chat history.</p></div><p class="why"><b>What good looks like:</b> the next colleague starts from evidence rather than a blank page.</p></div></article>
+<article class="role-step"><div class="role-marker">04</div><div><p class="mini-label">Support</p><h3>Coach people through the problem without becoming the doer.</h3><p>Trailblazers act as an approachable first point of peer support when colleagues are experimenting, get stuck or are not sure how to approach something.</p><div class="worked-example"><b>Worked example</b><p>A colleague brings an inconsistent prompt. The Trailblazer helps diagnose why it fails, demonstrates a better structure and explains the reasoning so the colleague can repeat it independently.</p></div><p class="why"><b>What good looks like:</b> local support creates capability in the colleague rather than dependency on the Trailblazer.</p></div></article>
+<article class="role-step"><div class="role-marker">05</div><div><p class="mini-label">Surface</p><h3>Know when the opportunity needs to move.</h3><p>Some questions are bigger than local support. Trailblazers shape the problem clearly enough to move it into the right specialist, product, build or governance route.</p><div class="worked-example"><b>Worked example</b><p>Repeated questions expose a multi-step process used hundreds of times across a function. The Trailblazer helps describe the opportunity and routes it for triage rather than trying to build around system constraints themselves.</p></div><p class="why"><b>What good looks like:</b> capability moves into teams while bigger opportunities and recurring barriers move back into the organisation.</p></div></article>
+</div>
+<div class="role-boundary">
+<div><p class="eyebrow">Role boundaries</p><h3>Useful local support without creating shadow IT.</h3></div>
+<p>Trailblazers are not informal IT support, governance approvers or delivery owners for every opportunity they identify. Their job is to help make useful progress, enable the colleague to become more capable, recognise the type of opportunity in front of them and know where the boundary of the role sits.</p>
+</div>
+</div>
+</section>
+<section class="section chapter" data-chapter="1" id="identify">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">01B</span><p class="eyebrow">Identify · Surface &amp; assess</p><h2>Find candidates, then test the evidence.</h2></div>
+<div class="prose"><p>Nomination and self-identification surface the candidate pool. Assessment then tests whether the behaviours are really there, using a process that stays proportionate to cohort size.</p></div>
+</div>
+<div class="discovery-grid">
+<article class="discovery-card discovery-primary"><p class="mini-label">Main discovery route</p><h3>Nomination</h3><p>Several of the qualities we care about are visible in context. Managers, leaders and peers can see who looks for better ways of doing things, who is already experimenting, who colleagues naturally ask for help and who shares what they learn.</p><div class="prompt-list"><b>Ask about behaviour, not status</b><p>Who is already experimenting with AI in real work?</p><p>Who spots friction that other people accept as normal?</p><p>Who do colleagues naturally approach when they are stuck?</p><p>Who shares what they learn, including when it did not work?</p></div><small>Peer nomination matters too: managers will not see every informal support interaction.</small></article>
+<article class="discovery-card"><p class="mini-label">Second route</p><h3>Self-identification</h3><p>Some strong candidates will be experimenting in ways their manager has not seen or may simply be less visible. Self-identification gives them a route in without turning the process into an open-ended statement of enthusiasm.</p><div class="prompt-list"><b>Ask for evidence</b><p>What have you already tried?</p><p>What changed after the first attempt?</p><p>Where else could AI improve the way work is done?</p><p>Have you helped somebody else apply something similar?</p></div><small>A short evidence form should tell us how somebody thinks and what they are already doing.</small></article>
+</div>
+<div aria-hidden="true" class="candidate-converge"><span>Nomination</span><i>＋</i><span>Self-identification</span><b>Candidate pool</b></div>
+<div class="assessment-panel">
+<div class="assessment-copy">
+<p class="eyebrow">Assessment</p><h3>Keep the process consistent without making it bureaucratic.</h3>
+<p>Assessment should form a qualitative judgement about the overall shape of the person. We are not adding up a numeric score against five competencies.</p>
+<p>For a smaller first cohort, a short structured conversation with each shortlisted candidate can add useful depth and help calibrate the model. If candidate volumes are materially higher, conversations should be targeted at borderline cases, conflicting evidence or a calibration sample rather than automatically applied to every candidate.</p>
+</div>
+<div class="assessment-steps">
+<div><span>01</span><b>Evidence form</b><p>One real example of AI use, what changed, what they learned, peer contribution and motivation.</p></div>
+<div><span>02</span><b>Profile judgement</b><p>Test the three gates and look for enough evidence across the wider profile to believe they can operate effectively.</p><button class="text-link" id="assessmentOpen" type="button">See the judgement model →</button></div>
+<div><span>03</span><b>Evidence check</b><p>Use appropriate adoption, learning or community signals to corroborate the picture where useful data exists.</p></div>
+<div><span>04</span><b>Manager confirmation</b><p>Confirm the manager understands the role and can provide the agreed capacity.</p></div>
+<div><span>05</span><b>Cohort calibration</b><p>Review the cohort as a whole, resolve borderline cases and address obvious coverage gaps.</p></div>
+</div>
+</div>
+<dialog aria-labelledby="assessmentTitle" class="modal" id="assessmentModal">
+<button aria-label="Close" class="modal-close" id="assessmentClose">×</button>
+<p class="eyebrow">Profile judgement</p><h3 id="assessmentTitle">A combination, not a score.</h3>
+<div class="modal-grid">
+<div class="modal-col gates-col"><p class="mini-label">Practical gates</p><b>Existing experimentation</b><p>Can they describe real AI use, what happened and what they changed?</p><b>Responsible judgement</b><p>Do they recognise uncertainty, human review, boundaries and when to seek help?</p><b>Motivation to help others</b><p>Are they interested in supporting adoption around them, not only personal development?</p></div>
+<div class="modal-col"><p class="mini-label">Profile evidence</p><b>Problem &amp; systems thinking</b><p>Do they start with the work and outcome before jumping to a preferred tool?</p><b>Peer credibility</b><p>Is there evidence that colleagues seek their help, learn from them or reuse what they share?</p><b>Visible learning</b><p>Can they share imperfect learning, adapt and explain what did not work?</p></div>
+</div>
+<div class="modal-note"><b>Record the judgement qualitatively:</b> evidenced / partly evidenced / not yet evidenced. The point is consistency and explainability, not a league table.</div>
+</dialog>
+</div>
+</section>
+<section class="section section-deep-green chapter" data-chapter="1" id="coverage">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">01C</span><p class="eyebrow">Identify · Shape the cohort</p><h2>Strong individuals still need organisational reach.</h2></div>
+<div class="prose"><p>The final selection needs to work as a network. Coverage across business areas, roles, working environments and levels of AI maturity is part of selection, not an afterthought.</p></div>
+</div>
+<div class="coverage-demo" data-component="coverage-demo">
+<div aria-label="Coverage view" class="coverage-controls" role="group">
+<button class="seg active" data-coverage="quality">Strong individuals only</button>
+<button class="seg" data-coverage="balanced">Strong individuals + coverage</button>
+</div>
+<div class="coverage-layout">
+<div aria-label="Illustrative Trailblazer coverage matrix" class="coverage-matrix" id="coverageMatrix"></div>
+<div class="coverage-copy"><p class="mini-label">Illustrative view</p><h3 id="coverageTitle">A strong cohort can still be badly distributed.</h3><p id="coverageBody">Selecting only the highest-evidence candidates can leave entire areas without accessible local support. Calibration gives us a deliberate point to consider where coverage exists, where it is concentrated and where the next-best candidate may materially improve reach.</p><div class="coverage-dimensions"><span>Business area</span><span>Job family</span><span>Seniority</span><span>Location</span><span>Working pattern</span><span>AI maturity</span></div></div>
+</div>
+</div>
+</div>
+</section>
+<section class="section chapter" data-chapter="2" id="equip">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">02B</span><p class="eyebrow">Mobilise &amp; grow · Bootcamp</p><h2>Take Trailblazers one step beyond strong individual adoption.</h2></div>
+<div class="prose"><p>The bootcamp creates a common baseline and develops the distinctive capability we need: being able to spot and shape AI opportunities in somebody else's work.</p></div>
+</div>
+<div aria-label="Trailblazer capability journey" class="capability-journey">
+<div><span>1</span><b>Understand</b><p>Tools, concepts, boundaries and where support exists.</p></div>
+<div><span>2</span><b>Use</b><p>Apply AI effectively to individual tasks.</p></div>
+<div><span>3</span><b>Integrate</b><p>Use it independently and repeatedly across everyday work.</p></div>
+<div class="target"><span>4</span><b>Spot &amp; shape</b><p>Diagnose opportunities in their own and other people's work.</p><small>Trailblazer baseline</small></div>
+<div><span>5</span><b>Build / transform</b><p>Create or help deliver developed solutions and redesigned workflows.</p></div>
+</div>
+<div class="bootcamp-intro"><p class="eyebrow">Trailblazer bootcamp</p><h3>A common role, language and diagnostic approach.</h3><p>The bootcamp should not be positioned as “advanced prompting”. It needs to make Trailblazers consistently useful in the role from day one.</p></div>
+<div class="bootcamp-grid">
+<article><span>01</span><h4>Role &amp; expectations</h4><p>What a Trailblazer is expected to do, what sits outside the role, what good support looks like and how contribution is recognised.</p><b>Outcome</b><small>A shared role charter and clear boundaries.</small></article>
+<article><span>02</span><h4>Practical AI literacy</h4><p>Approved tools, strengths and limitations, prompting principles, common failure modes and how capabilities differ.</p><b>Outcome</b><small>Enough baseline capability to use the tools confidently and explain them to someone else.</small></article>
+<article><span>03</span><h4>Responsible use</h4><p>Data handling, appropriate use, human review, uncertainty, risk boundaries and routes for governance questions.</p><b>Outcome</b><small>Confidence to encourage experimentation without encouraging unsafe use.</small></article>
+<article><span>04</span><h4>Choosing the intervention</h4><p>How to distinguish a one-off task, reusable prompt, workflow, automation, agent, developed solution or no AI at all.</p><b>Outcome</b><small>The simplest sensible next step, without over-engineering.</small></article>
+<article><span>05</span><h4>Opportunity spotting</h4><p>A structured diagnostic for understanding the outcome, current work, friction, judgement, repetition and where AI may help.</p><b>Outcome</b><small>A repeatable method for working through another person's task.</small></article>
+<article><span>06</span><h4>Peer enablement</h4><p>How to coach rather than take over, demonstrate practically, adapt an approach and help colleagues become independent.</p><b>Outcome</b><small>Support creates capability rather than dependency.</small></article>
+<article><span>07</span><h4>Support &amp; escalation</h4><p>How to resolve locally, reuse something proven, seek specialist advice or surface a larger opportunity.</p><b>Outcome</b><small>Every Trailblazer knows what to do when the question moves beyond them.</small></article>
+<article><span>08</span><h4>Applied challenge</h4><p>Each participant brings a genuine task or workflow and works it through using the diagnostic and support model.</p><b>Outcome</b><small>Every Trailblazer leaves with a real example ready to use locally.</small></article>
+</div>
+<div class="diagnostic" data-component="diagnostic">
+<div class="diagnostic-head"><div><p class="eyebrow">Try the diagnostic</p><h3>What is the simplest sensible intervention?</h3></div><p>Change the task characteristics below. The recommendation should change with the work, not with our enthusiasm for a particular technology.</p></div>
+<div class="diagnostic-body">
+<div class="task-brief"><span>Example task</span><p>“Every Friday I spend two hours pulling updates from several sources, checking what has changed and creating a summary for my leadership team.”</p></div>
+<div class="diagnostic-controls">
+<fieldset><legend>Frequency</legend><button class="choice" data-group="frequency" data-value="once">One-off</button><button class="choice active" data-group="frequency" data-value="repeat">Recurring</button></fieldset>
+<fieldset><legend>Steps &amp; inputs</legend><button class="choice" data-group="structure" data-value="variable">Mostly variable</button><button class="choice active" data-group="structure" data-value="stable">Mostly consistent</button></fieldset>
+<fieldset><legend>System action</legend><button class="choice active" data-group="action" data-value="knowledge">Knowledge work</button><button class="choice" data-group="action" data-value="systems">Acts across systems</button></fieldset>
+<fieldset><legend>Judgement</legend><button class="choice" data-group="judgement" data-value="low">Low</button><button class="choice active" data-group="judgement" data-value="high">Meaningful human judgement</button></fieldset>
+<fieldset><legend>Governance</legend><button class="choice active" data-group="governance" data-value="clear">Within clear boundaries</button><button class="choice" data-group="governance" data-value="unclear">Unclear / sensitive</button></fieldset>
+</div>
+<div aria-live="polite" class="diagnostic-output">
+<div class="output-label">Recommended starting point</div>
+<h4 id="diagnosticTitle">Structured workflow</h4>
+<p id="diagnosticReason">The task repeats, the inputs and steps are relatively stable, and the work is primarily knowledge-based. Standardise the inputs, AI steps and human review rather than rebuilding the approach every Friday.</p>
+<div class="trailblazer-next"><b>What the Trailblazer does next</b><p id="diagnosticNext">Prototype the workflow with the colleague, agree the review points and make the pattern reusable. If the process later needs system actions, route that larger opportunity for triage.</p></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section section-black chapter" data-chapter="2" id="mobilise">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">02C</span><p class="eyebrow">Mobilise &amp; grow · Discoverability</p><h2>Make the network easy to find.</h2></div>
+<div class="prose"><p>Local support only works when colleagues know it exists. Trailblazers need a visible route into the organisation rather than relying on personal networks.</p></div>
+</div>
 
-        <div class="baseline-list">
-          <article><span>01</span><h3>Use the tools well</h3><p>Available capabilities, strengths, limitations, prompting fundamentals and common failure modes.</p></article>
-          <article><span>02</span><h3>Use them responsibly</h3><p>Approved boundaries, data considerations, human review and when to stop and ask.</p></article>
-          <article><span>03</span><h3>Diagnose the work</h3><p>Outcome, friction, frequency, judgement and where the effort actually sits.</p></article>
-          <article><span>04</span><h3>Know the next route</h3><p>One-off task, reusable prompt, workflow, agent / developed solution, or specialist support.</p></article>
-        </div>
+<div class="discoverability">
+<div class="discoverability-copy"><p class="eyebrow">Discoverability</p><h3>Local support only works if people can find it.</h3><p>A colleague should not need to already know a Trailblazer personally. The network should be searchable through the existing AI hub or support environment, reinforced through local manager and leadership communications and signposted from relevant AI learning and guidance.</p><div class="discoverability-list"><span>Searchable presence</span><span>Local introduction</span><span>Learning &amp; communications</span><span>Visible identity</span></div></div>
+<div aria-label="Illustrative Find a Trailblazer interface" class="find-mock">
+<div class="find-top"><b>Find a Trailblazer</b><span>Illustrative</span></div>
+<label>Business area<input aria-label="Business area" readonly="" value="Commercial Banking"/></label>
+<div class="find-result"><div class="avatar">AR</div><div><b>Alex R.</b><span>Commercial Banking · Manchester</span><small>Everyday AI · reporting · opportunity spotting</small></div><button aria-label="View Alex profile">→</button></div>
+<div class="find-result"><div class="avatar">JM</div><div><b>Jordan M.</b><span>Commercial Banking · London</span><small>Copilot · workflow design · peer coaching</small></div><button aria-label="View Jordan profile">→</button></div>
+<div class="find-result"><div class="avatar">SK</div><div><b>Sam K.</b><span>Commercial Banking · Remote</span><small>Prompts · analysis · responsible use</small></div><button aria-label="View Sam profile">→</button></div>
+</div>
+</div>
+</div>
+</section>
+<section class="section chapter" data-chapter="2" id="foundations">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">02D</span><p class="eyebrow">Mobilise &amp; grow · Operating conditions</p><h2>Create the conditions that make the role sustainable.</h2></div>
+<div class="prose"><p>Manager sponsorship, protected capacity and recognition are not programme extras. They determine whether Trailblazers can contribute consistently rather than fitting the role around spare time.</p></div>
+</div>
+<div class="foundation-editorial">
+<article><span>01</span><div><h3>Manager sponsorship</h3><p>Manager sponsorship should be explicit rather than assumed. Managers need to understand why the colleague has been selected, what the role involves, what activity is expected and what support they are expected to provide.</p><p>A manager does not need to be an AI expert. They do need to create the conditions for the colleague to contribute, protect the agreed capacity and recognise the role as legitimate work.</p><div class="foundation-action"><b>In practice</b><p>Manager confirmation sits inside selection, then the relationship is checked again during the operating cycle rather than treated as a one-off permission.</p></div></div></article>
+<article><span>02</span><div><h3>Protected capacity</h3><p>Trailblazer activity cannot depend entirely on spare time. Supporting colleagues, testing approaches, attending learning, sharing examples and bringing questions into specialist support all take time.</p><p>The exact allocation may vary by role and business area. We should not invent a universal percentage before understanding the operating context. What matters is that capacity is explicitly agreed, visible and reviewable.</p><div class="foundation-action"><b>Why it matters</b><p>Some of the strongest candidates may already be the people everybody asks for help. Without capacity, the programme formalises an existing burden rather than creating a sustainable role.</p></div></div></article>
+<article><span>03</span><div><h3>Recognition &amp; reward</h3><p>The contribution should be visible and valued without turning the network into a points competition. Useful recognition can come through objectives and development conversations, leadership acknowledgement, opportunities to showcase work, specialist development, pilots and small tangible recognition.</p><p>The message is simple: helping the organisation adopt AI is valued work, and the people doing it should feel that the organisation notices.</p><div class="foundation-action"><b>Avoid</b><p>Heavy gamification that rewards activity volume rather than useful adoption outcomes.</p></div></div></article>
+</div>
+<div class="reciprocal-commitment"><span>We ask Trailblazers to bring</span><b>curiosity · judgement · time · peer support</b><i>↔</i><span>In return, the organisation provides</span><b>capability · capacity · specialist help · development · recognition</b></div>
+</div>
+</section>
+<section class="section section-mint chapter" data-chapter="2" id="development">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">02E</span><p class="eyebrow">Further detail</p><h2>How the community stays healthy over time.</h2></div>
+<div class="prose"><p>The bootcamp is a baseline. Ongoing learning, specialist support and periodic review keep the role useful as tools, policy and organisational priorities change.</p></div>
+</div>
 
-        <div class="diagnostic-wrap">
-          <div class="diagnostic-intro">
-            <p class="eyebrow">Try the diagnostic</p>
-            <h3>What is the simplest useful intervention?</h3>
-            <p>This is the capability we want Trailblazers to build: understand the work first, then decide whether the answer is a prompt, a workflow, something more developed, or no AI intervention at all.</p>
-          </div>
-          <form class="diagnostic" id="diagnosticForm">
-            <fieldset><legend>1. How often does the task occur?</legend><label><input type="radio" name="frequency" value="one" checked><span>One-off / occasional</span></label><label><input type="radio" name="frequency" value="repeat"><span>Recurring</span></label></fieldset>
-            <fieldset><legend>2. What shape does the work take?</legend><label><input type="radio" name="shape" value="single" checked><span>One generative step</span></label><label><input type="radio" name="shape" value="sequence"><span>Repeatable sequence</span></label><label><input type="radio" name="shape" value="systems"><span>Actions across systems</span></label></fieldset>
-            <fieldset><legend>3. How much autonomy is required?</legend><label><input type="radio" name="autonomy" value="review" checked><span>Colleague reviews each output</span></label><label><input type="radio" name="autonomy" value="bounded"><span>Bounded autonomous action</span></label></fieldset>
-            <fieldset><legend>4. Are the responsible-use boundaries clear?</legend><label><input type="radio" name="governance" value="clear" checked><span>Yes</span></label><label><input type="radio" name="governance" value="unclear"><span>Not yet / unsure</span></label></fieldset>
-          </form>
-          <div class="diagnostic-result" aria-live="polite">
-            <div class="route-visual" id="routeVisual">
-              <span class="route-start">Task</span><i></i><span class="route-option active" data-route="task">One-off AI task</span><span class="route-option" data-route="prompt">Reusable prompt</span><span class="route-option" data-route="workflow">Workflow</span><span class="route-option" data-route="agent">Agent / build</span><span class="route-option" data-route="support">Specialist support</span>
-            </div>
-            <p class="result-kicker" id="resultKicker">Start simple</p>
-            <h3 id="resultTitle">One-off AI task</h3>
-            <p id="resultText">The task is occasional, the colleague remains in control and the work can be completed within one generative interaction. The Trailblazer can help structure the task and get a useful first result.</p>
-            <div class="result-role"><span>Trailblazer role</span><p id="resultRole">Coach the approach and help the colleague learn what good looks like.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="section mobilise" id="mobilise" data-chapter-number="04" data-chapter-name="Mobilise">
-      <div class="shell section-heading compact">
-        <div><p class="eyebrow">04 · Mobilise</p><h2>Make the Trailblazer a connection point, not a dead end.</h2></div>
-        <div><p class="lead">The bootcamp starts the role; it does not sustain it. Trailblazers need three live connections around them and a foundation of manager sponsorship, time and recognition.</p></div>
-      </div>
 
-      <div class="support-explorer">
-        <div class="support-map" id="supportMap">
-          <svg viewBox="0 0 800 620" aria-hidden="true">
-            <path class="support-line line-local active" d="M400 310 C280 250 210 190 130 130"/>
-            <path class="support-line line-community" d="M400 310 C530 210 620 175 700 125"/>
-            <path class="support-line line-specialist" d="M400 310 C520 405 610 470 700 500"/>
-          </svg>
-          <button class="support-node local active" data-support="local"><span>01</span><b>Local team</b><small>Colleagues ↔ Trailblazer</small></button>
-          <button class="support-node community" data-support="community"><span>02</span><b>Community</b><small>Trailblazer ↔ Trailblazer</small></button>
-          <button class="support-node specialist" data-support="specialist"><span>03</span><b>Specialist ecosystem</b><small>Trailblazer ↔ experts</small></button>
-          <div class="support-center"><img src="assets/horse.svg" alt=""><b>Trailblazer</b><small>Local translation layer</small></div>
-        </div>
-        <div class="support-copy" aria-live="polite">
-          <span class="signal-number" id="supportNumber">Connection 01</span>
-          <h3 id="supportTitle">Support close to the work.</h3>
-          <p id="supportText">This is where most adoption support happens. Colleagues can bring an unfinished task, a poor prompt, a question about a tool or a vague “could AI help?” and work it through with someone who understands their environment.</p>
-          <div><span>What moves through this connection</span><p id="supportExchange">Questions, demonstrations, reusable prompts and workflows, troubleshooting and confidence.</p></div>
-        </div>
-      </div>
+<details class="deep-dive"><summary>Explore ongoing development, health checks and pathways</summary><div class="development-grid">
+<div class="dev-mechanisms">
+<article><b>Targeted learning</b><p>Short sessions on new capabilities, agents, automation or recurring needs from the community.</p></article>
+<article><b>Early exposure</b><p>Where appropriate, involve Trailblazers in pilots or previews before wider release.</p></article>
+<article><b>Responsible-use updates</b><p>Refresh guidance when policy, controls or tool boundaries change.</p></article>
+<article><b>Specialist office hours</b><p>Maintain a predictable route into deeper expertise and use recurring questions to shape future support.</p></article>
+<article><b>Practical showcases</b><p>Use real work from the community to demonstrate what is changing and create reusable examples.</p></article>
+</div>
+<div class="pulse-mock"><div class="pulse-head"><b>Trailblazer health pulse</b><span>Illustrative</span></div><div class="pulse-question"><span>I have enough time to fulfil the role</span><strong>81%</strong><i style="--w:81%"></i></div><div class="pulse-question"><span>I know where to take questions I cannot answer</span><strong>89%</strong><i style="--w:89%"></i></div><div class="pulse-question"><span>I feel confident supporting colleagues</span><strong>84%</strong><i style="--w:84%"></i></div><div class="pulse-question"><span>My manager understands the role</span><strong>91%</strong><i style="--w:91%"></i></div><p>Low or declining scores should trigger action, not just reporting.</p></div>
+</div><div class="review-timeline">
+<div><span>Activation</span><b>Start the operating cycle</b><p>Role visible, capacity agreed, learning baseline complete, support routes open.</p></div><i>→</i>
+<div><span>8–12 weeks</span><b>Health check</b><p>Is the Trailblazer active? Is capacity real? Are they getting useful questions? What is getting in the way?</p></div><i>→</i>
+<div><span>~6 months</span><b>Review &amp; recommit</b><p>Review contribution, learning, viability and local coverage. Recommit, change pathway or step back.</p></div>
+</div><div class="pathways-block">
+<div class="pathways-copy"><p class="eyebrow">Development pathways</p><h3>Technical depth is one route, not the hierarchy.</h3><p>As the community matures, different strengths will emerge. Remaining an excellent local Trailblazer is a valuable end state in its own right.</p></div>
+<div class="pathways">
+<div class="path-core"><img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGFyaWEtaGlkZGVuPSJ0cnVlIiBmaWxsPSJub25lIiBoZWlnaHQ9IjQ0IiB2aWV3Qm94PSIwIDAgNDYgNDQiIHdpZHRoPSI0NiI+CjxnPgo8cGF0aCBkPSJNMTAuNzE3OSA0Mi40NjY1TDkuODQyOTQgNDEuODU2NUM5LjQ3MjA1IDM3LjQ2MDcgOC4wOTI5MiAzNC43OTYzIDcuMzYxOTUgMzMuNDIzN0M4LjE0MTUzIDMyLjkxMDYgOS40MzYwNCAzMS43MjgyIDkuNDM2MDQgMzAuMDMwOUM5LjQzNjA0IDI4LjMzMzYgOC4wNDYxMSAyNy40MzgyIDguMDQ2MTEgMjUuMzM3MkM4LjA0NjExIDI0LjE3ODIgOC40NDIyMSAyMy4yMTExIDkuMDg4NTYgMjIuNDU5M0M4LjY2OTA2IDIxLjg2MTggOC4xNzc1NCAyMS41Mzg5IDcuNDQ2NTcgMjEuNTM4OUM2LjYzMDk3IDIxLjUzODkgNS45IDIyLjIwODEgNS45IDIzLjIzNDRDNS45IDIzLjgzMTkgNi4xNjI4NiAyNC40ODg2IDYuNzI2NCAyNC43NzU2QzYuMzE5NSAyNS4zMzcyIDUuMjc1MjUgMjUuMzk2NCA0LjcwMDkyIDI0LjU0NzhINC42ODgzMUM0LjY4ODMxIDI2LjU1MzcgNi44MjE4MiAyNy45NTE0IDYuODIxODIgMzAuMDkwMUM2LjgyMTgyIDMxLjQ3NTIgNS43MTk5NiAzMi44MTM3IDQuMTI0NzggMzIuODEzN0MyLjkzODMgMzIuODEzNyAxLjgyMzgzIDMyLjI2NDcgMS4yNDc3IDMxLjE2NDhDMi41NDIyMSAzMS40OTg1IDMuNDc2NjMgMzAuOTg1NCAzLjQ3NjYzIDI5LjgzODlDMy40NzY2MyAyNy43NjEyIDAgMjUuNzE3NiAwIDIyLjE4M0MwIDE5LjQwMDIgMi4xNDYxMSAxNy44NTkgNC41OTEwOSAxNy44NTlDNi44MjAwMiAxNy44NTkgOC44MDk0OSAxOC44ODcgMTAuMzA5MiAyMS40NjcxQzExLjA3NjIgMjAuODkzIDEyLjAxMDcgMjAuNTcxOCAxMi45NTc3IDIwLjM3OThDMTUuNTEwNyAxOS44Nzc1IDE4LjYzOTggMjAuMzMxNCAyMS4wMzYyIDE5LjMxNTlDMjIuMTAzOCAxOC44NjE5IDIyLjk4OTcgMTguMDYxNyAyMi45ODk3IDE3LjE0MTNDMjIuOTg5NyAxNi42OTk5IDIyLjczNzYgMTYuNDM2MiAyMi4zNzc1IDE2LjQzNjJDMjIuMTk3NSAxNi40MzYyIDIxLjkyMiAxNi41MjA1IDIxLjc2NTQgMTYuOTEzNEMyMS4yOTczIDE2LjUwNzkgMjEuMTUzMiAxNi4wNzczIDIxLjE1MzIgMTUuNjQ2N0MyMS4xNTMyIDE0LjkzMDggMjEuMzgwMSAxNC41OTUzIDIxLjYzMjEgMTQuMjQ5QzIxLjM5MjcgMTMuNjI4MiAyMC42NDkxIDEzLjQ4NDcgMjAuMTQ1IDE0LjA5MjlDMTkuNTIyIDEyLjk0NjQgMTkuOTA1NSAxMS4zNjkzIDIxLjUyNDEgMTAuODkyMVYxMC44Nzk1QzE5LjYzMDEgMTAuNTY5MSAxOS4xMjc3IDkuMzk5MjcgMTkuMzQyIDguMDk2NjhDMTkuNTIyIDguMjUyNzcgMTkuNzI1NSA4LjM0Nzg3IDE5LjkyODkgOC4zNDc4N0MyMC4yNDA0IDguMzQ3ODcgMjAuNDMzMSA4LjA5NjY4IDIwLjQzMzEgNy43Mzc4NEMyMC40MzMxIDcuMzU1NjcgMjAuMjQyMiA2Ljc1ODIgMTkuMjU5MiA2LjEwMTUyQzIwLjEyMTYgNC44MTE0OCAyMS42MDg3IDQuNjE5NSAyMi4zNjMxIDUuMDk4NTZMMjIuMzc1NyA1LjA4NkMyMS45OTIyIDQuNTYwMjkgMjEuNzk5NiAzLjYzOTg2IDIyLjQxMTcgMi43MzJDMjIuNTU1OCAyLjkzNDc0IDIyLjkwMzIgMy4yMzQzNyAyMy40NDM0IDMuMjM0MzdDMjUuMDI1OSAzLjIzNDM3IDI1LjA4NTQgMS41MDI5NiAyNi4yOTUyIDEuMzM2MUMyNi4yMjMyIDEuODc0MzYgMjYuMzY3MyAyLjYyNjE0IDI3LjAzODggMi42MjYxNEMyNy45MTM4IDIuNjI2MTQgMjguMzIwNyAxLjMxMjc4IDI4LjUzNjggMC41QzI4LjkyMDMgMC43MTUzMDUgMjkuMTk1NyAxLjA4NDkxIDI5LjEzNjMgMS43Nzc0OEgyOS4xNDg5TDI5LjY3NjUgMC43MTUzMDVDMzAuMTE5NCAxLjA4NDkxIDMwLjIwNCAxLjcwNzUgMzAuMDU5OSAyLjI2NzNDMzAuMDIzOSAyLjQxMDgzIDI5Ljk3NTMgMi41MTg0OCAyOS45NzUzIDIuNjAxMDJDMjkuOTc1MyAzLjAxOTA3IDMxLjIzMzggMy4zMjk0NyAzMS4yMzM4IDQuMjYwNjZDMzEuMjMzOCA0LjQxNjc2IDMxLjE4NTIgNC41ODM2MiAzMS4xMTMyIDQuNzczOEwzMy45OTAzIDguMzkyNzJDMzQuMTcwMyA4LjYxODc5IDM0LjIyOTcgOC44NTkyMiAzNC4yMjk3IDkuMDYxOTZDMzQuMjI5NyA5LjgxMzc0IDMzLjU3MDggMTAuNjE0IDMyLjYyMzcgMTAuNjE0QzMxLjY3NjcgMTAuNjE0IDMxLjM1MjYgMTAuMTAwOCAzMS4zMDU4IDkuODYyMThMMjguODAxNCA4LjY0MzkxQzI4LjY1NzQgOC44ODI1NCAyOC40OSA5LjI3NzI3IDI4LjQ5IDkuNzE4NjRDMjguNDkgMTIuNDY1NiAzMi4zODYxIDEyLjUzNzMgMzMuMzMzMSAxNi4xMzI5TDM3LjE5MzIgMTQuODU1NUMzOS45NDk3IDE3LjUzMDYgNDIuODYyOCAyMC4xMjMzIDQ0LjY2MTQgMjEuMTg1NEw0NS43OTkzIDIyLjYzMTZINDIuMzQ3OVYyMS42Mjg2TDQxLjQwMDggMjEuMzY2NkMzOS45NDk3IDE5LjA5NyAzNy45ODU0IDE3Ljg1NTQgMzYuOTMwNCAxNy41NDVDMzUuNjQ4NSAxOC4zMjE5IDM0LjY4ODggMTkuMTMyOSAzMy41NjE4IDIwLjM4N0MzNS4zOTY0IDIwLjI0MzUgMzcuNDQ1MyAyMC40MjI5IDM5LjE1OTMgMjAuNzQ1OEwzOC4yNjA5IDI4LjQyNjlMMzcuNTI5OSAzMC4zOTY5TDM1LjU4OTEgMzIuMDQ1OFYyOC42NTI5SDM2LjYzMTVMMzYuMzQzNCAyNy41NzgyQzM3LjE5NSAyNS4zMzE4IDM3LjMwMzEgMjMuODI4MyAzNy4zMDMxIDIzLjAxNTVDMzcuMzAzMSAyMi43NjQzIDM3LjI5MDUgMjIuNTI1NyAzNy4yMDc2IDIyLjQ0MTRDMzcuMTM1NiAyMi4zNjk2IDM2LjgzNjggMjIuNDQxNCAzNi41NzIxIDIyLjUxMzFDMzUuODc3MSAyMi43MDUxIDM0LjczNzQgMjMuMjQxNiAzMy4yNzU1IDI0LjQyNEMzMS45NTc2IDI1LjQ5ODcgMzEuMjM3NCAyNS45ODg1IDI5LjQ1MTQgMjUuNzg1OEMyNy40Mzg1IDI3Ljg2MzUgMjMuMTcxNSAyOC44NjgyIDE5LjQzMDIgMjguODE5OEMxOS4xNDIxIDMxLjg0MTIgMTUuNzg2MiAzMy41ODUyIDE1Ljc4NjIgMzUuMDE4OEMxNS43ODYyIDM1LjUzMTkgMTYuMjc3NyAzNi4zNjggMTcuMzU2MSAzNy45ODFDMTguNTU1MiAzOS43NzM0IDE5LjY5MzEgNDEuNDkyMyAyMS4xMDgyIDQyLjA0MzFMMjIuMzA3MyA0My41SDE4Ljg0MzNMMTguODE5OSA0Mi40NjEyTDE3LjgzNjggNDEuOTIyOUMxNi43MDk4IDM5Ljg0NTIgMTQuOTQ5IDM3LjU1MDQgMTIuNTI3NCAzNS40MDA5QzEzLjExNDMgMzQuMjMxMSAxMy40MjU4IDMzLjAzNjIgMTMuNDM4NCAzMS45MDA0QzEyLjM0NzMgMzMuNTM2OCAxMC43NTQgMzMuNTQ5MyAxMC40NjU5IDM0Ljc5MDlDMTAuMzU3OSAzNS4yNTc0IDEwLjQxNzMgMzYuMTY1MyAxMC42NjkzIDM3LjMzNTFDMTEuMDQwMiAzOS4xMDI0IDExLjM3NjkgNDEuMjA1MiAxMy4wMTg5IDQyLjAxOEwxNC4xNTY4IDQzLjVIMTAuNzE2MVY0Mi40NjEyTDEwLjcxNzkgNDIuNDY2NVoiIGZpbGw9ImJsYWNrIi8+CjxwYXRoIGQ9Ik00Ljc0NzY4IDE4LjgyNzhDNS40NjYwNSAxOC44Mjc4IDYuNDg1MDkgMTguOTk0NyA3LjE5MjY2IDE5LjY1MTRDNS41MTQ2NiAxOC44ODcxIDMuMDIxMDYgMTkuMzg5NCAyLjg0MTAyIDIxLjQwNzlDMi41NTI5NSAyMS4wOTc1IDIuNDU3NTMgMjAuNzE1MyAyLjQzNDEzIDIwLjM3OThDMS44MTExOCAyMC42NjY5IDEuMzQzMDcgMjEuNTI2MyAxLjIyNDI0IDIyLjQ0NjhDMC43MzI3MjEgMjAuMjQ4OSAyLjUxODc1IDE4LjgyNzggNC43NDc2OCAxOC44Mjc4Wk0xNC4wMzc5IDIxLjIxNzdDMTYuMzY0IDIwLjkzMDcgMTkuNTI3NCAyMS4xOTQ0IDIyLjExNjQgMTkuOTE1MUMyMy4zMjYzIDE5LjMxNzcgMjQuNTQ4OCAxOC4zMTQ3IDI0LjU0ODggMTYuOTUyOUMyNC41NDg4IDE1LjMxNjYgMjIuNTIzMyAxMy43MDM2IDIyLjUyMzMgMTAuMjI4MkMyMi41MjMzIDcuOTU4NTMgMjMuNTI5NyA1LjM0MjU3IDI2LjE5MDggMy45MjE1NkMyNC41MDAyIDUuMzc4NDYgMjMuNjk3MiA3LjA1MDY2IDIzLjY5NzIgOS4wODE3QzIzLjY5NzIgMTEuMTEyNyAyNC41MDAyIDEzLjI3NDggMjcuMjA5OCAxNC4zMzY5QzI5LjEyNzMgMTUuMDg4NyAzMC45MTMzIDE1LjExMzggMzEuNjgwMyAxNi43MDE3QzMwLjk5NzkgMTYuMTYzNCAzMC4xMzM3IDE1Ljk4NTggMjkuNTIzNCAxNS45ODU4QzI1LjYyNzIgMTUuOTg1OCAyNC4xNTI3IDIzLjI0ODggMTkuNTg2OCAyNS4zMTM5QzIwLjU1NzIgMjIuNzkzIDE3LjYzMzMgMjEuOTgyMSAxNC45MzYzIDIyLjA0MTNDMTIuNzMwOCAyMi4wODk3IDkuMzYyMTcgMjIuNjg3MiA5LjMyNjE2IDI2LjE2MjZDOC43MDMyMiAyMy44MzM3IDEwLjA0NDUgMjEuNzA3NSAxNC4wMzYxIDIxLjIxNzdIMTQuMDM3OVpNMzIuMDY1NiA5LjQ0MDU0QzMyLjA2NTYgOS4yMzc4IDMyLjE4NjIgOC44OTE1MiAzMi4xODYyIDguNTkxODhDMzIuMTg2MiA4LjQzNTc5IDMyLjE1MDIgOC4yNDU2IDMxLjk1OTMgNy45NDc3NkMzMS42ODM5IDcuNTI5NzEgMzEuMTU2NCA2LjgwMTI2IDMwLjY1MjIgNi4yNjNDMjkuOTgwNyA1LjU1Nzg4IDI5LjM5MzcgNS4zNTUxMyAyOC40ODI3IDUuNDE0MzRDMjkuMjI2MyA1LjAwODg1IDI5LjM5MzcgNC42MjY2OCAyOS4zOTM3IDQuMTk2MDdDMjkuMzkzNyAzLjgyNjQ3IDI5LjE5MDMgMy40MzE3NCAyOC44NTM2IDMuMDYyMTNDMjkuMzMyNSAzLjE0NjQ2IDMwLjYxNjIgMy42NzIxNiAzMC42MTYyIDQuMzY0NzNDMzAuNjE2MiA0LjUwODI3IDMwLjU0NDIgNC42MzkyNCAzMC40MDAyIDQuNzgyNzhMMzMuNDgwNyA4LjYyOTU2QzMzLjM3MjcgOC43OTY0MiAzMy4xMzMyIDguNzI0NjYgMzIuOTI5OCA4LjcyNDY2QzMyLjc5ODMgOC43MjQ2NiAzMi43MTM3IDguODA4OTggMzIuNzEzNyA4Ljk1MjUyQzMyLjcxMzcgOS4yMTQ0NyAzMi45MTcyIDkuNTM3NDMgMzMuMDM3OCA5LjcxNjg1QzMyLjk0MjQgOS43NzYwNiAzMi43NjIzIDkuODQ3ODMgMzIuNTY5NyA5Ljg0NzgzQzMyLjMzMDIgOS44NDc4MyAzMi4wNjU2IDkuNzYzNSAzMi4wNjU2IDkuNDQyMzRWOS40NDA1NFoiIHN0eWxlPSJmaWxsOiAjMDA2QTREICFpbXBvcnRhbnQiLz4KPC9nPgo8L3N2Zz4="/><b>Core Trailblazer</b><span>Translation · local support · opportunity spotting</span></div>
+<div class="path-branches"><article><span>01</span><b>Local Trailblazer</b><p>Continue deepening everyday application and peer support.</p></article><article><span>02</span><b>Builder</b><p>Agents, automation and more developed solutions.</p></article><article><span>03</span><b>Connector / community</b><p>Coaching, convening and helping others reuse what works.</p></article><article><span>04</span><b>Business specialist</b><p>Deep application within a particular domain or type of work.</p></article></div>
+</div>
+</div></details></div>
+</section>
 
-      <div class="foundation-line">
-        <div><p class="eyebrow">The foundation</p><h3>Trailblazing needs to be treated as contribution, not extracurricular activity.</h3></div>
-        <div><p><b>Manager sponsorship</b><span>Managers understand the role and why time is being allocated to it.</span></p><p><b>Protected capacity</b><span>Time exists for experimentation, peer support, learning and community activity.</span></p><p><b>Recognition</b><span>Useful contribution is visible in development, performance and day-to-day acknowledgement.</span></p></div>
-      </div>
-    </section>
+<section class="section section-black chapter" data-chapter="3" id="accelerate"><div class="page-frame"><div class="section-heading split-heading"><div><span class="section-number">03</span><p class="eyebrow">Accelerate wider adoption</p><h2>Turn local support into measurable value.</h2></div><div class="prose"><p>Trailblazers help us move more quickly from AI awareness to useful application. They reduce the friction of trying AI in real work, make successful practice reusable, and give larger opportunities a clearer route into the teams that can act on them.</p></div></div><div class="adoption-value-grid"><article><span>01</span><h3>Local application</h3><p>Help colleagues work through real tasks so useful AI becomes easier to try, repeat and improve.</p><small>More consistent use · less manual effort · better-quality outputs</small></article><article><span>02</span><h3>Reuse</h3><p>Capture prompts, workflows and lessons so the next team starts from evidence rather than from zero.</p><small>Less duplication · faster time to useful result</small></article><article><span>03</span><h3>Opportunity flow</h3><p>Resolve locally where possible, then route larger needs into specialist or delivery teams with the problem already shaped.</p><small>Better-informed triage · higher-value opportunities surfaced earlier</small></article></div><div class="subsection-intro"><p class="eyebrow">How questions move</p><h3>Every question needs a sensible next route.</h3><p>The network creates a two-way flow: capability and guidance move into teams, while opportunities, blockers and recurring questions move back into the wider organisation.</p></div><div class="support-explorer" data-component="support-explorer">
+<div aria-label="Example colleague questions" class="support-scenarios" role="tablist">
+<button aria-selected="true" class="support-scenario active" data-route="local" role="tab"><span>01</span><b>“Why does this prompt keep giving me inconsistent output?”</b><small>Everyday support question</small></button>
+<button aria-selected="false" class="support-scenario" data-route="reuse" role="tab"><span>02</span><b>“Has anybody already solved something similar?”</b><small>Reusable practice</small></button>
+<button aria-selected="false" class="support-scenario" data-route="specialist" role="tab"><span>03</span><b>“Can I use this customer information in the tool?”</b><small>Specialist judgement</small></button>
+<button aria-selected="false" class="support-scenario" data-route="opportunity" role="tab"><span>04</span><b>“We do this same multi-step process thousands of times.”</b><small>Larger opportunity</small></button>
+</div>
+<div class="support-map-wrap">
+<div class="support-map" id="supportMap">
+<div class="map-node colleague"><span>Colleague / local team</span></div>
+<div class="map-path path-in"></div>
+<div class="map-node trailblazer"><img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGFyaWEtaGlkZGVuPSJ0cnVlIiBmaWxsPSJub25lIiBoZWlnaHQ9IjQ0IiB2aWV3Qm94PSIwIDAgNDYgNDQiIHdpZHRoPSI0NiI+CjxnPgo8cGF0aCBkPSJNMTAuNzE3OSA0Mi40NjY1TDkuODQyOTQgNDEuODU2NUM5LjQ3MjA1IDM3LjQ2MDcgOC4wOTI5MiAzNC43OTYzIDcuMzYxOTUgMzMuNDIzN0M4LjE0MTUzIDMyLjkxMDYgOS40MzYwNCAzMS43MjgyIDkuNDM2MDQgMzAuMDMwOUM5LjQzNjA0IDI4LjMzMzYgOC4wNDYxMSAyNy40MzgyIDguMDQ2MTEgMjUuMzM3MkM4LjA0NjExIDI0LjE3ODIgOC40NDIyMSAyMy4yMTExIDkuMDg4NTYgMjIuNDU5M0M4LjY2OTA2IDIxLjg2MTggOC4xNzc1NCAyMS41Mzg5IDcuNDQ2NTcgMjEuNTM4OUM2LjYzMDk3IDIxLjUzODkgNS45IDIyLjIwODEgNS45IDIzLjIzNDRDNS45IDIzLjgzMTkgNi4xNjI4NiAyNC40ODg2IDYuNzI2NCAyNC43NzU2QzYuMzE5NSAyNS4zMzcyIDUuMjc1MjUgMjUuMzk2NCA0LjcwMDkyIDI0LjU0NzhINC42ODgzMUM0LjY4ODMxIDI2LjU1MzcgNi44MjE4MiAyNy45NTE0IDYuODIxODIgMzAuMDkwMUM2LjgyMTgyIDMxLjQ3NTIgNS43MTk5NiAzMi44MTM3IDQuMTI0NzggMzIuODEzN0MyLjkzODMgMzIuODEzNyAxLjgyMzgzIDMyLjI2NDcgMS4yNDc3IDMxLjE2NDhDMi41NDIyMSAzMS40OTg1IDMuNDc2NjMgMzAuOTg1NCAzLjQ3NjYzIDI5LjgzODlDMy40NzY2MyAyNy43NjEyIDAgMjUuNzE3NiAwIDIyLjE4M0MwIDE5LjQwMDIgMi4xNDYxMSAxNy44NTkgNC41OTEwOSAxNy44NTlDNi44MjAwMiAxNy44NTkgOC44MDk0OSAxOC44ODcgMTAuMzA5MiAyMS40NjcxQzExLjA3NjIgMjAuODkzIDEyLjAxMDcgMjAuNTcxOCAxMi45NTc3IDIwLjM3OThDMTUuNTEwNyAxOS44Nzc1IDE4LjYzOTggMjAuMzMxNCAyMS4wMzYyIDE5LjMxNTlDMjIuMTAzOCAxOC44NjE5IDIyLjk4OTcgMTguMDYxNyAyMi45ODk3IDE3LjE0MTNDMjIuOTg5NyAxNi42OTk5IDIyLjczNzYgMTYuNDM2MiAyMi4zNzc1IDE2LjQzNjJDMjIuMTk3NSAxNi40MzYyIDIxLjkyMiAxNi41MjA1IDIxLjc2NTQgMTYuOTEzNEMyMS4yOTczIDE2LjUwNzkgMjEuMTUzMiAxNi4wNzczIDIxLjE1MzIgMTUuNjQ2N0MyMS4xNTMyIDE0LjkzMDggMjEuMzgwMSAxNC41OTUzIDIxLjYzMjEgMTQuMjQ5QzIxLjM5MjcgMTMuNjI4MiAyMC42NDkxIDEzLjQ4NDcgMjAuMTQ1IDE0LjA5MjlDMTkuNTIyIDEyLjk0NjQgMTkuOTA1NSAxMS4zNjkzIDIxLjUyNDEgMTAuODkyMVYxMC44Nzk1QzE5LjYzMDEgMTAuNTY5MSAxOS4xMjc3IDkuMzk5MjcgMTkuMzQyIDguMDk2NjhDMTkuNTIyIDguMjUyNzcgMTkuNzI1NSA4LjM0Nzg3IDE5LjkyODkgOC4zNDc4N0MyMC4yNDA0IDguMzQ3ODcgMjAuNDMzMSA4LjA5NjY4IDIwLjQzMzEgNy43Mzc4NEMyMC40MzMxIDcuMzU1NjcgMjAuMjQyMiA2Ljc1ODIgMTkuMjU5MiA2LjEwMTUyQzIwLjEyMTYgNC44MTE0OCAyMS42MDg3IDQuNjE5NSAyMi4zNjMxIDUuMDk4NTZMMjIuMzc1NyA1LjA4NkMyMS45OTIyIDQuNTYwMjkgMjEuNzk5NiAzLjYzOTg2IDIyLjQxMTcgMi43MzJDMjIuNTU1OCAyLjkzNDc0IDIyLjkwMzIgMy4yMzQzNyAyMy40NDM0IDMuMjM0MzdDMjUuMDI1OSAzLjIzNDM3IDI1LjA4NTQgMS41MDI5NiAyNi4yOTUyIDEuMzM2MUMyNi4yMjMyIDEuODc0MzYgMjYuMzY3MyAyLjYyNjE0IDI3LjAzODggMi42MjYxNEMyNy45MTM4IDIuNjI2MTQgMjguMzIwNyAxLjMxMjc4IDI4LjUzNjggMC41QzI4LjkyMDMgMC43MTUzMDUgMjkuMTk1NyAxLjA4NDkxIDI5LjEzNjMgMS43Nzc0OEgyOS4xNDg5TDI5LjY3NjUgMC43MTUzMDVDMzAuMTE5NCAxLjA4NDkxIDMwLjIwNCAxLjcwNzUgMzAuMDU5OSAyLjI2NzNDMzAuMDIzOSAyLjQxMDgzIDI5Ljk3NTMgMi41MTg0OCAyOS45NzUzIDIuNjAxMDJDMjkuOTc1MyAzLjAxOTA3IDMxLjIzMzggMy4zMjk0NyAzMS4yMzM4IDQuMjYwNjZDMzEuMjMzOCA0LjQxNjc2IDMxLjE4NTIgNC41ODM2MiAzMS4xMTMyIDQuNzczOEwzMy45OTAzIDguMzkyNzJDMzQuMTcwMyA4LjYxODc5IDM0LjIyOTcgOC44NTkyMiAzNC4yMjk3IDkuMDYxOTZDMzQuMjI5NyA5LjgxMzc0IDMzLjU3MDggMTAuNjE0IDMyLjYyMzcgMTAuNjE0QzMxLjY3NjcgMTAuNjE0IDMxLjM1MjYgMTAuMTAwOCAzMS4zMDU4IDkuODYyMThMMjguODAxNCA4LjY0MzkxQzI4LjY1NzQgOC44ODI1NCAyOC40OSA5LjI3NzI3IDI4LjQ5IDkuNzE4NjRDMjguNDkgMTIuNDY1NiAzMi4zODYxIDEyLjUzNzMgMzMuMzMzMSAxNi4xMzI5TDM3LjE5MzIgMTQuODU1NUMzOS45NDk3IDE3LjUzMDYgNDIuODYyOCAyMC4xMjMzIDQ0LjY2MTQgMjEuMTg1NEw0NS43OTkzIDIyLjYzMTZINDIuMzQ3OVYyMS42Mjg2TDQxLjQwMDggMjEuMzY2NkMzOS45NDk3IDE5LjA5NyAzNy45ODU0IDE3Ljg1NTQgMzYuOTMwNCAxNy41NDVDMzUuNjQ4NSAxOC4zMjE5IDM0LjY4ODggMTkuMTMyOSAzMy41NjE4IDIwLjM4N0MzNS4zOTY0IDIwLjI0MzUgMzcuNDQ1MyAyMC40MjI5IDM5LjE1OTMgMjAuNzQ1OEwzOC4yNjA5IDI4LjQyNjlMMzcuNTI5OSAzMC4zOTY5TDM1LjU4OTEgMzIuMDQ1OFYyOC42NTI5SDM2LjYzMTVMMzYuMzQzNCAyNy41NzgyQzM3LjE5NSAyNS4zMzE4IDM3LjMwMzEgMjMuODI4MyAzNy4zMDMxIDIzLjAxNTVDMzcuMzAzMSAyMi43NjQzIDM3LjI5MDUgMjIuNTI1NyAzNy4yMDc2IDIyLjQ0MTRDMzcuMTM1NiAyMi4zNjk2IDM2LjgzNjggMjIuNDQxNCAzNi41NzIxIDIyLjUxMzFDMzUuODc3MSAyMi43MDUxIDM0LjczNzQgMjMuMjQxNiAzMy4yNzU1IDI0LjQyNEMzMS45NTc2IDI1LjQ5ODcgMzEuMjM3NCAyNS45ODg1IDI5LjQ1MTQgMjUuNzg1OEMyNy40Mzg1IDI3Ljg2MzUgMjMuMTcxNSAyOC44NjgyIDE5LjQzMDIgMjguODE5OEMxOS4xNDIxIDMxLjg0MTIgMTUuNzg2MiAzMy41ODUyIDE1Ljc4NjIgMzUuMDE4OEMxNS43ODYyIDM1LjUzMTkgMTYuMjc3NyAzNi4zNjggMTcuMzU2MSAzNy45ODFDMTguNTU1MiAzOS43NzM0IDE5LjY5MzEgNDEuNDkyMyAyMS4xMDgyIDQyLjA0MzFMMjIuMzA3MyA0My41SDE4Ljg0MzNMMTguODE5OSA0Mi40NjEyTDE3LjgzNjggNDEuOTIyOUMxNi43MDk4IDM5Ljg0NTIgMTQuOTQ5IDM3LjU1MDQgMTIuNTI3NCAzNS40MDA5QzEzLjExNDMgMzQuMjMxMSAxMy40MjU4IDMzLjAzNjIgMTMuNDM4NCAzMS45MDA0QzEyLjM0NzMgMzMuNTM2OCAxMC43NTQgMzMuNTQ5MyAxMC40NjU5IDM0Ljc5MDlDMTAuMzU3OSAzNS4yNTc0IDEwLjQxNzMgMzYuMTY1MyAxMC42NjkzIDM3LjMzNTFDMTEuMDQwMiAzOS4xMDI0IDExLjM3NjkgNDEuMjA1MiAxMy4wMTg5IDQyLjAxOEwxNC4xNTY4IDQzLjVIMTAuNzE2MVY0Mi40NjEyTDEwLjcxNzkgNDIuNDY2NVoiIGZpbGw9ImJsYWNrIi8+CjxwYXRoIGQ9Ik00Ljc0NzY4IDE4LjgyNzhDNS40NjYwNSAxOC44Mjc4IDYuNDg1MDkgMTguOTk0NyA3LjE5MjY2IDE5LjY1MTRDNS41MTQ2NiAxOC44ODcxIDMuMDIxMDYgMTkuMzg5NCAyLjg0MTAyIDIxLjQwNzlDMi41NTI5NSAyMS4wOTc1IDIuNDU3NTMgMjAuNzE1MyAyLjQzNDEzIDIwLjM3OThDMS44MTExOCAyMC42NjY5IDEuMzQzMDcgMjEuNTI2MyAxLjIyNDI0IDIyLjQ0NjhDMC43MzI3MjEgMjAuMjQ4OSAyLjUxODc1IDE4LjgyNzggNC43NDc2OCAxOC44Mjc4Wk0xNC4wMzc5IDIxLjIxNzdDMTYuMzY0IDIwLjkzMDcgMTkuNTI3NCAyMS4xOTQ0IDIyLjExNjQgMTkuOTE1MUMyMy4zMjYzIDE5LjMxNzcgMjQuNTQ4OCAxOC4zMTQ3IDI0LjU0ODggMTYuOTUyOUMyNC41NDg4IDE1LjMxNjYgMjIuNTIzMyAxMy43MDM2IDIyLjUyMzMgMTAuMjI4MkMyMi41MjMzIDcuOTU4NTMgMjMuNTI5NyA1LjM0MjU3IDI2LjE5MDggMy45MjE1NkMyNC41MDAyIDUuMzc4NDYgMjMuNjk3MiA3LjA1MDY2IDIzLjY5NzIgOS4wODE3QzIzLjY5NzIgMTEuMTEyNyAyNC41MDAyIDEzLjI3NDggMjcuMjA5OCAxNC4zMzY5QzI5LjEyNzMgMTUuMDg4NyAzMC45MTMzIDE1LjExMzggMzEuNjgwMyAxNi43MDE3QzMwLjk5NzkgMTYuMTYzNCAzMC4xMzM3IDE1Ljk4NTggMjkuNTIzNCAxNS45ODU4QzI1LjYyNzIgMTUuOTg1OCAyNC4xNTI3IDIzLjI0ODggMTkuNTg2OCAyNS4zMTM5QzIwLjU1NzIgMjIuNzkzIDE3LjYzMzMgMjEuOTgyMSAxNC45MzYzIDIyLjA0MTNDMTIuNzMwOCAyMi4wODk3IDkuMzYyMTcgMjIuNjg3MiA5LjMyNjE2IDI2LjE2MjZDOC43MDMyMiAyMy44MzM3IDEwLjA0NDUgMjEuNzA3NSAxNC4wMzYxIDIxLjIxNzdIMTQuMDM3OVpNMzIuMDY1NiA5LjQ0MDU0QzMyLjA2NTYgOS4yMzc4IDMyLjE4NjIgOC44OTE1MiAzMi4xODYyIDguNTkxODhDMzIuMTg2MiA4LjQzNTc5IDMyLjE1MDIgOC4yNDU2IDMxLjk1OTMgNy45NDc3NkMzMS42ODM5IDcuNTI5NzEgMzEuMTU2NCA2LjgwMTI2IDMwLjY1MjIgNi4yNjNDMjkuOTgwNyA1LjU1Nzg4IDI5LjM5MzcgNS4zNTUxMyAyOC40ODI3IDUuNDE0MzRDMjkuMjI2MyA1LjAwODg1IDI5LjM5MzcgNC42MjY2OCAyOS4zOTM3IDQuMTk2MDdDMjkuMzkzNyAzLjgyNjQ3IDI5LjE5MDMgMy40MzE3NCAyOC44NTM2IDMuMDYyMTNDMjkuMzMyNSAzLjE0NjQ2IDMwLjYxNjIgMy42NzIxNiAzMC42MTYyIDQuMzY0NzNDMzAuNjE2MiA0LjUwODI3IDMwLjU0NDIgNC42MzkyNCAzMC40MDAyIDQuNzgyNzhMMzMuNDgwNyA4LjYyOTU2QzMzLjM3MjcgOC43OTY0MiAzMy4xMzMyIDguNzI0NjYgMzIuOTI5OCA4LjcyNDY2QzMyLjc5ODMgOC43MjQ2NiAzMi43MTM3IDguODA4OTggMzIuNzEzNyA4Ljk1MjUyQzMyLjcxMzcgOS4yMTQ0NyAzMi45MTcyIDkuNTM3NDMgMzMuMDM3OCA5LjcxNjg1QzMyLjk0MjQgOS43NzYwNiAzMi43NjIzIDkuODQ3ODMgMzIuNTY5NyA5Ljg0NzgzQzMyLjMzMDIgOS44NDc4MyAzMi4wNjU2IDkuNzYzNSAzMi4wNjU2IDkuNDQyMzRWOS40NDA1NFoiIHN0eWxlPSJmaWxsOiAjMDA2QTREICFpbXBvcnRhbnQiLz4KPC9nPgo8L3N2Zz4="/><span>Trailblazer</span><small>Diagnose · coach · connect</small></div>
+<div class="map-path path-local"></div>
+<div class="map-path path-community"></div>
+<div class="map-path path-specialist"></div>
+<div class="map-path path-opportunity"></div>
+<div class="map-node route-node local-route active"><span>Resolve locally</span><small>Coach, demonstrate, troubleshoot</small></div>
+<div class="map-node route-node reuse-route"><span>Reuse what works</span><small>Community patterns, examples, prompts</small></div>
+<div class="map-node route-node specialist-route"><span>Seek specialist advice</span><small>AI, product, data, risk, Responsible AI</small></div>
+<div class="map-node route-node opportunity-route"><span>Surface an opportunity</span><small>Triage for workflow, agent, automation or build</small></div>
+</div>
+<div class="route-explanation"><p class="mini-label" id="routeLabel">Route 01 · Resolve locally</p><h3 id="routeTitle">The Trailblazer can help directly.</h3><p id="routeBody">Use their own knowledge, a demonstration or a simple piece of guidance to help the colleague make progress. The aim is to leave the colleague more capable, not to become their permanent support desk.</p></div>
+</div>
+</div><div class="subsection-intro"><p class="eyebrow">What scale means</p><h3>Scale coverage, reuse and independent capability.</h3><p>Growth in the number of Trailblazers may support these outcomes, but membership is not the outcome itself.</p></div><div class="scale-three">
+<article><span>01</span><h3>Coverage</h3><p>Use each cohort to close meaningful gaps so more colleagues can access relevant support close enough to the work to be useful.</p><small>Measure reach, not a neat one-per-X ratio.</small></article>
+<article><span>02</span><h3>Reuse</h3><p>Move from “this worked for me” to patterns, examples, prompts and workflows that other people can adapt rather than rediscover.</p><small>The organisation becomes an incubator for useful practice.</small></article>
+<article><span>03</span><h3>Independent capability</h3><p>People who initially need help should become increasingly able to spot opportunities, adapt approaches and help themselves.</p><small>Dependency should reduce as capability grows.</small></article>
+</div><div class="scale-example"><div class="scale-example-head"><p class="eyebrow">How value compounds</p><h3>One useful local experiment should create more than one useful local outcome.</h3></div><div class="scale-flow"><div><span>1</span><b>Local experiment</b><p>A Trailblazer improves a recurring task with one team.</p></div><i>→</i><div><span>2</span><b>Reusable pattern</b><p>The context, approach and limitations are captured.</p></div><i>→</i><div><span>3</span><b>Adapted elsewhere</b><p>Another team starts from evidence rather than zero.</p></div><i>→</i><div><span>4</span><b>Independent capability</b><p>Colleagues begin identifying similar opportunities themselves.</p></div></div><p class="scale-note">As that wider capability grows, some colleagues will naturally begin exhibiting the Trailblazer profile. They become candidates when the network needs renewal or additional coverage — not because membership growth is the objective.</p></div></div></section><section class="section section-dashboard chapter" data-chapter="4" id="measure">
+<div class="page-frame">
+<div class="section-heading split-heading">
+<div><span class="section-number">04</span><p class="eyebrow">Measure success</p><h2>Measure what changes around the Trailblazers.</h2></div>
+<div class="prose"><p>We need to know whether the community itself is healthy, then whether adoption deepens around it, useful practices and opportunities move through the network, and that activity contributes to business value.</p></div>
+</div>
+<div aria-label="Measurement chain" class="measurement-chain"><div><span>1</span><b>Community health</b></div><i>→</i><div><span>2</span><b>Trailblazer activity</b></div><i>→</i><div><span>3</span><b>Diffusion &amp; adoption</b></div><i>→</i><div><span>4</span><b>Opportunity flow</b></div><i>→</i><div><span>5</span><b>Organisational value</b></div></div>
+<div class="dashboard" data-component="dashboard">
+<div class="dashboard-top"><div><p class="mini-label">Illustrative programme dashboard</p><h3>AI Trailblazer network</h3></div><div class="dashboard-filter"><label>View<select id="dashboardView"><option>Group</option><option>Retail</option><option>Commercial Banking</option><option>Insurance, Pensions &amp; Investments</option></select></label><span>Current cycle</span></div></div>
+<div class="metric-row">
+<div><span>Active Trailblazers</span><b id="metricActive">184</b><small>of 196 selected</small></div>
+<div><span>Meaningful coverage</span><b id="metricCoverage">82%</b><small>target areas with access</small></div>
+<div><span>Manager sponsorship</span><b id="metricSponsor">91%</b><small>confirmed this cycle</small></div>
+<div><span>Latest learning</span><b id="metricLearning">78%</b><small>completed / attended</small></div>
+</div>
+<div class="dashboard-grid">
+<div class="dash-card adoption-card"><div class="dash-card-head"><div><b>Adoption effect</b><span>Active &amp; repeat AI use</span></div><span class="legend"><i class="line-a"></i>Supported <i class="line-b"></i>Baseline</span></div><svg aria-label="Illustrative adoption trend chart" id="adoptionChart" role="img" viewbox="0 0 620 250"><g class="chart-grid"><line x1="48" x2="600" y1="32" y2="32"></line><line x1="48" x2="600" y1="82" y2="82"></line><line x1="48" x2="600" y1="132" y2="132"></line><line x1="48" x2="600" y1="182" y2="182"></line><line x1="48" x2="600" y1="232" y2="232"></line></g><g class="axis-labels"><text x="10" y="36">80%</text><text x="10" y="86">60%</text><text x="10" y="136">40%</text><text x="10" y="186">20%</text><text x="48" y="248">Start</text><text x="176" y="248">M1</text><text x="310" y="248">M2</text><text x="444" y="248">M3</text><text x="574" y="248">M4</text></g><polyline class="baseline-line" points="48,186 184,174 320,160 456,146 592,134"></polyline><polyline class="supported-line" points="48,184 184,160 320,128 456,94 592,62"></polyline><circle class="chart-dot" cx="592" cy="62" r="5"></circle></svg><p class="chart-note">Directionally useful, not causal proof. Pair telemetry with qualitative evidence and sensible comparison populations.</p></div>
+<div class="dash-card coverage-card"><div class="dash-card-head"><div><b>Coverage &amp; local maturity</b><span>Illustrative heatmap</span></div></div><div class="heatmap" id="dashboardHeatmap"></div><div class="heat-legend"><span><i class="heat-1"></i>Gap</span><span><i class="heat-2"></i>Partial</span><span><i class="heat-3"></i>Good</span><span><i class="heat-4"></i>Strong</span></div></div>
+<div class="dash-card activity-card"><div class="dash-card-head"><div><b>Community demand</b><span>What Trailblazers are seeing</span></div></div><div class="rank-list"><div><span>Prompt troubleshooting</span><b>28%</b></div><div><span>Opportunity spotting</span><b>21%</b></div><div><span>Responsible-use questions</span><b>18%</b></div><div><span>Workflow / agent ideas</span><b>17%</b></div><div><span>Tool capability / access</span><b>16%</b></div></div></div>
+<div class="dash-card pipeline-card"><div class="dash-card-head"><div><b>Opportunity pipeline</b><span>Current cycle</span></div></div><div class="pipeline"><div><b>126</b><span>Surfaced</span></div><i>→</i><div><b>81</b><span>Triaged</span></div><i>→</i><div><b>42</b><span>Progressed</span></div><i>→</i><div><b>18</b><span>Adopted / built</span></div><i>→</i><div><b>7</b><span>Scaled</span></div></div><p>Also track why opportunities stop: duplication, low value, risk, capability gap or no clear owner.</p></div>
+</div>
+</div>
+<div class="value-logic">
+<div class="value-intro"><p class="eyebrow">Value logic</p><h3>Everyday AI and defined solutions should not be forced into the same ROI model.</h3></div>
+<article class="value-card everyday"><p class="mini-label">Everyday AI</p><h4>Released capacity across many small activities</h4><p>Drafting, summarising, analysing, preparing, searching and communicating may each reduce effort without producing a discrete “project saving”.</p><div class="value-measures"><b>Measure</b><span>Released capacity</span><span>Time / effort reduction</span><span>Sustained use</span><span>Employee confidence</span><span>Changed work patterns</span></div><div class="caveat"><b>Important:</b> a reported 30 minutes saved is not automatically 30 minutes of salary saved. We can evidence released capacity without pretending it is already a realised cash benefit.</div></article>
+<article class="value-card defined"><p class="mini-label">Defined solution</p><h4>Harder attribution where the intervention is bounded</h4><p>A specific workflow, agent, automation or process change can often be measured against a clearer baseline.</p><div class="value-measures"><b>Measure</b><span>Cycle time</span><span>Throughput</span><span>Manual effort</span><span>Quality / errors</span><span>Cost, risk, colleague or customer outcomes</span></div><div class="caveat"><b>Important:</b> harder attribution is possible, but we still need a credible baseline and should separate AI contribution from wider process change.</div></article>
+</div>
+</div>
+</section>
+<section class="section chapter" data-chapter="5" id="start">
+<div class="page-frame">
+<div class="section-heading split-heading"><div><span class="section-number">05</span><p class="eyebrow">First 90 days</p><h2>Prove the model before optimising for scale.</h2></div><div class="prose"><p>The first 90 days should establish the model, select and prepare a deliberately distributed cohort, then activate it with enough baseline evidence to learn from the first cycle.</p></div></div>
+<div class="start-timeline"><article><span>Days 1–30</span><div><h3>Design the model</h3><p>Agree the Trailblazer profile, role, manager expectations, selection approach and support routes.</p></div></article><article><span>Days 31–60</span><div><h3>Select and prepare the first cohort</h3><p>Run nominations and self-identification, select with coverage in mind, and confirm the capacity and specialist support available.</p></div></article><article><span>Days 61–90</span><div><h3>Equip and activate</h3><p>Deliver the bootcamp around real work, make Trailblazers visible, activate local support and establish the baseline measures for the first review.</p></div></article></div>
+<details class="deep-dive implementation-detail"><summary>Implementation details to confirm before launch</summary><p>These do not change the recommendation, but they affect how the first cohort is implemented and should be resolved against the existing LBG operating environment rather than guessed in advance.</p><div class="decision-grid"><article><b>Initial cohort size &amp; density</b><p>Enough coverage to test the model across different environments, but not so many people that the first cohort cannot be supported properly.</p></article><article><b>Expected time commitment</b><p>Protected capacity is essential, but the amount may vary by role and business area.</p></article><article><b>Behavioural data available</b><p>What usage and learning data exists, at what level it can appropriately be used, and what privacy or employee-relations considerations apply.</p></article><article><b>Existing specialist support routes</b><p>Connect Trailblazer escalation into existing AI, product, technology, risk and governance routes rather than creating parallel structures.</p></article><article><b>Recognition mechanisms</b><p>What can realistically be reflected in objectives, development, leadership recognition, pilots or tangible rewards.</p></article><article><b>Measurement baseline</b><p>Whether useful pre-activation baselines and sensible comparison populations can be established without overstating causality.</p></article></div></details></div>
+</section>
 
-    <section class="section scale" id="scale" data-chapter-number="05" data-chapter-name="Scale">
-      <div class="shell section-heading compact">
-        <div><p class="eyebrow">05 · Scale</p><h2>Scale the behaviour, not just the membership.</h2></div>
-        <div><p class="lead">There are two things to grow: organisational coverage and the AI-native behaviours spreading around active Trailblazers. The second is ultimately the reason the first exists.</p></div>
-      </div>
+<section class="closing chapter" data-chapter="5">
+<div class="page-frame closing-inner"><img alt="" class="closing-horse" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGFyaWEtaGlkZGVuPSJ0cnVlIiBmaWxsPSJub25lIiBoZWlnaHQ9IjQ0IiB2aWV3Qm94PSIwIDAgNDYgNDQiIHdpZHRoPSI0NiI+CjxnPgo8cGF0aCBkPSJNMTAuNzE3OSA0Mi40NjY1TDkuODQyOTQgNDEuODU2NUM5LjQ3MjA1IDM3LjQ2MDcgOC4wOTI5MiAzNC43OTYzIDcuMzYxOTUgMzMuNDIzN0M4LjE0MTUzIDMyLjkxMDYgOS40MzYwNCAzMS43MjgyIDkuNDM2MDQgMzAuMDMwOUM5LjQzNjA0IDI4LjMzMzYgOC4wNDYxMSAyNy40MzgyIDguMDQ2MTEgMjUuMzM3MkM4LjA0NjExIDI0LjE3ODIgOC40NDIyMSAyMy4yMTExIDkuMDg4NTYgMjIuNDU5M0M4LjY2OTA2IDIxLjg2MTggOC4xNzc1NCAyMS41Mzg5IDcuNDQ2NTcgMjEuNTM4OUM2LjYzMDk3IDIxLjUzODkgNS45IDIyLjIwODEgNS45IDIzLjIzNDRDNS45IDIzLjgzMTkgNi4xNjI4NiAyNC40ODg2IDYuNzI2NCAyNC43NzU2QzYuMzE5NSAyNS4zMzcyIDUuMjc1MjUgMjUuMzk2NCA0LjcwMDkyIDI0LjU0NzhINC42ODgzMUM0LjY4ODMxIDI2LjU1MzcgNi44MjE4MiAyNy45NTE0IDYuODIxODIgMzAuMDkwMUM2LjgyMTgyIDMxLjQ3NTIgNS43MTk5NiAzMi44MTM3IDQuMTI0NzggMzIuODEzN0MyLjkzODMgMzIuODEzNyAxLjgyMzgzIDMyLjI2NDcgMS4yNDc3IDMxLjE2NDhDMi41NDIyMSAzMS40OTg1IDMuNDc2NjMgMzAuOTg1NCAzLjQ3NjYzIDI5LjgzODlDMy40NzY2MyAyNy43NjEyIDAgMjUuNzE3NiAwIDIyLjE4M0MwIDE5LjQwMDIgMi4xNDYxMSAxNy44NTkgNC41OTEwOSAxNy44NTlDNi44MjAwMiAxNy44NTkgOC44MDk0OSAxOC44ODcgMTAuMzA5MiAyMS40NjcxQzExLjA3NjIgMjAuODkzIDEyLjAxMDcgMjAuNTcxOCAxMi45NTc3IDIwLjM3OThDMTUuNTEwNyAxOS44Nzc1IDE4LjYzOTggMjAuMzMxNCAyMS4wMzYyIDE5LjMxNTlDMjIuMTAzOCAxOC44NjE5IDIyLjk4OTcgMTguMDYxNyAyMi45ODk3IDE3LjE0MTNDMjIuOTg5NyAxNi42OTk5IDIyLjczNzYgMTYuNDM2MiAyMi4zNzc1IDE2LjQzNjJDMjIuMTk3NSAxNi40MzYyIDIxLjkyMiAxNi41MjA1IDIxLjc2NTQgMTYuOTEzNEMyMS4yOTczIDE2LjUwNzkgMjEuMTUzMiAxNi4wNzczIDIxLjE1MzIgMTUuNjQ2N0MyMS4xNTMyIDE0LjkzMDggMjEuMzgwMSAxNC41OTUzIDIxLjYzMjEgMTQuMjQ5QzIxLjM5MjcgMTMuNjI4MiAyMC42NDkxIDEzLjQ4NDcgMjAuMTQ1IDE0LjA5MjlDMTkuNTIyIDEyLjk0NjQgMTkuOTA1NSAxMS4zNjkzIDIxLjUyNDEgMTAuODkyMVYxMC44Nzk1QzE5LjYzMDEgMTAuNTY5MSAxOS4xMjc3IDkuMzk5MjcgMTkuMzQyIDguMDk2NjhDMTkuNTIyIDguMjUyNzcgMTkuNzI1NSA4LjM0Nzg3IDE5LjkyODkgOC4zNDc4N0MyMC4yNDA0IDguMzQ3ODcgMjAuNDMzMSA4LjA5NjY4IDIwLjQzMzEgNy43Mzc4NEMyMC40MzMxIDcuMzU1NjcgMjAuMjQyMiA2Ljc1ODIgMTkuMjU5MiA2LjEwMTUyQzIwLjEyMTYgNC44MTE0OCAyMS42MDg3IDQuNjE5NSAyMi4zNjMxIDUuMDk4NTZMMjIuMzc1NyA1LjA4NkMyMS45OTIyIDQuNTYwMjkgMjEuNzk5NiAzLjYzOTg2IDIyLjQxMTcgMi43MzJDMjIuNTU1OCAyLjkzNDc0IDIyLjkwMzIgMy4yMzQzNyAyMy40NDM0IDMuMjM0MzdDMjUuMDI1OSAzLjIzNDM3IDI1LjA4NTQgMS41MDI5NiAyNi4yOTUyIDEuMzM2MUMyNi4yMjMyIDEuODc0MzYgMjYuMzY3MyAyLjYyNjE0IDI3LjAzODggMi42MjYxNEMyNy45MTM4IDIuNjI2MTQgMjguMzIwNyAxLjMxMjc4IDI4LjUzNjggMC41QzI4LjkyMDMgMC43MTUzMDUgMjkuMTk1NyAxLjA4NDkxIDI5LjEzNjMgMS43Nzc0OEgyOS4xNDg5TDI5LjY3NjUgMC43MTUzMDVDMzAuMTE5NCAxLjA4NDkxIDMwLjIwNCAxLjcwNzUgMzAuMDU5OSAyLjI2NzNDMzAuMDIzOSAyLjQxMDgzIDI5Ljk3NTMgMi41MTg0OCAyOS45NzUzIDIuNjAxMDJDMjkuOTc1MyAzLjAxOTA3IDMxLjIzMzggMy4zMjk0NyAzMS4yMzM4IDQuMjYwNjZDMzEuMjMzOCA0LjQxNjc2IDMxLjE4NTIgNC41ODM2MiAzMS4xMTMyIDQuNzczOEwzMy45OTAzIDguMzkyNzJDMzQuMTcwMyA4LjYxODc5IDM0LjIyOTcgOC44NTkyMiAzNC4yMjk3IDkuMDYxOTZDMzQuMjI5NyA5LjgxMzc0IDMzLjU3MDggMTAuNjE0IDMyLjYyMzcgMTAuNjE0QzMxLjY3NjcgMTAuNjE0IDMxLjM1MjYgMTAuMTAwOCAzMS4zMDU4IDkuODYyMThMMjguODAxNCA4LjY0MzkxQzI4LjY1NzQgOC44ODI1NCAyOC40OSA5LjI3NzI3IDI4LjQ5IDkuNzE4NjRDMjguNDkgMTIuNDY1NiAzMi4zODYxIDEyLjUzNzMgMzMuMzMzMSAxNi4xMzI5TDM3LjE5MzIgMTQuODU1NUMzOS45NDk3IDE3LjUzMDYgNDIuODYyOCAyMC4xMjMzIDQ0LjY2MTQgMjEuMTg1NEw0NS43OTkzIDIyLjYzMTZINDIuMzQ3OVYyMS42Mjg2TDQxLjQwMDggMjEuMzY2NkMzOS45NDk3IDE5LjA5NyAzNy45ODU0IDE3Ljg1NTQgMzYuOTMwNCAxNy41NDVDMzUuNjQ4NSAxOC4zMjE5IDM0LjY4ODggMTkuMTMyOSAzMy41NjE4IDIwLjM4N0MzNS4zOTY0IDIwLjI0MzUgMzcuNDQ1MyAyMC40MjI5IDM5LjE1OTMgMjAuNzQ1OEwzOC4yNjA5IDI4LjQyNjlMMzcuNTI5OSAzMC4zOTY5TDM1LjU4OTEgMzIuMDQ1OFYyOC42NTI5SDM2LjYzMTVMMzYuMzQzNCAyNy41NzgyQzM3LjE5NSAyNS4zMzE4IDM3LjMwMzEgMjMuODI4MyAzNy4zMDMxIDIzLjAxNTVDMzcuMzAzMSAyMi43NjQzIDM3LjI5MDUgMjIuNTI1NyAzNy4yMDc2IDIyLjQ0MTRDMzcuMTM1NiAyMi4zNjk2IDM2LjgzNjggMjIuNDQxNCAzNi41NzIxIDIyLjUxMzFDMzUuODc3MSAyMi43MDUxIDM0LjczNzQgMjMuMjQxNiAzMy4yNzU1IDI0LjQyNEMzMS45NTc2IDI1LjQ5ODcgMzEuMjM3NCAyNS45ODg1IDI5LjQ1MTQgMjUuNzg1OEMyNy40Mzg1IDI3Ljg2MzUgMjMuMTcxNSAyOC44NjgyIDE5LjQzMDIgMjguODE5OEMxOS4xNDIxIDMxLjg0MTIgMTUuNzg2MiAzMy41ODUyIDE1Ljc4NjIgMzUuMDE4OEMxNS43ODYyIDM1LjUzMTkgMTYuMjc3NyAzNi4zNjggMTcuMzU2MSAzNy45ODFDMTguNTU1MiAzOS43NzM0IDE5LjY5MzEgNDEuNDkyMyAyMS4xMDgyIDQyLjA0MzFMMjIuMzA3MyA0My41SDE4Ljg0MzNMMTguODE5OSA0Mi40NjEyTDE3LjgzNjggNDEuOTIyOUMxNi43MDk4IDM5Ljg0NTIgMTQuOTQ5IDM3LjU1MDQgMTIuNTI3NCAzNS40MDA5QzEzLjExNDMgMzQuMjMxMSAxMy40MjU4IDMzLjAzNjIgMTMuNDM4NCAzMS45MDA0QzEyLjM0NzMgMzMuNTM2OCAxMC43NTQgMzMuNTQ5MyAxMC40NjU5IDM0Ljc5MDlDMTAuMzU3OSAzNS4yNTc0IDEwLjQxNzMgMzYuMTY1MyAxMC42NjkzIDM3LjMzNTFDMTEuMDQwMiAzOS4xMDI0IDExLjM3NjkgNDEuMjA1MiAxMy4wMTg5IDQyLjAxOEwxNC4xNTY4IDQzLjVIMTAuNzE2MVY0Mi40NjEyTDEwLjcxNzkgNDIuNDY2NVoiIGZpbGw9ImJsYWNrIi8+CjxwYXRoIGQ9Ik00Ljc0NzY4IDE4LjgyNzhDNS40NjYwNSAxOC44Mjc4IDYuNDg1MDkgMTguOTk0NyA3LjE5MjY2IDE5LjY1MTRDNS41MTQ2NiAxOC44ODcxIDMuMDIxMDYgMTkuMzg5NCAyLjg0MTAyIDIxLjQwNzlDMi41NTI5NSAyMS4wOTc1IDIuNDU3NTMgMjAuNzE1MyAyLjQzNDEzIDIwLjM3OThDMS44MTExOCAyMC42NjY5IDEuMzQzMDcgMjEuNTI2MyAxLjIyNDI0IDIyLjQ0NjhDMC43MzI3MjEgMjAuMjQ4OSAyLjUxODc1IDE4LjgyNzggNC43NDc2OCAxOC44Mjc4Wk0xNC4wMzc5IDIxLjIxNzdDMTYuMzY0IDIwLjkzMDcgMTkuNTI3NCAyMS4xOTQ0IDIyLjExNjQgMTkuOTE1MUMyMy4zMjYzIDE5LjMxNzcgMjQuNTQ4OCAxOC4zMTQ3IDI0LjU0ODggMTYuOTUyOUMyNC41NDg4IDE1LjMxNjYgMjIuNTIzMyAxMy43MDM2IDIyLjUyMzMgMTAuMjI4MkMyMi41MjMzIDcuOTU4NTMgMjMuNTI5NyA1LjM0MjU3IDI2LjE5MDggMy45MjE1NkMyNC41MDAyIDUuMzc4NDYgMjMuNjk3MiA3LjA1MDY2IDIzLjY5NzIgOS4wODE3QzIzLjY5NzIgMTEuMTEyNyAyNC41MDAyIDEzLjI3NDggMjcuMjA5OCAxNC4zMzY5QzI5LjEyNzMgMTUuMDg4NyAzMC45MTMzIDE1LjExMzggMzEuNjgwMyAxNi43MDE3QzMwLjk5NzkgMTYuMTYzNCAzMC4xMzM3IDE1Ljk4NTggMjkuNTIzNCAxNS45ODU4QzI1LjYyNzIgMTUuOTg1OCAyNC4xNTI3IDIzLjI0ODggMTkuNTg2OCAyNS4zMTM5QzIwLjU1NzIgMjIuNzkzIDE3LjYzMzMgMjEuOTgyMSAxNC45MzYzIDIyLjA0MTNDMTIuNzMwOCAyMi4wODk3IDkuMzYyMTcgMjIuNjg3MiA5LjMyNjE2IDI2LjE2MjZDOC43MDMyMiAyMy44MzM3IDEwLjA0NDUgMjEuNzA3NSAxNC4wMzYxIDIxLjIxNzdIMTQuMDM3OVpNMzIuMDY1NiA5LjQ0MDU0QzMyLjA2NTYgOS4yMzc4IDMyLjE4NjIgOC44OTE1MiAzMi4xODYyIDguNTkxODhDMzIuMTg2MiA4LjQzNTc5IDMyLjE1MDIgOC4yNDU2IDMxLjk1OTMgNy45NDc3NkMzMS42ODM5IDcuNTI5NzEgMzEuMTU2NCA2LjgwMTI2IDMwLjY1MjIgNi4yNjNDMjkuOTgwNyA1LjU1Nzg4IDI5LjM5MzcgNS4zNTUxMyAyOC40ODI3IDUuNDE0MzRDMjkuMjI2MyA1LjAwODg1IDI5LjM5MzcgNC42MjY2OCAyOS4zOTM3IDQuMTk2MDdDMjkuMzkzNyAzLjgyNjQ3IDI5LjE5MDMgMy40MzE3NCAyOC44NTM2IDMuMDYyMTNDMjkuMzMyNSAzLjE0NjQ2IDMwLjYxNjIgMy42NzIxNiAzMC42MTYyIDQuMzY0NzNDMzAuNjE2MiA0LjUwODI3IDMwLjU0NDIgNC42MzkyNCAzMC40MDAyIDQuNzgyNzhMMzMuNDgwNyA4LjYyOTU2QzMzLjM3MjcgOC43OTY0MiAzMy4xMzMyIDguNzI0NjYgMzIuOTI5OCA4LjcyNDY2QzMyLjc5ODMgOC43MjQ2NiAzMi43MTM3IDguODA4OTggMzIuNzEzNyA4Ljk1MjUyQzMyLjcxMzcgOS4yMTQ0NyAzMi45MTcyIDkuNTM3NDMgMzMuMDM3OCA5LjcxNjg1QzMyLjk0MjQgOS43NzYwNiAzMi43NjIzIDkuODQ3ODMgMzIuNTY5NyA5Ljg0NzgzQzMyLjMzMDIgOS44NDc4MyAzMi4wNjU2IDkuNzYzNSAzMi4wNjU2IDkuNDQyMzRWOS40NDA1NFoiIHN0eWxlPSJmaWxsOiAjMDA2QTREICFpbXBvcnRhbnQiLz4KPC9nPgo8L3N2Zz4="/><p class="eyebrow">The test of the model</p><h2>Capability has to spread beyond the Trailblazers.</h2><div class="closing-model"><span>Identify</span><i>→</i><span>Mobilise &amp; grow</span><i>→</i><span>Accelerate adoption</span><i>→</i><span>Measure</span></div><div class="closing-role">First 90 days: design → select → equip &amp; activate</div><p>The main risk is not that the network stays too small, but that Trailblazers become highly capable while nothing changes around them.</p></div>
+</section>
+</main>
+<footer><div class="page-frame"><span>AI Trailblazers · Interactive appendix</span><span>September 2026</span></div></footer>
+<script>
+document.documentElement.classList.add('js');
 
-      <div class="network-story" id="networkStory">
-        <div class="network-stage" id="networkStage" data-network-step="0">
-          <svg id="networkSvg" viewBox="0 0 900 650" role="img" aria-label="Network showing Trailblazer behaviours spreading through teams">
-            <g class="cluster-bg"><ellipse cx="225" cy="205" rx="175" ry="130"/><ellipse cx="675" cy="205" rx="165" ry="128"/><ellipse cx="450" cy="485" rx="225" ry="130"/></g>
-            <g id="networkLines"></g><g id="networkNodes"></g>
-          </svg>
-          <div class="network-legend"><span><i class="person"></i>Colleague</span><span><i class="supported"></i>Supported / adopting</span><span><i class="trail"></i>Trailblazer</span><span><i class="emerging"></i>Emerging Trailblazer</span></div>
-          <p class="network-caption" id="networkCaption">Start with a cohort distributed across different parts of the organisation.</p>
-        </div>
-        <div class="network-steps">
-          <article class="network-step active" data-network-step="0"><span>01</span><h3>Start distributed.</h3><p>The first cohort should deliberately reach different business areas, role types, locations and levels of AI maturity. Coverage is part of the design, not something we inspect after selection.</p></article>
-          <article class="network-step" data-network-step="1"><span>02</span><h3>Make useful behaviour visible locally.</h3><p>Trailblazers apply AI in their own work, demonstrate practical examples and give colleagues a reusable starting point. Adoption becomes less abstract because people can see what good looks like in a familiar context.</p></article>
-          <article class="network-step" data-network-step="2"><span>03</span><h3>Reduce the effort of trying.</h3><p>Colleagues reuse prompts, adapt workflows and ask for help when the first attempt does not work. Repeat use matters more than a one-off trial because that is where new working habits start to form.</p></article>
-          <article class="network-step" data-network-step="3"><span>04</span><h3>Watch for new Trailblazer behaviour.</h3><p>Some supported colleagues begin experimenting independently, sharing what works and becoming people that others turn to. That gives us a natural pipeline into the next cohort.</p></article>
-          <article class="network-step" data-network-step="4"><span>05</span><h3>Use each cohort to close gaps.</h3><p>We can grow deliberately where coverage is weak, while the selection bar evolves as behaviours that feel advanced today become more normal across the Group.</p></article>
-        </div>
-      </div>
-    </section>
+const qs=(s,p=document)=>p.querySelector(s);
+const qsa=(s,p=document)=>[...p.querySelectorAll(s)];
 
-    <section class="section measure" id="measure" data-chapter-number="06" data-chapter-name="Measure">
-      <div class="shell">
-        <div class="section-heading">
-          <div><p class="eyebrow">06 · Measure</p><h2>Measure the effect around them.</h2></div>
-          <div><p class="lead">Network size, bootcamp completion and event attendance tell us whether the mechanism is running. The stronger test is whether adoption changes around active Trailblazers and whether that creates a better flow of useful opportunities and value.</p></div>
-        </div>
+// Header / contents
+const contentsBtn=qs('#contentsBtn');
+const contentsPanel=qs('#contentsPanel');
+const contentsClose=qs('#contentsClose');
+function setContents(open){
+  contentsPanel.classList.toggle('open',open);
+  contentsPanel.setAttribute('aria-hidden',String(!open));
+  contentsBtn.setAttribute('aria-expanded',String(open));
+  document.body.classList.toggle('no-scroll',open);
+}
+contentsBtn?.addEventListener('click',()=>setContents(!contentsPanel.classList.contains('open')));
+contentsClose?.addEventListener('click',()=>setContents(false));
+contentsPanel?.addEventListener('click',e=>{if(e.target===contentsPanel)setContents(false)});
+qsa('.contents-inner a').forEach(a=>a.addEventListener('click',()=>setContents(false)));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setContents(false)});
 
-        <div class="measure-explorer">
-          <div class="measure-track" role="group" aria-label="Measurement chain">
-            <button class="active" data-measure="health" aria-pressed="true"><span>01</span><b>Community health</b></button>
-            <button data-measure="activity" aria-pressed="false"><span>02</span><b>Trailblazer activity</b></button>
-            <button data-measure="diffusion" aria-pressed="false"><span>03</span><b>Diffusion</b></button>
-            <button data-measure="flow" aria-pressed="false"><span>04</span><b>Opportunity flow</b></button>
-            <button data-measure="value" aria-pressed="false"><span>05</span><b>Organisational value</b></button>
-          </div>
-          <div class="measure-detail" aria-live="polite"><span class="signal-number" id="measureSignal">Measure 01</span><h3 id="measureTitle">Is the community healthy enough to work?</h3><p id="measureText">Coverage, active participation, ongoing learning, manager sponsorship and retention tell us whether the operating conditions are in place. They are enabling measures, not proof of adoption impact.</p><div class="measure-examples" id="measureExamples"><span>Coverage gaps</span><span>Active Trailblazers</span><span>Support engagement</span><span>Manager sponsorship</span></div></div>
-        </div>
+// Progress / chapter nav
+const progress=qs('#topProgress');
+function updateProgress(){
+  const h=document.documentElement;
+  const max=h.scrollHeight-h.clientHeight;
+  const pct=max>0?(h.scrollTop/max)*100:0;
+  progress.style.width=`${pct}%`;
+}
+window.addEventListener('scroll',updateProgress,{passive:true});
+updateProgress();
 
-        <div class="value-logic">
-          <div><p class="eyebrow">Value logic</p><h3>Everyday AI and defined solutions need different evidence.</h3></div>
-          <div class="value-switch" role="group" aria-label="Choose type of AI value"><button class="active" data-value="everyday" aria-pressed="true">Everyday AI</button><button data-value="defined" aria-pressed="false">Defined solution</button></div>
-          <div class="value-result" aria-live="polite"><strong id="valueHeadline">Released capacity</strong><p id="valueText">If AI reduces effort across many smaller activities, the immediate outcome is usually capacity rather than an automatic cash saving. We can evidence where that capacity is being released and whether it is sustained; the relevant business area then determines how it is used.</p></div>
-        </div>
-      </div>
-    </section>
+const navLinks=qsa('.chapter-nav a');
+const navTargets=navLinks.map(a=>qs(a.getAttribute('href'))).filter(Boolean);
+if('IntersectionObserver' in window){
+  const navObserver=new IntersectionObserver(entries=>{
+    const visible=entries.filter(x=>x.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+    if(!visible)return;
+    navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===`#${visible.target.id}`));
+  },{rootMargin:'-24% 0px -62% 0px',threshold:[0,.01,.2]});
+  navTargets.forEach(el=>navObserver.observe(el));
+}
 
-    <section class="section start" id="start" data-chapter-number="07" data-chapter-name="Start">
-      <div class="shell">
-        <div class="section-heading compact">
-          <div><p class="eyebrow">07 · Where we start</p><h2>Prove the operating model before we maximise its size.</h2></div>
-          <div><p class="lead">The first cohort is both an adoption intervention and a test. We should learn quickly enough to improve the next cohort rather than try to design the finished network upfront.</p></div>
-        </div>
+// Restrained reveal motion
+const revealTargets=qsa('.section-heading,.model-strip,.profile-explorer,.profile-gates,.role-step,.role-boundary,.discovery-card,.assessment-panel,.coverage-demo,.capability-journey,.bootcamp-intro,.bootcamp-grid,.diagnostic,.support-explorer,.discoverability,.foundation-editorial article,.reciprocal-commitment,.development-grid,.review-timeline,.pathways-block,.scale-three,.scale-example,.measurement-chain,.dashboard,.value-logic,.start-timeline,.decision-grid');
+revealTargets.forEach(el=>el.classList.add('reveal'));
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!reduced && 'IntersectionObserver' in window){
+  const revealObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');revealObserver.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -7% 0px'});
+  revealTargets.forEach(el=>revealObserver.observe(el));
+}else revealTargets.forEach(el=>el.classList.add('is-visible'));
 
-        <div class="route-map" id="routeMap">
-          <svg viewBox="0 0 1200 600" aria-hidden="true"><path id="routePath" pathLength="1" d="M70 470 C170 300 245 230 350 310 C455 395 540 450 630 330 C730 195 825 170 910 255 C1000 345 1060 330 1140 150"/><path class="route-progress" id="routeProgressPath" pathLength="1" d="M70 470 C170 300 245 230 350 310 C455 395 540 450 630 330 C730 195 825 170 910 255 C1000 345 1060 330 1140 150"/></svg>
-          <div class="route-horse" id="routeHorse"><img src="assets/horse.svg" alt=""></div>
-          <article class="route-stop s1"><span>01</span><b>Align profile & role</b><p>Observable behaviours, expected contribution and manager commitment.</p></article>
-          <article class="route-stop s2"><span>02</span><b>Identify a distributed cohort</b><p>Nomination, self-identification, signals and coverage.</p></article>
-          <article class="route-stop s3"><span>03</span><b>Equip before activation</b><p>Bootcamp, diagnostic method and support routes.</p></article>
-          <article class="route-stop s4"><span>04</span><b>Activate around real work</b><p>Apply, translate, share, support and surface.</p></article>
-          <article class="route-stop s5"><span>05</span><b>Learn from the effect</b><p>What colleagues ask, where Trailblazers get stuck and what changes around them.</p></article>
-          <article class="route-stop s6"><span>06</span><b>Refine & grow</b><p>Close coverage gaps and bring emerging Trailblazers into the next cohort.</p></article>
-        </div>
+// Profile explorer
+const profileData={
+  curiosity:{index:'Signal 01',title:'Curiosity & experimentation',looks:'Already exploring AI in real work. Tests approaches, learns through use, changes course when something does not work and wants to understand new capabilities rather than waiting for complete instructions.',why:'The role depends on practical learning. We need people who are already comfortable experimenting and can talk about what they learned, not only what worked.',evidence:'A concrete example of something they tried, how the first attempt went, what they changed and what they would do next.'},
+  systems:{index:'Signal 02',title:'Problem & systems thinking',looks:'Looks at the work around the tool. Notices friction, recurring effort, unnecessary hand-offs and opportunities to change how a task or workflow operates.',why:'Trailblazers need to help colleagues work out where AI can genuinely improve work. That requires understanding the problem before choosing the intervention.',evidence:'They naturally ask about the outcome, current process, where judgement sits, what repeats and what the simplest useful intervention might be.'},
+  visible:{index:'Signal 03',title:'Confidence to learn visibly',looks:'Willing to try something before the answer is perfect, share an unfinished approach and be open about where an experiment failed or needed refinement.',why:'Adoption spreads when experimentation is visible and normal. Useful learning should not stay hidden until an example is polished.',evidence:'They can explain what did not work without becoming defensive, and are comfortable showing the journey as well as the outcome.'},
+  peer:{index:'Signal 04',title:'Peer credibility & approachability',looks:'Trusted by colleagues and willing to help. Often already somebody people approach when they are stuck, curious or trying to understand a tool or process.',why:'The model relies on support close to where work happens. Employees need to be comfortable bringing a half-formed question to the Trailblazer.',evidence:'Examples of colleagues already asking for help, reusing something they shared or involving them when trying to solve a problem.'},
+  judgement:{index:'Signal 05',title:'Responsible judgement',looks:'Understands that effective AI use includes knowing when not to use it, where human judgement remains necessary and when a question should be escalated.',why:'Trailblazers will encourage experimentation, so we need them to recognise boundaries and uncertainty and know when to involve somebody else.',evidence:'They can explain where they would pause, ask for advice or avoid AI, and do not overstate what the technology can safely or reliably do.'}
+};
+const profileEls={index:qs('#profileIndex'),title:qs('#profileTitle'),looks:qs('#profileLooks'),why:qs('#profileWhy'),evidence:qs('#profileEvidence')};
+qsa('.profile-tab').forEach((btn,idx,arr)=>{
+  btn.addEventListener('click',()=>selectProfile(btn));
+  btn.addEventListener('keydown',e=>{
+    if(!['ArrowDown','ArrowUp','ArrowRight','ArrowLeft'].includes(e.key))return;
+    e.preventDefault();
+    const delta=['ArrowDown','ArrowRight'].includes(e.key)?1:-1;
+    const next=arr[(idx+delta+arr.length)%arr.length];
+    next.focus();selectProfile(next);
+  });
+});
+function selectProfile(btn){
+  qsa('.profile-tab').forEach(b=>{b.classList.toggle('active',b===btn);b.setAttribute('aria-selected',String(b===btn))});
+  const d=profileData[btn.dataset.profile];
+  Object.entries(profileEls).forEach(([key,el])=>{
+    el.animate([{opacity:.15,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:260,easing:'ease-out'});
+    el.textContent=d[key];
+  });
+}
 
-        <div class="closing-line"><p>The outcome is not simply a larger Trailblazer network.</p><h3>It is more colleagues able to turn AI capability into better ways of working.</h3></div>
-      </div>
-    </section>
-  </main>
+// Assessment modal
+const assessmentModal=qs('#assessmentModal');
+qs('#assessmentOpen')?.addEventListener('click',()=>assessmentModal.showModal());
+qs('#assessmentClose')?.addEventListener('click',()=>assessmentModal.close());
+assessmentModal?.addEventListener('click',e=>{const r=assessmentModal.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)assessmentModal.close()});
 
-  <footer><div class="shell"><span>AI Trailblazers · working proposal</span><span>Internal working paper · September 2026</span></div></footer>
-  <script src="app.js"></script>
+// Coverage matrix
+const coverageMatrix=qs('#coverageMatrix');
+const coverageRows=['Retail','Commercial','Insurance / pensions','Operations','Risk / controls'];
+const coverageCols=['Customer','Product','Ops','Data / tech','Change','Corporate'];
+const patterns={
+  quality:[[1,1,0,1,0,0],[0,0,0,1,1,0],[0,1,0,1,0,0],[0,0,0,1,0,0],[0,0,0,1,0,1]],
+  balanced:[[1,1,1,1,0,1],[1,1,1,1,1,0],[1,1,0,1,1,0],[1,1,1,1,0,1],[0,1,1,1,0,1]]
+};
+function renderCoverage(mode='quality'){
+  coverageMatrix.innerHTML='<div></div>'+coverageCols.map(c=>`<div class="matrix-head">${c}</div>`).join('');
+  coverageRows.forEach((r,ri)=>{
+    coverageMatrix.insertAdjacentHTML('beforeend',`<div class="matrix-label">${r}</div>`);
+    coverageCols.forEach((_,ci)=>coverageMatrix.insertAdjacentHTML('beforeend',`<div class="matrix-cell ${patterns[mode][ri][ci]?'filled':''}"><i></i></div>`));
+  });
+  if(mode==='balanced'){
+    qs('#coverageTitle').textContent='Calibration improves reach without lowering the bar.';
+    qs('#coverageBody').textContent='We still select people who can operate effectively in the role. The difference is that we consider the cohort as a system: where support is concentrated, where meaningful gaps remain and where a strong next-best candidate materially improves accessibility.';
+  }else{
+    qs('#coverageTitle').textContent='A strong cohort can still be badly distributed.';
+    qs('#coverageBody').textContent='Selecting only the highest-evidence candidates can leave entire areas without accessible local support. Calibration gives us a deliberate point to consider where coverage exists, where it is concentrated and where the next-best candidate may materially improve reach.';
+  }
+}
+renderCoverage();
+qsa('[data-coverage]').forEach(btn=>btn.addEventListener('click',()=>{qsa('[data-coverage]').forEach(b=>b.classList.toggle('active',b===btn));renderCoverage(btn.dataset.coverage)}));
+
+// Diagnostic
+const diagnosticState={frequency:'repeat',structure:'stable',action:'knowledge',judgement:'high',governance:'clear'};
+qsa('.choice').forEach(btn=>btn.addEventListener('click',()=>{
+  const group=btn.dataset.group;
+  diagnosticState[group]=btn.dataset.value;
+  qsa(`.choice[data-group="${group}"]`).forEach(b=>b.classList.toggle('active',b===btn));
+  updateDiagnostic();
+}));
+function updateDiagnostic(){
+  const s=diagnosticState;
+  let title,reason,next;
+  if(s.governance==='unclear'){
+    title='Seek specialist advice first';
+    reason='The opportunity may still be useful, but the Trailblazer should not normalise experimentation where data handling, policy or risk boundaries are unclear.';
+    next='Clarify the governance route before testing further. Capture the task and intended data clearly so the specialist question can be answered quickly.';
+  }else if(s.frequency==='once' && s.action==='knowledge'){
+    title='One-off AI support';
+    reason='The task is not recurring and does not need system action. Use the available AI tool to support the task directly, with proportionate human review.';
+    next='Help the colleague structure the task, choose the right tool and review the output. Avoid building repeatability that the work does not need.';
+  }else if(s.action==='systems' && s.frequency==='repeat'){
+    if(s.judgement==='high'){
+      title='Agent opportunity';
+      reason='The work repeats, needs action across systems and still involves meaningful judgement. That points beyond a prompt or static workflow towards an orchestrated agent opportunity.';
+      next='Shape the current process, required actions, decision points and value case clearly enough to route the opportunity for product/build triage.';
+    }else{
+      title='Automation opportunity';
+      reason='The work is repeatable, relatively structured and acts across systems with limited judgement. A deterministic automation may be more appropriate than adding more generative AI.';
+      next='Document the trigger, steps, systems and exception handling, then route the opportunity into the relevant automation or technical support path.';
+    }
+  }else if(s.frequency==='repeat' && s.structure==='stable'){
+    title='Structured workflow';
+    reason='The task repeats, the inputs and steps are relatively stable, and the work is primarily knowledge-based. Standardise the inputs, AI steps and human review rather than rebuilding the approach each time.';
+    next='Prototype the workflow with the colleague, agree the review points and make the pattern reusable. If the process later needs system actions, route that larger opportunity for triage.';
+  }else if(s.frequency==='repeat' && s.structure==='variable'){
+    title='Reusable prompt / pattern';
+    reason='The outcome repeats but the inputs or path vary enough that a rigid workflow may be premature. A well-designed prompt pattern can give the colleague a consistent starting point while preserving judgement.';
+    next='Build the prompt with the colleague, test it across several real examples and capture when it works, when it does not and what still needs human judgement.';
+  }else{
+    title='Start with the task';
+    reason='There is not enough repeatability or system need to justify something more developed yet. Use AI only where it genuinely improves the work.';
+    next='Run a small experiment, learn from it and only increase the level of intervention if the evidence supports it.';
+  }
+  qs('#diagnosticTitle').textContent=title;qs('#diagnosticReason').textContent=reason;qs('#diagnosticNext').textContent=next;
+}
+
+// Support route explorer
+const routes={
+  local:{label:'Route 01 · Resolve locally',title:'The Trailblazer can help directly.',body:'Use their own knowledge, a demonstration or a simple piece of guidance to help the colleague make progress. The aim is to leave the colleague more capable, not to become their permanent support desk.',node:'.local-route',path:'.path-local'},
+  reuse:{label:'Route 02 · Reuse what already works',title:'Do not solve the same problem twice.',body:'A similar prompt, workflow, worked example or piece of guidance already exists. The Trailblazer uses the community to find it, adapts it to local context and makes the reuse visible so others can benefit again.',node:'.reuse-route',path:'.path-community'},
+  specialist:{label:'Route 03 · Seek specialist advice',title:'Get the right judgement before proceeding.',body:'The colleague can make progress once a policy, data, product or technical question is resolved. The Trailblazer knows the correct second line of support and frames the question clearly rather than guessing.',node:'.specialist-route',path:'.path-specialist'},
+  opportunity:{label:'Route 04 · Surface an opportunity',title:'Move bigger opportunities into the delivery ecosystem.',body:'The need has scale, repeatability or system complexity beyond local support. The Trailblazer helps shape the current work, desired outcome and value clearly enough for triage by the right product, build or automation route.',node:'.opportunity-route',path:'.path-opportunity'}
+};
+qsa('.support-scenario').forEach(btn=>btn.addEventListener('click',()=>setRoute(btn.dataset.route,btn)));
+function setRoute(key,clicked){
+  qsa('.support-scenario').forEach(b=>{b.classList.toggle('active',b===clicked);b.setAttribute('aria-selected',String(b===clicked))});
+  qsa('.route-node,.map-path').forEach(el=>el.classList.remove('active'));
+  const r=routes[key];qs(r.node)?.classList.add('active');qs(r.path)?.classList.add('active');qs('.path-in')?.classList.add('active');
+  qs('#routeLabel').textContent=r.label;qs('#routeTitle').textContent=r.title;qs('#routeBody').textContent=r.body;
+}
+setRoute('local',qs('.support-scenario.active'));
+
+// Dashboard heatmap / view
+const heatRows=['Retail','Commercial','Insurance','Operations','Risk'];
+const dashboardData={
+  'Group':{active:'184',coverage:'82%',sponsor:'91%',learning:'78%',heat:[[4,4,3,4,2,3],[3,4,3,4,3,2],[3,3,2,4,2,2],[4,3,4,3,3,2],[2,3,3,4,2,3]]},
+  'Retail':{active:'72',coverage:'87%',sponsor:'94%',learning:'81%',heat:[[4,4,4,4,3,3],[3,3,2,3,2,2],[2,2,2,3,2,1],[4,3,4,3,2,2],[2,2,3,3,1,2]]},
+  'Commercial Banking':{active:'39',coverage:'76%',sponsor:'89%',learning:'74%',heat:[[2,3,2,3,2,2],[4,4,3,4,3,2],[2,2,1,3,2,1],[3,2,3,3,2,1],[2,3,2,4,1,2]]},
+  'Insurance, Pensions & Investments':{active:'28',coverage:'79%',sponsor:'90%',learning:'77%',heat:[[2,2,1,3,2,1],[2,3,2,3,2,1],[4,4,3,4,3,2],[3,2,3,3,2,1],[2,3,3,3,2,2]]}
+};
+function renderHeat(heat){
+  const el=qs('#dashboardHeatmap');
+  const cols=['Cust','Prod','Ops','Tech','Change','Corp'];
+  el.innerHTML='<div></div>'+cols.map(c=>`<div class="heat-label">${c}</div>`).join('');
+  heatRows.forEach((r,ri)=>{el.insertAdjacentHTML('beforeend',`<div class="heat-label">${r}</div>`);heat[ri].forEach(v=>el.insertAdjacentHTML('beforeend',`<div class="heat-${v}" title="Illustrative maturity level ${v}"></div>`))});
+}
+function updateDashboard(view){
+  const d=dashboardData[view]||dashboardData.Group;
+  qs('#metricActive').textContent=d.active;qs('#metricCoverage').textContent=d.coverage;qs('#metricSponsor').textContent=d.sponsor;qs('#metricLearning').textContent=d.learning;renderHeat(d.heat);
+}
+qs('#dashboardView')?.addEventListener('change',e=>updateDashboard(e.target.value));
+updateDashboard('Group');
+
+// Lightweight role-step emphasis on scroll (never hides content)
+if('IntersectionObserver' in window){
+  const roleObs=new IntersectionObserver(entries=>entries.forEach(e=>e.target.classList.toggle('current',e.isIntersecting)),{rootMargin:'-28% 0px -48% 0px',threshold:0});
+  qsa('.role-step').forEach(el=>roleObs.observe(el));
+}
+
+</script>
 </body>
 </html>
